@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Blog Detail - Physio Prisma</title>
+    <title id="page-title">Blog Detail - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link
@@ -24,31 +24,85 @@
             scroll-behavior: smooth;
         }
 
-        .hero-bg {
-            background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), url('https://source.unsplash.com/random/1600x900/?physiotherapy') center/cover no-repeat;
-        }
-
         .logo-font {
             font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
         }
 
         .nav-link {
             position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
-
         .nav-link:after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
+            height: 2px;
             bottom: -4px;
             left: 0;
             background: linear-gradient(to right, var(--purple), var(--blue));
-            transition: width 0.4s;
+            transition: width 0.3s ease;
         }
-
         .nav-link:hover:after {
             width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), url('https://source.unsplash.com/random/1600x900/?physiotherapy') center/cover no-repeat;
         }
 
         .content-area h2 {
@@ -87,50 +141,73 @@
     <!-- ==================== NAVBAR ==================== -->
     <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
+            <div class="flex justify-between items-center h-16 md:h-20">
 
+                <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
                         class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
                     <div>
-                        <span
-                            class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare
+                        <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
+                            Physioprisma
                         </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)
-                        </p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
                     </div>
                 </a>
 
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About
-                        Us</a>
-                    <a href="gallery.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="shop.html" class="nav-link hover:text-[var(--purple)] transition">Shop</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+                            Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
+                        </div>
+                    </div>
                 </div>
 
-                <button id="mobile-menu-btn"
-                    class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+                <!-- Shop Button -->
+                <a href="shop.html" 
+                   class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                    Shop Now
+                </a>
+
+                <!-- Hamburger -->
+                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
-        <div id="mobile-menu"
-            class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
             <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-                <a href="about.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About
-                    Us</a>
-                <a href="gallery.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-                <a href="contact.html"
-                    class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-                <a href="shop.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
+                <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+                <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+                <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                    <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                    <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                    <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                    <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+                </div>
+                <a href="shop.html" 
+                   class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                    Shop Now
+                </a>
             </div>
         </div>
     </nav>
@@ -157,17 +234,56 @@
             <img id="post-image" src="" alt="" class="w-full h-[400px] object-cover rounded-3xl shadow-2xl mb-12">
 
             <div id="post-content" class="content-area">
-                <!-- Content will be injected here -->
+                <h2>1. Being aware of menstrual cramps</h2>
+                <p>When the uterus contracts to release its lining, menstrual cramps happen. Pain is frequently brought on by:</p>
+                <ul>
+                    <li><strong>Prostaglandins</strong>, which cause uterine contractions, are produced in excess.</li>
+                    <li>Decreased blood supply to the muscles of the uterus.</li>
+                    <li>Inflammatory response in the pelvis.</li>
+                </ul>
+                <p>Lower back pain, lower abdomen pain, nausea, and exhaustion are possible symptoms, which can range in severity from little discomfort to incapacitating pain.</p>
+                <h2>2. Menstrual cramps treated with heat therapy</h2>
+                <p>One of the best non-invasive treatments for menstrual cramps is heat therapy. This is how it operates:</p>
+                <ul>
+                    <li><strong>Uterine Muscle Relaxation:</strong> Heat helps the uterine muscles relax, which lessens the force of contractions.</li>
+                    <li><strong>Enhances Blood Flow:</strong> Heat improves circulation in the pelvic region by widening blood vessels, which relieves stress and pain.</li>
+                    <li><strong>Relaxes Nerve messages:</strong> The brain receives fewer pain messages as a result of the comforting warmth.</li>
+                </ul>
+                <h2>What Makes a Heating Pad Better?</h2>
+                <p>A practical method of providing focused warmth to the lower back or abdomen is with heating pads. Among the options are:</p>
+                <ul>
+                    <li><strong>Electric heating pads:</strong> Personalized and reliable warmth with programmable settings.</li>
+                    <li><strong>Microwaveable heating pads:</strong> Convenient and portable for immediate relief.</li>
+                    <li><strong>Infrared heating pads:</strong> Perfect for deep heat penetration to relieve recalcitrant cramps.</li>
+                </ul>
+                <h2>3. Additional Natural Treatments for Period Cramps</h2>
+                <p>Even while heating pads work wonders, the effects can be enhanced by combining them with other treatments:</p>
+                <ul>
+                    <li><strong>Herbal Teas:</strong> The anti-inflammatory qualities of ginger and chamomile teas help to lessen cramping.</li>
+                    <li><strong>Gentle Exercise:</strong> Exercises that increase circulation and release endorphins include yoga and walking.</li>
+                    <li><strong>Foods High in Magnesium:</strong> You can reduce muscle tension by include foods like bananas, spinach, and nuts in your diet.</li>
+                    <li><strong>Hydration:</strong> Drinking enough water reduces bloating, which exacerbates cramping.</li>
+                </ul>
+                <h2>4. Lifestyle Advice for Menstrual Pain Management</h2>
+                <ul>
+                    <li>To get ready for symptom management, keep track of your cycle.</li>
+                    <li>During your period, stay away from salty meals and too much caffeine.</li>
+                    <li>To reduce stress, engage in relaxation exercises like deep breathing and meditation.</li>
+                </ul>
+                <h2>WHEN TO CONSULT A DOCTOR</h2>
+                <p>Although mild to moderate cramping is common, severe or ongoing pain may be a sign of more serious conditions such fibroids or endometriosis. If your symptoms make it difficult for you to go about your everyday life, you should see a doctor.</p>
+                <h2>CONCLUSION</h2>
+                <p>You don't have to let menstrual pains rule your life. An easy and efficient natural pain relief method is heat therapy, particularly when using heating pads. It can make your monthly experience easier to handle when combined with other all-encompassing strategies.</p>
             </div>
 
             <div
                 class="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="flex items-center gap-4">
-                    <img src="./img/logo pic (2).jpg" alt="Author"
-                        class="w-16 h-16 rounded-full border-2 border-[var(--purple)]">
+                    <img id="author-img" src="./img/logo pic (2).jpg" alt="Author"
+                        class="w-16 h-16 rounded-full border-2 border-[var(--purple)] object-cover">
                     <div>
-                        <h4 class="font-bold text-gray-900">Dr Tuba Sultan</h4>
-                        <p class="text-sm text-gray-500">Physiotherapist at Prisma Healthcare</p>
+                        <h4 id="author-name" class="font-bold text-gray-900">Dr Tuba Sultan</h4>
+                        <p id="author-role" class="text-sm text-gray-500">Physiotherapist at Physioprisma</p>
                     </div>
                 </div>
                 <div class="flex gap-4">
@@ -202,57 +318,283 @@
     <footer class="bg-gray-900 text-white pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
-                <div
-                    class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                <!-- LEFT -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                     <a href="home.html">
-                        <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                            class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                     </a>
-                    <p
-                        class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                        Prisma Healthcare</p>
-                    <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and
-                        better mobility.</p>
+                    <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
+                        Physioprisma
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr Tuba Sultan and Dr Syed Sultan Ahmed Zaidi</p>
                 </div>
 
+                <!-- CENTER -->
                 <div class="flex flex-col items-center text-center">
                     <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
                     <ul class="space-y-3 text-gray-400 text-sm">
                         <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
                         <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                        <li>
+                            <button onclick="toggleClinicDropdown()" class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                                Our Clinic
+                                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                            </button>
+                            <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                            </div>
+                        </li>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
                         <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
                         <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
                         <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
                     </ul>
                 </div>
 
+                <!-- RIGHT -->
                 <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
                     <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
                     <div class="flex gap-4 text-2xl mb-6">
-                        <a href="https://wa.link/lcqilt" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                        <a href="https://www.instagram.com/physio_prisma" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="https://www.facebook.com/PhysioPrisma" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
+                        <a href="https://wa.link/lcqilt" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/physio_prisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/Physioprisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.linkedin.com/company/Physioprisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
                     </div>
+                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                        Get In Touch
+                    </a>
                 </div>
             </div>
         </div>
+
         <div class="border-t border-gray-800 mt-14 pt-6">
-            <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         // Post Data (Extracted from blog.html)
         const posts = {
+            'proprioception': {
+                title: 'Proprioception: Your Body’s Sixth Sense',
+                image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1000&auto=format&fit=crop',
+                author: 'Physioprisma Clinical Team',
+                authorRole: 'Physical Therapy & Rehabilitation Specialists',
+                authorImage: './img/logo pic (2).jpg',
+                date: 'September 2026',
+                content: `
+                    <div class="inline-flex items-center gap-2 bg-purple-100 text-[var(--purple)] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6">
+                        Balance • Control • Movement • Injury Prevention
+                    </div>
+
+                    <p class="text-xl text-gray-700 font-medium mb-6 italic">
+                        When we think about our senses, we usually think of sight, hearing, taste, smell and touch. But there is another incredibly important sense that often gets overlooked: proprioception — sometimes referred to as our “sixth sense.”
+                    </p>
+
+                    <p>
+                        Proprioception helps us understand where our body is in space, how our joints are positioned, and how much force we need to use during movement. It plays an important role in balance, coordination, sports performance and injury prevention.
+                    </p>
+
+                    <h2>What Is Proprioception?</h2>
+                    <p>
+                        Proprioception is our ability to sense where our body and limbs are in space without having to look at them. For example, if you stand up and close your eyes, you can still feel that your legs are straight, your hands are open and your arms are resting by your sides. You don't need to look at your body to know where it is — your nervous system is constantly providing you with that information. That is proprioception.
+                    </p>
+
+                    <p>
+                        It allows us to perform everyday movements without consciously thinking about where every part of our body is. You can pick up a cup without staring at your hand, walk across an uneven surface without constantly looking at your feet, and adjust your body position to maintain your balance.
+                    </p>
+
+                    <p>
+                        Proprioception also helps us grade the amount of force we use.
+                    </p>
+                    <p>
+                        For example, when opening a door, you only need to apply enough force to push it open. That is very different from the amount of force you might use when pushing past a defender on a rugby pitch. Your body needs to constantly judge how much force is appropriate for the task — and proprioception is an important part of this process.
+                    </p>
+
+                    <h2>Proprioception Is More Complicated Than You Might Think</h2>
+                    <p>
+                        Proprioception isn't controlled by one single system. Several systems work together in harmony:
+                    </p>
+                    <ul>
+                        <li><strong>Our visual system</strong> — providing information about what is around us</li>
+                        <li><strong>Our vestibular system</strong> — helping us understand balance and head position</li>
+                        <li><strong>Our sense of touch</strong> — providing information about contact with surfaces</li>
+                        <li><strong>Specialised receptors in our muscles, tendons, ligaments and joints</strong> — providing information about joint position and movement</li>
+                    </ul>
+                    <p>
+                        Together, these systems give our brain vital information. If any one of these systems is disrupted, it can affect our ability to accurately sense and control movement.
+                    </p>
+
+                    <h2>What Happens If Proprioception Is Reduced?</h2>
+                    <p><strong>Why it matters, when it comes to injury:</strong></p>
+                    <p>
+                        Reduced proprioception has been associated with a range of musculoskeletal problems and injuries. But proprioception is particularly important when it comes to sprains and ligament injuries of the ankle and knee. Because proprioception helps us sense how we are moving and landing, a reduction in this ability may affect the way an athlete controls their body.
+                    </p>
+
+                    <div class="my-6 p-6 bg-purple-50 rounded-2xl border-l-4 border-[var(--purple)]">
+                        <h3 class="text-lg font-bold text-[var(--purple)] mb-3">Ankle & Knee Vulnerabilities</h3>
+                        <ul class="mb-0 space-y-2">
+                            <li><strong>Ankle:</strong> In the case of the ankle, reduced proprioception could involve athletes landing or pushing off with the outward portion of the foot, encouraging the foot to invert (turn inwards), leading to a higher risk of an "ankle roll" or "ankle sprain".</li>
+                            <li><strong>Knee:</strong> In the case of the knee, poorer proprioception could lead to athletes twisting with greater force or not controlling twisting movements as well. This can stress the meniscus and ligaments of the knee, and the anterior cruciate ligament (ACL) mostly.</li>
+                        </ul>
+                    </div>
+
+                    <h2>Can You Improve Proprioception?</h2>
+                    <p>
+                        Good news: <strong>YES, proprioception can be trained.</strong>
+                    </p>
+                    <p>
+                        Proprioception is a skill involving the nervous system, and like many skills, it can improve with practice. Physiotherapists can use exercises and drills that challenge your balance, coordination, joint position and movement control.
+                    </p>
+
+                    <h2>Balance Exercises</h2>
+                    <p>For the lower limb, this might include exercises such as:</p>
+                    <ul>
+                        <li>Single-leg balance</li>
+                        <li>Reaching in different directions while balancing</li>
+                        <li>Tapping the foot into different positions</li>
+                        <li>Balancing on different surfaces</li>
+                        <li>Sport-specific balance drills</li>
+                    </ul>
+                    <p>
+                        These exercises challenge your ability to control your body while receiving constantly changing information from your muscles, joints, feet, eyes and vestibular system.
+                    </p>
+
+                    <h2>Upper-Limb Proprioception</h2>
+                    <p>
+                        For the upper limb, exercises may include movements performed in a press-up or weight-bearing position.
+                    </p>
+
+                    <h2>What About Plyometrics?</h2>
+                    <p>
+                        As rehabilitation progresses, particularly for athletes, physiotherapists may introduce more explosive exercises known as <strong>plyometrics</strong>.
+                    </p>
+                    <p>
+                        These exercises involve rapid movements such as jumping, hopping and landing.
+                    </p>
+                    <p>
+                        For someone returning to sport after a lower-limb injury, landing drills can be particularly useful. They allow the athlete to practise controlling their body during fast, high-demand movements that are much closer to what they will experience during their sport.
+                    </p>
+
+                    <h2>The Bottom Line</h2>
+                    <p>
+                        Proprioception is an incredibly important — and often underappreciated — part of how we move. It helps us:
+                    </p>
+                    <ul>
+                        <li>Know where our body is without looking</li>
+                        <li>Maintain balance</li>
+                        <li>Coordinate movement</li>
+                        <li>Control how much force we use</li>
+                        <li>React to changes in our environment</li>
+                        <li>Move efficiently during everyday activities and sport</li>
+                    </ul>
+
+                    <p>
+                        While almost any exercise can challenge proprioception, the right exercises can be selected and progressed to address specific deficits and prepare you for the activities you want to return to.
+                    </p>
+                    <p>
+                        If you feel that you have problems with balance, movement control or proprioception — particularly following an injury — it's worth seeking an assessment from a qualified physiotherapist.
+                    </p>
+                    <p>
+                        A physiotherapist can assess your movement, identify areas that need improvement, and develop a manageable rehabilitation programme tailored to your goals.
+                    </p>
+
+                    <div class="my-8 p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl border-l-4 border-[var(--purple)] text-center">
+                        <p class="text-lg font-bold text-gray-800 mb-2">
+                            "Your body is constantly receiving information about where & how it’s moving. The better you train that system, the better you can control your movement."
+                        </p>
+                        <p class="text-base font-bold text-[var(--purple)] tracking-wide">
+                            Move well. Train smart. Stay doing what you love.
+                        </p>
+                    </div>
+                `
+            },
+            'beginner-to-confident-physiotherapist': {
+                title: 'From Nervous Beginner to Confident Physiotherapist',
+                image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000&auto=format&fit=crop',
+                author: 'Aisha Hakim · Physiotherapist',
+                authorRole: 'Johar Medical Center',
+                date: 'September 2026',
+                content: `
+                    <div class="inline-flex items-center gap-2 bg-purple-100 text-[var(--purple)] px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-6">
+                        Intern Reflections · Johar Medical Center
+                    </div>
+
+                    <p class="text-xl text-gray-700 font-medium mb-6 italic">
+                        Walking into a clinic doubting every bit of clinical knowledge you studied for years — that was me on day one. This is how that nervous beginner slowly became a more confident, capable physiotherapist-in-training.
+                    </p>
+
+                    <h2>Where it all began</h2>
+                    <p>I had known about the clinic before and had visited it in the past. Later, after seeing a positive review from an intern, I decided to join myself. I was nervous at first and often doubted my clinical knowledge, but the team helped me prepare and gradually gain confidence. My first interaction with my supervisor also taught me an important lesson: before becoming a better physiotherapist, I needed to learn to respect and value those who were guiding me.</p>
+
+                    <p>The physiotherapists created a friendly and supportive environment that made learning easier. Through group discussions, patient observations, case discussions, presentations, and practical sessions, I gradually became more confident in assessment and treatment. Topics that once seemed difficult during university started becoming much easier to understand and apply in clinical practice.</p>
+
+                    <h2>Learning through practice</h2>
+                    <p>Although I did not see a large number of patients, each case gave me an opportunity to learn. I observed the techniques and exercises used in the clinic, discussed similar cases with the therapists, and applied what I learned to my own patients whenever appropriate. This helped me connect my clinical learning with real patient care and improve my approach to assessment and rehabilitation.</p>
+
+                    <h2>What this journey changed in me</h2>
+                    <p>This internship helped me realize that with the right guidance, practice, and a supportive environment, I could improve more than I expected. I became more willing to ask questions, discuss cases, practice, and learn without hesitation. What initially felt unfamiliar gradually became a comfortable and productive part of my routine.</p>
+
+                    <h2>Beyond the clinic</h2>
+                    <p>Along with improving my clinical knowledge, I also noticed an improvement in my communication skills and confidence. The internship gave me a productive routine and a positive environment where I could learn, interact, and stay engaged. By the end of the day, I felt that my time had been well spent, which made me look forward to coming back and continuing to learn.</p>
+
+                    <h2>Looking back</h2>
+                    <p>Overall, this internship gave me the opportunity to learn, practice, and grow as a physiotherapist. I am grateful for the guidance, support, and learning environment that made this experience a valuable part of my professional journey.</p>
+
+                    <div class="my-10 p-8 bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl border-l-4 border-[var(--purple)] text-center">
+                        <i class="fa-solid fa-quote-left text-3xl text-[var(--purple)]/40 mb-3 block"></i>
+                        <p class="text-xl font-bold text-[var(--purple)] italic mb-2">"Every expert was once a beginner who refused to give up on themselves."</p>
+                        <p class="text-sm font-semibold text-gray-500 tracking-wide uppercase">Published by Aisha Hakim · Johar Medical Center</p>
+                    </div>
+                `
+            },
+            'telerehabilitation': {
+                title: 'Physiotherapy × Telerehabilitation: When Your Screen Becomes Part of Rehab',
+                image: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1000&auto=format&fit=crop',
+                author: 'Dr. Atif-ur-Rehman & Dr Aisha Hakim',
+                authorRole: 'Johar Medical Centre',
+                authorImage: './img/dratif2.jpeg',
+                date: 'September 2026',
+                content: `
+                    <p class="text-xl text-gray-700 font-medium mb-6 italic">When Your Screen Becomes Part of Rehab</p>
+
+                    <p>Technology has changed the way healthcare can reach people. As physiotherapists, we are also seeing new possibilities in how rehabilitation can be delivered beyond the clinic.</p>
+
+                    <p>In practice, one challenge I have noticed is that some patients discontinue their rehabilitation because regular sessions or treatment packages become difficult for them to afford. When rehabilitation is stopped, recovery may be delayed, daily activities can become more difficult, and patients may lose the professional guidance they need to exercise safely and correctly.</p>
+
+                    <p>This made me think about a simple question: <em>Can technology help us continue physiotherapy when regular clinic visits are not possible?</em></p>
+
+                    <h2>Bringing Rehabilitation Beyond the Clinic</h2>
+                    <p>Telerehabilitation offers one possible answer.</p>
+
+                    <p>A patient can initially visit the clinic for a proper assessment and treatment plan. During these sessions, the physiotherapist can educate the patient, demonstrate exercises, record short exercise videos when appropriate, and involve the attendant or caregiver in the rehabilitation process.</p>
+
+                    <p>For suitable patients, follow-up sessions can then be continued through live video calls. The physiotherapist can observe the patient's movements, range of motion, pain behaviour and exercise technique, while giving real-time instructions and corrections.</p>
+
+                    <p>The important point is that telerehabilitation does not always require complicated or expensive equipment. Depending on the patient's condition, basic resources available at home may be enough to continue an appropriate exercise programme under professional guidance.</p>
+
+                    <h2>What a Screen Can—and Cannot—Do</h2>
+                    <p>A video call can allow a physiotherapist to observe movement, communicate with the patient, monitor exercise performance and identify changes during rehabilitation. However, it cannot provide everything that an in-person assessment can.</p>
+
+                    <p>Palpation, exact tenderness, edema, contractures and other hands-on findings still require physical examination. Communication or visual observation may provide useful information, but they cannot completely replace physical assessment.</p>
+
+                    <p>For this reason, telerehabilitation should not be viewed as a replacement for face-to-face physiotherapy. Instead, it can be another way of extending rehabilitation when it is clinically appropriate.</p>
+
+                    <h2>Making Rehabilitation More Accessible</h2>
+                    <p>The goal is not simply to move physiotherapy onto a screen. The goal is to create more practical options for patients and therapists.</p>
+
+                    <p>For a patient facing financial or accessibility barriers, continuing suitable rehabilitation from home may help maintain progress, improve independence and reduce unnecessary interruption in care. At the same time, a well-planned approach can remain practical and sustainable for physiotherapists.</p>
+
+                    <p>Not every patient or condition will be suitable for telerehabilitation, and clinical judgement should always guide its use. But if we can use technology responsibly to help more people continue their rehabilitation and work towards returning to their normal lives, then it is an option worth exploring.</p>
+
+                    <div class="my-8 p-6 bg-purple-50 rounded-2xl border-l-4 border-[var(--purple)]">
+                        <p class="text-lg font-semibold text-[var(--purple)] italic mb-0">"Perhaps the future of physiotherapy is not about choosing between the clinic and the screen—it is about knowing when each can help a patient move forward."</p>
+                    </div>
+                `
+            },
             'heat-therapy': {
                 title: 'How Heat Therapy Can Help Reduce Menstrual Cramps Naturally',
                 image: 'https://img.freepik.com/free-photo/physiotherapist-doing-healing-treatment-womans-back-back-pain-patient-treatment-medical-doctor-massage-therapistoffice-syndrome_657921-323.jpg?semt=ais_hybrid&w=740&q=80',
@@ -579,6 +921,423 @@
                     
                     <p><strong>CONCLUSION:</strong> Diabetes care has been transformed by technology, giving individuals more control over their health and empowering medical professionals to offer individualized treatments. These developments could raise the standard of living for millions of people globally when they become more widely available.</p>
                 `
+            },
+            'wrist-braces': {
+                title: 'The Advantages of Wrist Braces for Pain Relief in Treating Carpal Tunnel Syndrome',
+                image: 'https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <h2>OVERVIEW</h2>
+                    <p>A frequent condition known as carpal tunnel syndrome (CTS) is brought on by compression of the median nerve as it travels through the wrist. Typing, cooking, and even holding a phone might become difficult due to the discomfort, tingling, and numbness this condition can cause pain from wrist to finger. Wrist braces are a simple, practical way to reduce symptoms and stop additional harm, even though physical therapy and medicinal interventions are essential.</p>
+                    
+                    <h2>Carpal Tunnel Syndrome: What Causes It?</h2>
+                    <p>Repetitive wrist motions or underlying medical disorders can cause carpal tunnel syndrome. Pain and weakness are among the symptoms that frequently get worse at night or after using the hands for extended periods of time.</p>
+                    <p>Typical reasons include:</p>
+                    <ul>
+                        <li><strong>Repetitive Strain:</strong> Regular typing, sewing, or assembly-line labour can cause repetitive strain.</li>
+                        <li><strong>Underlying Conditions:</strong> Rheumatoid arthritis, diabetes, or edema associated with pregnancy are examples of underlying conditions.</li>
+                        <li><strong>Wrist Injuries:</strong> Wrist injuries include sprains or fractures that put more strain on the median nerve.</li>
+                    </ul>
+                    
+                    <h2>How Carpal Tunnel Symptoms Can Be Alleviated with Wrist Braces ???</h2>
+                    <p>By supporting the wrist and lowering pressure on the median nerve, a wrist brace offers focused alleviation. This is how they operate:</p>
+                    <ul>
+                        <li><strong>Immobilization:</strong> By preventing excessive wrist bending, wrist bands lessen nerve strain.</li>
+                        <li><strong>Correct Alignment:</strong> They improve circulation and nerve function by maintaining the wrist in a neutral position.</li>
+                        <li><strong>Pain Reduction:</strong> Less tingling and discomfort are caused by the pressure release.</li>
+                        <li><strong>Preventing Worsening Symptoms:</strong> Consistent use when sleeping or engaging in activities helps halt the advancement of symptoms.</li>
+                    </ul>
+                    
+                    <h2>How to Pick the Best Wrist Brace ???</h2>
+                    <p>Take into account the following factors while choosing a wrist brace for carpal tunnel syndrome:</p>
+                    <ul>
+                        <li><strong>Comfortable Material:</strong> For prolonged wear, choose soft, breathable materials.</li>
+                        <li><strong>Adjustable Fit:</strong> Make sure the brace fits comfortably without obstructing blood flow.</li>
+                        <li><strong>Day vs. Night Use:</strong> Certain braces are made especially to provide support at night.</li>
+                    </ul>
+                    
+                    <h2>Additional Tips for Managing Carpal Tunnel Syndrome</h2>
+                    <ul>
+                        <li><strong>Stretching Exercises:</strong> Include strengthening exercises and wrist stretches in your daily regimen.</li>
+                        <li><strong>Ergonomic Adjustments:</strong> To lessen repetitive strain, change the way you operate.</li>
+                        <li><strong>Lifestyle Modifications:</strong> To increase circulation, keep a healthy weight and abstain from smoking.</li>
+                    </ul>
+                    
+                    <p><strong>Affiliate Suggestion:</strong> Are you trying to find a good wrist brace? Take a look at this popular wrist brace made especially to relieve carpal tunnel syndrome. Its airy materials and adjustable straps make it ideal for both daytime and evening wear.</p>
+                    
+                    <p><strong>CONCLUSION:</strong> Your quality of life can be greatly impacted by carpal tunnel syndrome, yet easy solutions like wrist braces can have a big impact. Using a wrist brace in conjunction with exercises and ergonomic modifications is a proactive approach to managing symptoms and regaining comfort in your day-to-day activities.</p>
+                `
+            },
+            'ai-physiotherapy': {
+                title: 'The AI Revolution in Physiotherapy: How AI is Changing the Way People Manage Pain',
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <h2>OVERVIEW</h2>
+                    <p>The healthcare sector is not an exception to how artificial intelligence (AI) is changing industries. A major technological revolution is occurring in physiotherapy, a historically hands-on speciality, among other professions. AI is improving patient experiences, optimising treatment results, and improving the way care is delivered. With an emphasis on how AI is transforming pain care, we examine the intriguing nexus between physiotherapy and AI in this blog.</p>
+                    
+                    <h2>AI IMPLEMENTATIONS IN PHYSIOTHERAPY</h2>
+                    <p>From diagnosis to treatment, artificial intelligence is becoming more and more important in physiotherapy. Here are a few of the main uses:</p>
+                    <ul>
+                        <li><strong>Virtual Evaluation and Diagnosis:</strong> AI technologies provide prompt and precise diagnosis by analysing imaging data and patient-reported symptoms. Machine learning models are trained to identify abnormalities in MRIs or X-rays to help physiotherapists create accurate treatment plans.</li>
+                        <li><strong>Tailored Therapy Programs:</strong> AI creates customised rehabilitation programs by analysing patient data, including age, exercise level, and medical history. Dynamic modifications guarantee that the course of therapy changes in tandem with the patient's development, preventing recovery plateaus.</li>
+                        <li><strong>Feedback and Remote Monitoring:</strong> Real-time movement, posture, and recuperation indicators are tracked via wearable technology driven by AI. Therapists can remotely monitor patients using virtual platforms, giving them feedback and making necessary adjustments.</li>
+                        <li><strong>AI-Driven Online Coaches:</strong> Patients are guided through workouts by virtual coaches that are connected into applications or devices, guaranteeing correct form and lowering the chance of damage.</li>
+                    </ul>
+                    
+                    <h2>AI IN PAIN MANAGEMENT: CASE STUDIES</h2>
+                    <ul>
+                        <li><strong>Physitrack:</strong> This AI-powered tool tailors workout plans according to each patient's evaluation. Patients can use an app that offers real-time feedback to follow their plans.</li>
+                        <li><strong>Kaia Health:</strong> With a focus on back pain, Kaia Health employs AI to provide mindfulness training, breathing exercises, and video-based workouts that dramatically reduce pain.</li>
+                    </ul>
+                    
+                    <h2>BENEFITS</h2>
+                    <ul>
+                        <li><strong>Efficiency:</strong> AI frees up physiotherapists' time to concentrate on patient engagement by cutting down on diagnosis and treatment planning time.</li>
+                        <li><strong>Outcomes:</strong> Recovery is accelerated and improved with customised therapies and regular monitoring.</li>
+                        <li><strong>Accessibility:</strong> By bridging healthcare barriers, AI systems enable patients in underprivileged or remote places to receive physiotherapy.</li>
+                    </ul>
+                    
+                    <h2>FUTURE DIRECTIONS IN PHYSIOTHERAPY AND AI</h2>
+                    <p>AI in physiotherapy has a bright future ahead of it. Possible developments consist of:</p>
+                    <ul>
+                        <li><strong>Predictive Analytics:</strong> By examining movement patterns, AI may be able to identify injury risks and facilitate preventative measures.</li>
+                        <li><strong>Robotics Integration:</strong> AI-powered robots that can precisely do repetitive jobs could help in rehabilitation.</li>
+                        <li><strong>AI-Powered Chatbots:</strong> These virtual assistants could help patients by answering their queries and offering encouragement in between therapy sessions.</li>
+                    </ul>
+                    
+                    <h2>DIFFICULTIES AND MORAL ASPECTS</h2>
+                    <p>Despite the enormous promise, there are some difficulties in using AI into physiotherapy:</p>
+                    <ul>
+                        <li><strong>Data Privacy:</strong> It's critical to make sure patient data is safe and handled responsibly.</li>
+                        <li><strong>High Costs:</strong> Accessibility may be restricted by the high cost of sophisticated AI devices and systems.</li>
+                        <li><strong>Training Requirements:</strong> Physiotherapists must undergo ongoing education in order to adjust to changing technologies.</li>
+                    </ul>
+                    
+                    <p><strong>CONCLUSION:</strong> Physiotherapy is changing due to AI, particularly in the area of pain management. It provides hope for more accessible and efficient therapies by facilitating remote monitoring, personalising care, and simplifying tests. AI's amazing potential will continue to help physiotherapy as technology advances, improving patient-centered and efficient rehabilitation processes.</p>
+                `
+            },
+            'wearable-tech': {
+                title: 'Using Wearable Health Technology to Revolutionize Physiotherapy: From Recovery to Maximum Performance',
+                image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <h2>OVERVIEW</h2>
+                    <p>Performance optimization and injury management are changing because of the incorporation of wearable technologies into Physiotherapy. Not only are smartwatches, fitness trackers, and posture correctors fashionable devices, but they are also very useful instruments for improving the results of Physiotherapy. This blog examines how wearable technology is transforming Physiotherapy and the advantages it offers to both patients and practitioners.</p>
+                    
+                    <h2>HOW HEALTHCARE IS IMPROVED BY WEARABLE TECHNOLOGY</h2>
+                    <ul>
+                        <li><strong>Monitoring Data in Real Time:</strong> Wearable technology gives Physiotherapy practitioners information about a patient's general health by monitoring critical parameters including heart rate, steps, sleep patterns, and calories burned. To improve recuperation, posture-tracking devices identify alignment problems and notify users to make necessary adjustments.</li>
+                        <li><strong>Individualized Rehabilitation:</strong> Wearable technology helps Physiotherapy practitioners personalize rehabilitation exercises by gathering patient-specific data. Wearable technology combined with gamified rehabilitation applications encourages patients to follow their regimens.</li>
+                        <li><strong>Monitoring Patients Remotely:</strong> Without having to visit the clinic frequently, Physiotherapy practitioners can monitor their patients' development, saving money and time. Device alerts enable Physiotherapy practitioners to take action when anomalies are identified, averting consequences.</li>
+                        <li><strong>Enhancement of Performance:</strong> Wearable technology is used by athletes to track their biomechanics, reducing the risk of injury and identifying inefficiencies. Metrics like muscle activation and tiredness levels can be used to monitor recovery, guaranteeing safe and efficient advancement.</li>
+                    </ul>
+                    
+                    <h2>COMMON WEARABLE TECHNOLOGY IN PHYSIOTHERAPY</h2>
+                    <ul>
+                        <li><strong>Smartwatches:</strong> Apps such as Fitbit and Apple Watch track users, and can monitor exercise levels and vital signs.</li>
+                        <li><strong>Posture Correctors:</strong> Upright-GO and other similar devices vibrate to remind users to keep their posture correct.</li>
+                        <li><strong>Wearable Biofeedback Devices:</strong> Wearable biofeedback devices, such as MyoWare, measure muscle activity to guarantee peak performance throughout workouts.</li>
+                        <li><strong>Rehabilitation Sensors:</strong> For in-depth evaluations, devices such as DorsaVi track muscle activation and movement patterns.</li>
+                    </ul>
+                    
+                    <h2>ADVANTAGES FOR PHYSIOTHERAPY PRACTITIONERS AND PATIENTS</h2>
+                    <ul>
+                        <li><strong>For Patients:</strong> Better awareness of their progress, faster feedback, and more incentive.</li>
+                        <li><strong>For Physiotherapy Practitioners:</strong> Availability of practical insights that allow for more accurate modifications to therapy regimens.</li>
+                    </ul>
+                    
+                    <h2>FUTURE DIRECTIONS IN PHYSIOTHERAPY WEARABLE TECHNOLOGY</h2>
+                    <p>Future physiotherapy wearable technology will include several exciting developments:</p>
+                    <ul>
+                        <li><strong>Analytics Driven by AI:</strong> Wearable data will be more correctly interpreted by advanced AI, providing deeper insights. Predictive analytics may be able to anticipate possible injuries and suggest ways to avoid them.</li>
+                        <li><strong>Sophisticated Biometric Sensors:</strong> Future gadgets might be able to assess muscular tiredness, stress, and hydration in real time. We will also see augmented reality (AR) integration into guided workouts.</li>
+                        <li><strong>Integrating Healthcare Systems Easily:</strong> Patient management will be streamlined by wearable data that syncs directly with electronic health records.</li>
+                    </ul>
+                    
+                    <h2>OBSTACLES TO TAKE INTO ACCOUNT</h2>
+                    <ul>
+                        <li><strong>Cost and Accessibility:</strong> Wearable technology may be out of reach for certain patients.</li>
+                        <li><strong>Data Privacy:</strong> It's crucial to make sure that private health data is handled securely.</li>
+                        <li><strong>Device Accuracy:</strong> The dependability of suggestions may be impacted by variations in sensor precision.</li>
+                    </ul>
+                    
+                    <p><strong>CONCLUSION:</strong> There is no denying that wearable technology is revolutionizing the area of health care. These gadgets help close the gap between technology and direct patient care by offering real-time data, customizing therapy, and enhancing patient engagement. Wearable technology will surely have a greater influence on how physiotherapy develops in the future as innovation continues.</p>
+                `
+            },
+            'virtual-assistants': {
+                title: "Virtual Health Assistants' Ascent: A New Era in Patient Assistance",
+                image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <h2>OVERVIEW</h2>
+                    <p>The use of virtual health aides in contemporary healthcare is growing in importance. These artificial intelligence-powered digital products offer assistance with anything from managing chronic illnesses to responding to health-related questions. This blog explores how patients' interactions with healthcare systems are evolving due to virtual health assistants.</p>
+                    
+                    <h2>1- VIRTUAL HEALTH ASSISTANTS: WHAT ARE THEY?</h2>
+                    <p>AI-powered systems known as virtual health assistants (VHAs) do the following:</p>
+                    <ul>
+                        <li>Use extensive databases to find answers to medical questions.</li>
+                        <li>Make appointments and remind people of them.</li>
+                        <li>Support patients in adhering to their drug regimen.</li>
+                    </ul>
+                    
+                    <h2>2- THE ADVANTAGES OF VHAS FOR PATIENTS</h2>
+                    <ul>
+                        <li><strong>Accessibility:</strong> VHAs provide immediate assistance and are on call around-the-clock.</li>
+                        <li><strong>Education:</strong> They provide patients with access to trustworthy health information so they may make wise decisions.</li>
+                        <li><strong>Chronic Disease Management:</strong> To enhance health, VHAs monitor symptoms and recommend lifestyle changes.</li>
+                    </ul>
+                    
+                    <h2>3- VHA IN OPERATION</h2>
+                    <p>Examples of Well-Known VHAs:</p>
+                    <ul>
+                        <li><strong>Babylon Health:</strong> Provides health advice and consultations powered by AI.</li>
+                        <li><strong>Ada Health:</strong> Examines symptoms and makes recommendations for potential illnesses.</li>
+                        <li><strong>Integration with Wearables:</strong> To provide real-time information, VHAs connect with gadgets such as smartwatches.</li>
+                    </ul>
+                    
+                    <h2>4- DIFFICULTIES AND MORAL ASPECTS</h2>
+                    <ul>
+                        <li><strong>Information Accuracy:</strong> Ensuring that VHAs offer trustworthy, fact-based guidance.</li>
+                        <li><strong>Privacy Issues:</strong> It's important to safeguard private patient information.</li>
+                        <li><strong>Over-Reliance on Technology:</strong> It may result in less face-to-face communication with medical professionals.</li>
+                    </ul>
+                    
+                    <p><strong>CONCLUSION:</strong> The delivery of healthcare has advanced significantly with the advent of virtual health assistants. Even if there are still issues, they can improve patient involvement and expedite care, which makes them an important part of the healthcare system.</p>
+                `
+            },
+            'healing-through-movement': {
+                title: 'Healing Through Movement: My Journey as a Physiotherapist',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>The human body and the ways that movement may improve function, lessen suffering, and restore joy to people's lives have always captivated me. As a working physiotherapist today, I am continually motivated by the changes I see in my patients. Their fortitude, tenacity, and commitment to recovery serve as a constant reminder of why I do what I do.</p>
+                    
+                    <p>In my view, physiotherapy is so special because it involves more than just physical exercises; it also involves the mental and emotional fortitude that patients must draw upon while they undergo their recuperation. Here is an overview of my healing philosophy and the lessons I've gained during my career as a physiotherapist:</p>
+                    
+                    <h2>1. Seeing the Individual, Not Just the Damage</h2>
+                    <p>I notice more than simply a patient's pain or injury when they enter my clinic. I can see the individual behind it - their lives, their objectives, their struggles. I make it a point to hear each patient's tale because they are all different. It's critical to comprehend not only their physical state but also the psychological and emotional states. Healing requires a comprehensive approach, and the difference is in the time I take to completely understand my patients.</p>
+                    <p><strong>Try It:</strong> When you see a physiotherapist, spend some time discussing your life outside of the clinic. Your recuperation may be impacted by your work schedule, stressors, and problems. Giving your physiotherapist this background information enables them to create a strategy that is specific to your circumstances.</p>
+                    
+                    <h2>2. The Influence of Empowerment and Education</h2>
+                    <p>Teaching people about their bodies is one of the most fulfilling parts of my job. Understanding the "why" behind each exercise and treatment is empowering. People become more confident and dedicated to their recovery when they understand that they are in control of their own healing. Being actively involved in your own rehabilitation process is more important than merely receiving treatment.</p>
+                    
+                    <h2>3. Recovery Is a Process, Not a Final Goal</h2>
+                    <p>There may be ups and downs on the road to healing, and recovery does not happen immediately. There are times when you feel frustrated, but there are also times when you're happy with how far you've gone. Healing is not a race, as I frequently remind my patients. It's about making tiny but consistent progress.</p>
+                    <p><strong>Try This:</strong> Throughout your recuperation, treat yourself with kindness. Honor minor victories, such as taking an additional stride painlessly, becoming more flexible, or just feeling stronger. Together, these victories bring about long-lasting change.</p>
+                    
+                    <h2>4. Medicine via Movement</h2>
+                    <p>Movement is one of our most effective healing tools. It's amazing how the body reacts to the correct type of exercises, whether it's for stress relief, strength training, or flexibility restoration. However, there is no one-size-fits-all approach to mobility. For this reason, individualized physiotherapy care is crucial. I collaborate closely with each patient as a physiotherapist to develop a personalized strategy that meets their unique requirements. Movement becomes medicine when done right, assisting in pain relief, function restoration, and strength restoration.</p>
+                    <p><strong>Try This:</strong> If you're experiencing discomfort or stiffness, start introducing modest exercise into your regular routine. Even a quick stroll, some light stretching, or a quick yoga session can help boost circulation, lessen stress, and enhance general health.</p>
+                    
+                    <h2>5. The Value of Perseverance and Patience</h2>
+                    <p>Patience is one of the hardest things about physiotherapy, for both my patients and me as their therapist. There are days when it seems like nothing is getting done, and times when you question whether things will ever get better. However, progress will be made if you are persistent, consistent, and have faith in the process. Over time, little daily actions add up to significant changes.</p>
+                    <p><strong>Try This:</strong> Remind yourself that rehabilitation is a marathon, not a sprint, if you're feeling dissatisfied with your progress. Embrace each day as it comes and have faith that your efforts today will result in better results tomorrow.</p>
+                    
+                    <h2>WHY IS IT IMPORTANT ???</h2>
+                    <p>Treating physical ailments is only one aspect of being a physiotherapist; another is encouraging empowerment, hope, and perseverance. I am often reminded of the amazing inner strength people possess to overcome obstacles and start afresh. Restoring confidence, joy, and the capacity to fully experience life are more important than only repairing the body.</p>
+                    <p>For me, physiotherapy is more than just a job; it's a passion that motivates me to assist people in discovering their own power, regaining their mobility, and leading pain-free lives. I am immensely appreciative of the opportunity to contribute to each patient's recovery.</p>
+                    
+                    <h2>It's Your Turn</h2>
+                    <p>Which physiotherapy component has aided you in your recuperation? Please share your stories in the comments section below. Let's continue helping one another along this wonderful healing path!</p>
+                `
+            },
+            'physio-student-journey': {
+                title: 'The Path of a Physiotherapy Student: Obstacles, Development, and Goals',
+                image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>It's thrilling and challenging to start your career as a physiotherapist. You are surrounded by a world that combines science, compassionate thinking, and persistence as a student of physiotherapy. Although the journey is extremely rewarding, it is not always simple. I'll talk about the difficulties, development, and goals that come with studying this exciting career here, as well as what it's like to be a student of physiotherapy.</p>
+
+                    <h2>The Start: A Combination of Interest and Willpower</h2>
+                    <p>Commencing a physiotherapy program resembles venturing into unknown waters. Many of us are initially drawn to this field because we want to assist people regain their mobility and enhance their quality of life. As you explore subjects like anatomy, physiology, and biomechanics, the first few weeks are frequently a mixture of excitement and overwhelm. You soon come to understand that physiotherapy is about gaining a deep understanding of the human body, not only about learning exercises.</p>
+
+                    <h2>The Academic Standards</h2>
+                    <p>Studies in physiotherapy are challenging. You analyze the complexity of the neurological, circulatory, and musculoskeletal systems for hours in lecture rooms, labs, and libraries. Learning to evaluate and handle real-world circumstances is an everyday part of practical classes, which calls for accuracy and close attention to detail. Although exams can be challenging, they force you to improve your knowledge and abilities.</p>
+
+                    <h2>Practical Education: The Merging of Theory and Practice</h2>
+                    <p>The practical training is one of the most fulfilling parts of physiotherapy study. Students can work with actual patients during clinical rotations while being supervised by experienced ones. Such experiences open your eyes because they show you how to apply theoretical knowledge to practical scenarios. They also stress how important empathy, communication, and flexibility are to patient care.</p>
+
+                    <h2>Striking a Balance: Managing Life and Education</h2>
+                    <p>Balance is key to life as a student of physiotherapy. It can be difficult to find time for yourself between going to classes, studying for tests, and doing clinical rotations. But maintaining a healthy lifestyle and giving self-care first priority are important. Hobbies, exercise, and spending time with friends and family are common ways for students to release stress.</p>
+
+                    <h2>Overcoming Challenges</h2>
+                    <p>There are challenges along the way. Physiotherapy students have a number of hurdles, ranging from the emotional strain of caring for patients in pain to the need to maintain academic standards. However, these difficulties also help you become more resilient and get ready for professional life.</p>
+
+                    <h2>The Vision: Towards the Future</h2>
+                    <p>You're always motivated as a student of physiotherapy by the prospect of changing people's lives. The options are unlimited, whether the goal is to improve an athlete's performance, help someone walk again, or relieve chronic pain. You stay inspired by this idea even on the most difficult days.</p>
+
+                    <h2>Concluding Remarks</h2>
+                    <p>A physiotherapy student's life is a path of personal development, education, and self-discovery. It's a journey that pushes you to reach new heights and gives you the tools to change people's lives. Remember that every effort you make today will help you become the kind and competent physiotherapist you want to be, whether you are thinking about entering this area or are already juggling its responsibilities.</p>
+                `
+            },
+            'spinal-health-happiness': {
+                title: 'Small Things That Make Me Happy (And Maintain the Health of My Spine)',
+                image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>Everybody has times when life seems a little too much to handle and it's a little difficult to find a grin. However, I've discovered that maintaining movement in my body, particularly in ways that help my spine, has not only kept me physically fit but has also made me happy all the time. My life has changed significantly, both emotionally and physically, thanks to the little things, attentive movements, and habits.</p>
+
+                    <p>As a physiotherapist, I frequently discuss spinal health, but I also have a keen interest in the easy daily activities that maintain the strength of our spines and our spirits. Here are some small routines that have helped me maintain my smile and take care of my spine:</p>
+
+                    <h2>1. Conscious Posture Modifications</h2>
+                    <p>Standing or sitting upright is only one aspect of good posture; another is being aware of how we hold our bodies throughout the day. I make a conscious effort to monitor my posture whether I'm sitting on the couch or working at my desk. I can stay comfy and avoid back pain with a minor modification. In addition, I feel more self-assured and prepared to tackle anything!</p>
+
+                    <h2>2. A Daily Stretch for Spinal Mobility</h2>
+                    <p>Like a flexible column of joy, my spine requires constant movement to remain joyful. I include a few spinal stretches in my morning regimen. I feel awake and ready to take on the day after doing these quick, easy, and energetic exercises.</p>
+
+                    <h2>3. Moving During Breaks</h2>
+                    <p>I've discovered the value of taking pauses to move after spending hours seated at a desk. It's incredible how my body and mind can be rejuvenated by simply stretching for a few minutes or taking a little stroll around the room. Frequent exercise keeps my spine in alignment and helps me avoid stress, tension, and stiffness.</p>
+
+                    <h2>4. Having Confidence and Standing Tall</h2>
+                    <p>Standing up is one of the easiest ways I maintain a healthy spine. My muscles are strengthened and my spine is aligned when I stand tall with my shoulders back, chest open, and core engaged. In addition, it improves my mood and gives me more self-assurance in any circumstance.</p>
+
+                    <h2>5. Laughing and smiling</h2>
+                    <p>Yes, you read correctly! Laughing and smiling have good impacts on your spine in addition to improving your mood. Your entire body tends to relax when you smile because your face muscles do the same. Another great approach to activate your diaphragm and relieve tension is to laugh.</p>
+
+                    <h2>6. Making Use of Helpful Resources</h2>
+                    <p>For my spine, purchasing a quality chair or employing cushions that provide support during extended periods of sitting has been a game-changer. It's a minor detail, but it keeps me in the right alignment when I work or unwind. Reducing back strain can even be achieved by utilizing a lumbar support pillow while driving.</p>
+
+                    <h2>7. Using Low-Impact Exercise to Stay Active</h2>
+                    <p>I make it a point to keep active by doing low-impact activities like walking or swimming that promote spinal health. Even though these exercises are gentle on my joints, they nonetheless cause my heart to race and my muscles to contract. Additionally, they support the maintenance of my spine and posture, which enables me to move with delight and ease.</p>
+
+                    <h2>Why It Matters</h2>
+                    <p>Daily actions that take care of our spine can have a long-lasting good effect on our lives, and spinal health is closely linked to overall well-being. Maintaining good posture and an active lifestyle are just two ways that taking care of your spine may increase your energy, lessen pain, and foster happiness all day long.</p>
+
+                    <p>Therefore, pause and pay attention to your body and spine. Include the small things in your daily routine and allow them to improve your health and happiness!</p>
+
+                    <h2>It's Your Turn</h2>
+                    <p>What simple routines make you happy and maintain a healthy spine? Let's encourage one another to maintain our happiness and health, one tiny step at a time, by sharing them in the comments section below!</p>
+                `
+            },
+            'my-beginnings-physiotherapist': {
+                title: 'My Beginnings as a Physiotherapist: Interest, Difficulties, and Development',
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>I knew I was entering a field where I could actually improve people's lives when I chose to become a physiotherapist. Along the way, I have continuously learned, developed, and discovered new things about myself as a person and as a professional, in addition to the science of movement and rehabilitation.</p>
+
+                    <h2>The First Step: Understanding My Purpose</h2>
+                    <p>When I volunteered at a nearby clinic during my undergrad years, my interest in physiotherapy was sparked. It was incredibly motivating to see individuals recover their confidence and mobility after injuries. I came to see that physiotherapy was about giving people their lives back, not just about exercises or treatments. My choice to focus on this area was motivated by that insight.</p>
+
+                    <h2>Early Difficulties and Guidelines</h2>
+                    <p>There were challenges along the way to becoming a physiotherapist. Resilience and dedication were needed to meet the demanding academic requirements and practical training. Learning how to strike a balance between technical expertise and empathy was one of my first hurdles. I discovered that although patients appreciate knowledge, they also require support and empathy, particularly when dealing with physical discomfort or mental annoyance.</p>
+
+                    <h2>Treating the Whole Person is my Philosophy</h2>
+                    <p>I've come to look at physiotherapy holistically throughout the years. Understanding the patient's lifestyle, mental health, and personal goals is equally as important as treating their physical symptoms. This viewpoint has improved my practice and strengthened my interactions with my patients.</p>
+
+                    <h2>Keeping Up: Ongoing Education</h2>
+                    <p>Physiotherapy is a constantly changing subject, with new methods and tools appearing on a regular basis. I've made a commitment to attending workshops, continuing my education throughout my life, and keeping up with the most recent findings. This improves my abilities and enables me to provide my patients with the finest care possible.</p>
+
+                    <h2>Sharing About My Journey</h2>
+                    <p>As a physiotherapist, I will share my experiences, observations, and views on my blog. I want to build a platform that educates, uplifts, and engages readers with everything from advice on how to keep good posture to experiences of remarkable recoveries.</p>
+
+                    <h2>Concluding Remarks</h2>
+                    <p>For me, being a physiotherapist is a calling rather than just a job. It's about sharing in someone's healing process and seeing how they change. I want to use my blog to promote my love of physical therapy and inspire others to put their health and wellbeing first.</p>
+
+                    <p>Thank you for being a part of my journey. I'm excited to connect with you and share more stories in the days to come.</p>
+                `
+            },
+            'power-of-touch': {
+                title: 'The Power of Touch: How Physiotherapy Can Heal Beyond the Body',
+                image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>As a physiotherapist, I frequently discover that the most potent healing results from the interpersonal connections I form with my patients rather than merely the exercises or manual procedures we use. What really makes a difference in rehabilitation are the conversations, trust, and non-physical forms of support.</p>
+
+                    <p>Whether they are dealing with chronic pain, recuperating from an injury, or navigating the intricacies of rehabilitation, I have had the honor of working with numerous people who are going through difficult times. Furthermore, I've discovered that physiotherapy is about more than just the body; it's also about the mind, soul, and how we can help the full individual recover.</p>
+
+                    <h2>1. The Value of Compassion in Healing</h2>
+                    <p>Every patient I encounter is unique and has a story to tell. Some may be facing the emotional toll that comes with long-term recuperation, while others may be dealing with physical pain that restricts their movement. Over the years, I've come to see how important empathy is to healing. Healing can start when I pay attention to my patients, genuinely hear their worries, and recognize their difficulties.</p>
+
+                    <h2>2. The Restorative Potential of Movement</h2>
+                    <p>Seeing the change that occurs as a patient regains their ability to move is one of the most fulfilling parts of working as a physiotherapist. It's amazing to watch someone restore their range of motion after previously being unable to walk pain-free or raise their arm. Small milestones lead to significant successes in the voyage of discovery that is physiotherapy.</p>
+
+                    <h2>3. Teaching and Giving My Patients Power</h2>
+                    <p>Education is one of my guiding principles as a physiotherapist. I think it's important to arm my patients with the information they need to manage their own health. Explaining why particular workouts are effective and how they benefit their bodies is just as important as simply telling them what to do. Patients are more inclined to stick with their treatment and have faith in their ability to recover when they know the "why" behind it.</p>
+
+                    <h2>4. The Function of Self-Care in Healing</h2>
+                    <p>I frequently stress the value of self-care in my profession. Physiotherapy encompasses more than simply your time in the clinic; it also includes your daily activities outside of it. Simple practices like resting, drinking plenty of water, controlling your stress, and maintaining proper posture can have a big impact on how well your treatment works.</p>
+
+                    <h2>5. Appreciating the Little Victories</h2>
+                    <p>When recovery seems to be taking a long time, it might feel like an uphill battle. However, I've discovered that acknowledging and appreciating minor victories is equally as significant as attaining major ones. These accomplishments are worthy of praise, whether they involve raising a weight you were previously unable to lift, standing up taller, or taking a few more pain-free steps.</p>
+
+                    <h2>Why Does It Matter?</h2>
+                    <p>As a physiotherapist, I consider it a privilege to accompany my patients on their very personal journey. Although the healing process is rarely a straight line, we may bring about long-lasting changes in the body and the mind with the correct attitude, encouragement, and education.</p>
+
+                    <p>My daily inspiration comes from helping someone become better. Seeing a patient move from struggling to thriving and knowing that I had even a small role in their journey is the most fulfilling thing in the world.</p>
+
+                    <h2>It's Your Turn</h2>
+                    <p>How has your experience been with physical therapy? Please share your experiences and opinions in the comments section below. Let's encourage one another on this recovery path!</p>
+                `
+            },
+            'joy-of-little-things': {
+                title: 'The Joy of Little Things: Finding Happiness in Everyday Moments',
+                image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>In a world that is always moving quickly, we frequently fail to see the joy and beauty in the little things in life. When we pause to enjoy life's small pleasures, we can find a calm enjoyment in everything from sipping a warm cup of tea to listening to a bird sing outside your window.</p>
+
+                    <p>I've learned that great accomplishments and significant turning points don't necessarily bring actual delight. Little details can sometimes make a big difference. Here are some tips for increasing your level of happiness in the little things in life:</p>
+
+                    <h2>1. The Basic Joy of a Morning Cup of Tea or Coffee</h2>
+                    <p>More than just a caffeine fix, your first sip of your favorite hot beverage in the morning is a source of solace. It is the beginning of a brand-new day full of possibilities. Spend some time enjoying that cup and relishing each sip.</p>
+                    <p><strong>Try This:</strong> Inhale deeply and savor the aroma of your freshly brewed coffee the next morning. Give yourself a quiet, distraction-free moment to begin the day.</p>
+
+                    <h2>2. The Feeling of Sunlight on Your Skin</h2>
+                    <p>The simple pleasure of being outside and enjoying the sun's rays is something that is easily forgotten. You can revitalize your body and mind by taking a quick stroll outside during your lunch break. Serotonin levels are raised by sunlight, which gives you greater energy and a nicer mood.</p>
+                    <p><strong>Try This:</strong> Spend a short period of time outside every day, even if it's just to stand in your garden or on your balcony. For a relaxing respite, close your eyes and enjoy the sun's warmth.</p>
+
+                    <h2>3. Sharing a laugh with loved ones</h2>
+                    <p>Laughing with the people you care about has a certain enchantment. Laughter unites people, improves our moods, and fortifies our relationships. Sometimes the most hilarious things happen in the most unlikely settings, so it doesn't have to be a major event.</p>
+                    <p><strong>Try This:</strong> Share a humorous story with a family member or give a pal a call for a quick conversation. Observe how much lighter you feel after letting the laughing flow.</p>
+
+                    <h2>4. Hearing the Natural Sounds</h2>
+                    <p>We can feel more rooted and connected to the world around us when we spend time in nature. The basic beauty of existence is brought to mind by the sound of rain tapping against the window, leaves rustling, or birds tweeting.</p>
+                    <p><strong>Try This:</strong> Spend a few minutes every day listening to the sounds of nature outside your window. Allow the rain, the breeze, or the birds to calm you and help you focus on the here and now.</p>
+
+                    <h2>5. Experiencing the Coziness of a Warm Blanket</h2>
+                    <p>After a long day, there are moments when nothing is more reassuring than curling up with a warm blanket. It's a little self-care practice that can result in a great deal of contentment and tranquility.</p>
+                    <p><strong>Try This:</strong> Put your favorite blanket, a good book, and a cup of tea in a comfortable nook of your house. Spend some time relaxing and enjoying the comforts of the present.</p>
+
+                    <h2>6. Taking in a Gorgeous Sunset</h2>
+                    <p>The sunset serves as a lovely reminder to pause and think at the end of each day. We frequently stop in wonder at the sight of the sky's shifting hues. Taking a moment to observe the sunset might help us relax and clear our heads.</p>
+                    <p><strong>Try This:</strong> Every evening, set aside some time to observe the sunset. Locate a location where you can gaze up at the sky and just take in the splendor of the natural world.</p>
+
+                    <h2>Why It Matters</h2>
+                    <p>We experience a greater sense of happiness when we turn our attention from what is missing or unfulfilled to what is currently in our life. Gratitude and appreciation for the world around us are fostered when we find joy in the small things.</p>
+                    <p>You'll begin to see the beauty in the little things if you make mindfulness exercises a part of your everyday practice. The larger image of happiness is made up of the little things.</p>
+
+                    <h2>It's Your Turn</h2>
+                    <p>What small things make you happy? Let's enjoy the little things together and let us know what you think in the comments section below!</p>
+                `
+            },
+            'move-more-live-better': {
+                title: 'Move More, Live Better: Joyful Ways to Keep Your Body Active',
+                image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1000&auto=format&fit=crop',
+                content: `
+                    <p>"A healthy mind starts with a healthy body," as the saying goes, but what if I told you that increasing your physical activity might also open up a treasure trove of happiness? Being active can improve your mood, increase your energy, and even lower stress levels, whether you're balancing the demands of everyday life or spending long hours at a desk.</p>
+
+                    <p>Let's avoid complicating things, though. Being active doesn't have to include long workouts or long hours at the gym. Stretching, walking, or dancing in your living room are easy exercises that can have a big impact. It's about joyful, stress-free bodily movement! Here are some easy yet effective strategies to maintain an active lifestyle throughout the day, along with the reasons it can improve your quality of life:</p>
+
+                    <h2>1. Morning Stretching: Wake Up Your Mind, Wake Up Your Body</h2>
+                    <p>Stretching should be the first thing in the morning every day. It's about slowly arousing your muscles after a restful sleep, not about being flexible. Begin with a few light back stretches, shoulder shrugs, and neck rolls. Your body will appreciate you for feeling more alert and prepared to face the day!</p>
+                    <p><strong>Try This:</strong> To touch your toes, slowly lean forward while standing erect and reaching your arms high. Hold for ten to fifteen seconds. Release any tension and enjoy the stretch.</p>
+
+                    <h2>2. Desk Workouts: Maintain Your Energy Level</h2>
+                    <p>It's easy to forget to move when spending a lot of time at a desk. However, basic desk exercises like shoulder rolls or sitting leg raises help maintain blood flow.</p>
+                    <p><strong>Try This:</strong> As you sit, raise each leg separately and hold it for a short while. Do this ten times for each leg. Despite its diminutive size, it provides a rapid surge of vitality!</p>
+
+                    <h2>3. Move Like No One Is Observing</h2>
+                    <p>Are you depressed or under stress? Dance about the house while listening to your favorite music! Dancing improves your mood, increases endorphins, and is a lot of fun, whether you're dancing for a full hour or just spinning about for a few minutes.</p>
+                    <p><strong>Try This:</strong> Choose a music that brings you joy, then spend five minutes dancing about your living room. If you include the entire family, bonus points!</p>
+
+                    <h2>4. Follow Your Path to Contentment</h2>
+                    <p>Despite being one of the easiest and most efficient methods to keep active, walking is an underappreciated type of exercise. You can improve circulation and decompress by taking a vigorous stroll through your neighborhood or a nearby park. It's also a great chance to get in touch with nature!</p>
+                    <p><strong>Try This:</strong> Make walking for ten to twenty minutes a daily objective. Enjoy the fresh air, catch up with a buddy, or listen to a podcast at this time.</p>
+
+                    <h2>5. Have Fun and Get Well</h2>
+                    <p>It may surprise you to learn that laughing is a natural kind of workout. It works your abs, activates your diaphragm, and helps increase circulation. The body's natural "feel-good" hormones, endorphins, are also released when you laugh.</p>
+                    <p><strong>Try This:</strong> Look for something that makes you laugh, whether it's a joke, a hilarious video, or a conversation with a friend. You'll feel better the more you laugh.</p>
+
+                    <h2>Why It Is Important</h2>
+                    <p>Being active has mental health benefits in addition to physical ones. Frequent exercise improves mood, lowers stress, and increases self-confidence. Every movement you do, whether it's stretching in the morning or going for a lunchtime stroll, contributes to a happier, healthier you.</p>
+
+                    <p>Therefore, just move without overthinking things. Your body and mind will appreciate a simple stretch or a dancing break. Keep in mind that happiness is in the small things, and that moving is an easy yet effective method to make your day better.</p>
+
+                    <h2>It's Your Turn</h2>
+                    <p>What simple routines or active habits keep you feeling happy and energized? Let's encourage each another to stay active and healthy! Leave your thoughts in the comments section below.</p>
+                `
             }
         };
 
@@ -588,11 +1347,30 @@
 
         if (postId && posts[postId]) {
             const post = posts[postId];
-            document.title = `${post.title} - Physio Prisma`;
+            document.title = `${post.title} - Physioprisma`;
             document.getElementById('post-title').textContent = post.title;
             document.getElementById('post-image').src = post.image;
             document.getElementById('post-image').alt = post.title;
             document.getElementById('post-content').innerHTML = post.content;
+
+            if (post.author) {
+                const authorHeaderEl = document.getElementById('post-author');
+                if (authorHeaderEl) authorHeaderEl.textContent = post.author.startsWith('By ') ? post.author : 'By ' + post.author;
+                const authorNameEl = document.getElementById('author-name');
+                if (authorNameEl) authorNameEl.textContent = post.author.replace(/^By\s+/i, '');
+            }
+            if (post.authorRole) {
+                const authorRoleEl = document.getElementById('author-role');
+                if (authorRoleEl) authorRoleEl.textContent = post.authorRole;
+            }
+            if (post.authorImage) {
+                const authorImgEl = document.getElementById('author-img');
+                if (authorImgEl) authorImgEl.src = post.authorImage;
+            }
+            if (post.date) {
+                const dateEl = document.getElementById('post-date');
+                if (dateEl) dateEl.textContent = post.date;
+            }
 
             // Randomize background image slightly or set a fixed one
             // document.getElementById('post-hero').style.backgroundImage = `linear-gradient(rgba(107, 70, 193, 0.8), rgba(59, 130, 246, 0.8)), url('${post.image}')`;
@@ -607,9 +1385,29 @@
 
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            menuBtn.querySelector('i').classList.toggle('fa-bars');
-            menuBtn.querySelector('i').classList.toggle('fa-times');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
+
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
     </script>
 
     <!-- Fixed WhatsApp Floating Button -->
@@ -621,3 +1419,4 @@
 </body>
 
 </html>
+

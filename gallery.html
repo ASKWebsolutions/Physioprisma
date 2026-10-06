@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Physio Prisma</title>
+    <title>Gallery - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
     <style>
         :root {
@@ -14,134 +17,250 @@
             --blue: #0ea5e9;
             --light-purple: #f3e8ff;
             --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
         }
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .logo-font { font-family: 'Playfair Display', serif; }
-        .nav-link { position: relative; }
-        .nav-link:after { content: ''; position: absolute; width: 0; height: 3px; bottom: -4px; left: 0; background: linear-gradient(to right, var(--purple), var(--blue)); transition: width 0.4s; }
-        .nav-link:hover:after { width: 100%; }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
         .gallery-img {
             transition: all 0.4s ease;
         }
+
         .gallery-img:hover {
             transform: scale(1.05);
             filter: brightness(0.85);
         }
+
         .tab-active {
             background: linear-gradient(to right, var(--purple), var(--blue));
             color: white;
             border-color: transparent;
         }
+
         .reel-video {
             aspect-ratio: 9 / 16;
         }
     </style>
 </head>
-<body class="bg-gray-50">
+
+<body>
 
     <!-- ==================== NAVBAR ==================== -->
     <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
+            <div class="flex justify-between items-center h-16 md:h-20">
+
+                <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo" 
-                         class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                        class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                     <div>
-                        <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare 
+                        <span
+                            class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                            Physioprisma
                         </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)</p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr.
+                            Sultan Zaidi (PT)</p>
                     </div>
                 </a>
 
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About Us</a>
-
-                    <!-- <div class="group relative">
-                        <a href="#" class="nav-link text-gray-700 hover:text-[var(--purple)] transition flex items-center gap-1">
-                            Our Clinic
-                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 group-hover:rotate-180"></i>
-                        </a>
-                        <div class="absolute left-0 mt-4 w-64 bg-white shadow-2xl rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100">
-                            <a href="https://wa.link/zxbynh" target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                            <a href="https://wa.link/zxbynh" target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
+                <!-- Desktop Menu - Hide from 768px and below -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn"
+                            class="nav-link inline-flex items-center gap-2 bg-transparent border-none cursor-pointer focus:outline-none"
+                            type="button" onclick="toggleDesktopProjects()">
+                            Projects <i
+                                class="fa-solid fa-chevron-down text-[0.85rem] transition-transform duration-300"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
                         </div>
-                    </div> -->
-
-                    <a href="gallery.html" class="nav-link text-[var(--purple)] hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+                    </div>
                 </div>
 
-                <!-- <a href="shop.html" 
-                   class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105 whitespace-nowrap">
+                <!-- Book Appointment Button - Show only on large screens -->
+                <a href="shop.html"
+                    class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
                     Shop Now
-                </a> -->
+                </a>
 
-                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+                <!-- Hamburger Button - Show from 768px and below -->
+                <button id="mobile-menu-btn"
+                    class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-            <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-                <a href="about.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About Us</a>
+        <div id="mobile-menu"
+            class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+            <div class="px-5 py-4 space-y-1">
+                <a href="about.html"
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About
+                    Us</a>
+                <a href="gallery.html"
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+                <a href="contact.html"
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()"
+                    class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow"
+                        class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr.
+                        Sultan Zaidi Physiotherapy Center</a>
+                    <a href="clinic.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                    <a href="courses.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                    <a href="shop.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                    <a href="blog.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare
+                        Blogs</a>
+                </div>
 
-                <!-- <div class="w-full">
-                    <button id="mobile-clinic-btn" 
-                            class="w-full flex justify-between items-center px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">
-                        Our Clinic
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200" id="mobile-chevron"></i>
-                    </button>
-                    <div id="mobile-clinic-dropdown" class="hidden pl-8 mt-2 space-y-2 border-l-2 border-purple-200">
-                        <a href="clinic.html" 
-    class="block py-3 text-gray-600 hover:text-[var(--purple)]">Clinic Services</a>
-                        <a href="https://wa.link/zxbynh" target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                        <a href="https://wa.link/zxbynh" target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                    </div>
-                </div> -->
-
-                <a href="gallery.html" class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-                <a href="contact.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
-
-                <!-- <a href="shop.html" class="block mt-6 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-center py-4 rounded-2xl font-bold shadow-lg">Shop Now</a> -->
+                <a href="shop.html"
+                    class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                    Shop Now
+                </a>
             </div>
         </div>
     </nav>
-
-    <!-- Gallery Header -->
-    <section class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white py-20">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold logo-font mb-4">Our Gallery</h1>
-            <p class="text-xl text-white/90 max-w-2xl mx-auto">
-                Moments of healing, recovery, and excellence at Physio Prisma
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-12 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold logo-font text-white mb-4 md:mb-6">Our Gallery</h1>
+            <p class="text-base sm:text-xl text-white max-w-3xl mx-auto">
+                Moments of healing, recovery, and excellence at Physioprisma
             </p>
         </div>
     </section>
 
     <!-- Tabs -->
     <div class="sticky top-0 bg-white shadow z-40">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex border-b">
-                <button onclick="showTab(0)" id="tab-0"
-                        class="tab-active flex-1 md:flex-none px-8 py-5 font-semibold text-lg border-b-4 border-transparent">
-                    All Photos
+        <div class="max-w-7xl mx-auto px-2 sm:px-6">
+            <div class="flex border-b overflow-x-auto scrollbar-hide">
+                <button onclick="showTab(4)" id="tab-4"
+                    class="tab-active flex-shrink-0 px-4 sm:px-8 py-3 sm:py-5 font-semibold text-sm sm:text-lg border-b-4 border-transparent whitespace-nowrap">
+                    Dry Needling Workshop 1
                 </button>
-                <button onclick="showTab(2)" id="tab-2"
-                        class="flex-1 md:flex-none px-8 py-5 font-semibold text-lg border-b-4 border-transparent hover:text-[var(--purple)]">
-                    Videos & Reels
+                <button onclick="showTab(3)" id="tab-3"
+                    class="flex-shrink-0 px-4 sm:px-8 py-3 sm:py-5 font-semibold text-sm sm:text-lg border-b-4 border-transparent hover:text-[var(--purple)] whitespace-nowrap">
+                    Dry Needling Workshop 2
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Photos Grid -->
-    <section id="photos" class="py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- <section id="photos" class="py-8 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div class="gallery-img overflow-hidden rounded-3xl shadow">
                     <img src="./img/gallery image (1).jpeg" class="w-full h-full object-cover" alt="Treatment">
                 </div>
@@ -156,14 +275,14 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Videos & Reels Section -->
-    <section id="videos" class="py-16 bg-gray-100 hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Videos & Reels</h2>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- <section id="videos" class="py-8 sm:py-16 bg-gray-100 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Videos & Reels</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div class="bg-white rounded-3xl overflow-hidden shadow">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted>
@@ -201,152 +320,446 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <!-- Footer -->
- <footer class="bg-gray-900 text-white pt-16 pb-8">
-    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+    <!-- ==================== DRY NEEDLING WORKSHOP 2 SECTION ==================== -->
+    <section id="southcity" class="py-8 sm:py-16 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <!-- Top Row -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
-
-            <!-- LEFT: Logo + Tagline -->
-            <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
-                <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                         class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
-                </a>
-                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
-                </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
-            </div>
-
-            <!-- CENTER: Explore Links -->
-            <div class="flex flex-col items-center text-center">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
-                <ul class="space-y-3 text-gray-400 text-sm">
-                    <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
-                    <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
-                    <li>
-                        <button onclick="toggleClinicDropdown()"
-                            class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
-                            Our Clinic
-                            <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
-                        </button>
-                        <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
-                        </div>
-                        
-                    </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
-                    <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
-                    <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
-                    <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- RIGHT: Social + CTA -->
-            <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
-                <div class="flex gap-4 text-2xl mb-6">
-                    <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
+            <!-- Section Header -->
+            <div class="text-center mb-10 sm:mb-14">
+                <span
+                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-sm font-semibold px-5 py-2 rounded-full mb-4 tracking-wider uppercase">Workshop
+                    Highlights</span>
+                <h2
+                    class="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent mb-4">
+                    Dry Needling Workshop 2</h2>
+                <p class="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">A hands-on dry needling workshop experience focused on practical learning, movement recovery, and clinical application.</p>
+                <div class="mt-6 text-base sm:text-lg font-semibold text-gray-700">
+                    <span class="text-[var(--purple)]">Location:</span> South City institute of physical therapy
                 </div>
-                <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
-                <a href="contact.html"
-                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
-                    Get In Touch
-                </a>
+            </div>
+
+            <!-- Photos Sub-section -->
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3">
+                <span
+                    class="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-sm"><i
+                        class="fa-solid fa-image"></i></span>
+                Photos
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/3.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/5.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/7.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/9.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/10.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/11.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/12.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/southcity/13.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                </div>
+            </div>
+
+            <!-- Videos Sub-section -->
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3">
+                <span
+                    class="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-sm"><i
+                        class="fa-solid fa-video"></i></span>
+                Videos
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/southcity/1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/southcity/2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/southcity/4.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/southcity/6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/southcity/7.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
             </div>
 
         </div>
-    </div>
+    </section>
 
-    <!-- Bottom Bar -->
-    <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
-    </div>
-</footer>
+    <!-- ==================== DRY NEEDLING WORKSHOP 1 SECTION ==================== -->
+    <section id="prism" class="py-8 sm:py-16 bg-gray-50 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Section Header -->
+            <div class="text-center mb-10 sm:mb-14">
+                <span
+                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-sm font-semibold px-5 py-2 rounded-full mb-4 tracking-wider uppercase">Workshop
+                    Highlights</span>
+                <h2
+                    class="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent mb-4">
+                    Dry Needling Workshop 1</h2>
+                <p class="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">A focused dry needling workshop session designed to strengthen hands-on skills, anatomy understanding, and safe clinical practice.</p>
+                <div class="mt-6 text-base sm:text-lg font-semibold text-gray-700">
+                    <span class="text-[var(--purple)]">Location:</span> Pakistan institute of rehabilitation and medcine sciences
+                </div>
+            </div>
+
+            <!-- Photos Sub-section -->
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3">
+                <span
+                    class="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-sm"><i
+                        class="fa-solid fa-image"></i></span>
+                Photos
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/1.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/2.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/3.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/4.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/5.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/6.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/7.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/8.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/9.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/10.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+                <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="./img/prism/11.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                </div>
+            </div>
+
+            <!-- Videos Sub-section -->
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3">
+                <span
+                    class="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-sm"><i
+                        class="fa-solid fa-video"></i></span>
+                Videos
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/13.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/14.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/15.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/16.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/17.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/18.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/19.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/20.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/21.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/22.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/23.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/24.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
+                    <div class="reel-video bg-black">
+                        <video width="100%" height="100%" controls muted playsinline>
+                            <source src="./img/prism/25.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+            <!-- Top Row -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+                <!-- LEFT: Logo + Tagline -->
+                <div
+                    class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                    <a href="home.html">
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                            class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                    </a>
+                    <p
+                        class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                        Physioprisma
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
+                </div>
+
+                <!-- CENTER: Explore Links -->
+                <div class="flex flex-col items-center text-center">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                        <li>
+                            <button onclick="toggleClinicDropdown()"
+                                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                                Our Clinic
+                                <i id="clinic-arrow"
+                                    class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                            </button>
+                            <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi
+                                    Physiotherapy Center</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma
+                                    Clinic</a>
+                            </div>
+
+                        </li>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a>
+                        </li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT: Social + CTA -->
+                <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                    <div class="flex gap-4 text-2xl mb-6">
+                        <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"
+                            aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"
+                            aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"
+                            aria-label="Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"
+                            aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                    <a href="contact.html"
+                        class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                        Get In Touch
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 mt-14 pt-6">
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Floating WhatsApp -->
     <a href="https://wa.link/lcqilt" target="_blank"
-       class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300">
+        class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300">
         <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
     </a>
 
     <script>
         // Tab Switching
         function showTab(n) {
-            document.getElementById('photos').classList.add('hidden');
-            document.getElementById('videos').classList.add('hidden');
+            document.getElementById('southcity').classList.add('hidden');
+            document.getElementById('prism').classList.add('hidden');
 
-            if (n === 0) document.getElementById('photos').classList.remove('hidden');
-            else if (n === 2) document.getElementById('videos').classList.remove('hidden');
+            if (n === 3) document.getElementById('southcity').classList.remove('hidden');
+            else if (n === 4) document.getElementById('prism').classList.remove('hidden');
 
-            for (let i = 0; i < 3; i++) {
+            [3, 4].forEach(i => {
                 const tab = document.getElementById('tab-' + i);
                 if (tab) {
                     if (i === n) tab.classList.add('tab-active');
                     else tab.classList.remove('tab-active');
                 }
-            }
+            });
         }
 
         // Mobile Menu
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.querySelector('i').classList.toggle('fa-bars');
-            menuBtn.querySelector('i').classList.toggle('fa-times');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuBtn.querySelector('i').classList.toggle('fa-bars');
+                menuBtn.querySelector('i').classList.toggle('fa-times');
+            });
+        }
+
+        const mobileProjectsBtn = document.getElementById('mobile-projects-btn');
+        const mobileProjectsDropdown = document.getElementById('mobile-projects-dropdown');
+        const mobileProjectsArrow = document.getElementById('mobile-projects-arrow');
+        if (mobileProjectsBtn && mobileProjectsDropdown) {
+            mobileProjectsBtn.addEventListener('click', () => {
+                mobileProjectsDropdown.classList.toggle('hidden');
+                if (mobileProjectsArrow) mobileProjectsArrow.classList.toggle('rotate-180');
+            });
+        }
+
+        // Default tab - Show Dry Needling Workshop 1
+        showTab(4);
+
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        // Optional: Close projects dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const desktopDropdown = document.getElementById('desktop-projects-dropdown');
+            const desktopBtn = document.getElementById('desktop-projects-btn');
+            const targetButton = e.target.closest('button');
+
+            if (desktopDropdown && desktopBtn && targetButton !== desktopBtn && !desktopBtn.contains(e.target) && !desktopDropdown.contains(e.target)) {
+                desktopDropdown.classList.add('hidden');
+            }
         });
-
-        // Mobile Clinic Dropdown
-        const clinicBtn = document.getElementById('mobile-clinic-btn');
-        const clinicDropdown = document.getElementById('mobile-clinic-dropdown');
-        const chevron = document.getElementById('mobile-chevron');
-        clinicBtn.addEventListener('click', () => {
-            clinicDropdown.classList.toggle('hidden');
-            chevron.classList.toggle('rotate-180');
-        });
-
-        // Default tab - Show Photos
-        showTab(0);
-        // Clinic Dropdown Toggle
-function toggleClinicDropdown() {
-    const dropdown = document.getElementById('clinic-dropdown');
-    dropdown.classList.toggle('hidden');
-}
-
-// Optional: Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('clinic-dropdown');
-    const button = e.target.closest('button');
-    
-    if (!button && !dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
-    }
-});
     </script>
 </body>
+
 </html>
+

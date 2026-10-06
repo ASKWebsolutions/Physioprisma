@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physio Prisma | Where Healing Meets Excellence</title>
+    <title>Physioprisma | Where Healing Meets Excellence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -13,84 +13,192 @@
             --purple: #6b21a8;
             --blue: #0ea5e9;
             --light-purple: #f3e8ff;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
         }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            scroll-behavior: smooth; 
-        }
-        .logo-font { 
-            font-family: 'Playfair Display', serif; 
-        }
-        .nav-link { 
-            position: relative; 
-        }
-        .nav-link:after { 
-            content: ''; 
-            position: absolute; 
-            width: 0; 
-            height: 3px; 
-            bottom: -4px; 
-            left: 0; 
-            background: linear-gradient(to right, var(--purple), var(--blue)); 
-            transition: width 0.4s; 
-        }
-        .nav-link:hover:after { width: 100%; }
 
-        /* HERO LAYOUT */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-trigger i {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
         .hero-wrapper {
             display: grid;
             grid-template-columns: 3fr 1fr;
-            height: 85vh;
+            height: 78vh;
             min-height: 520px;
         }
 
-        /* PROJECTS COLUMN - SINGLE COLUMN ON ALL SCREENS */
         .projects-col {
-            background: #fff;
+            background: var(--card);
             border-left: 1px solid #e5e7eb;
             display: flex;
             flex-direction: column;
             padding: 1.5rem 0 0 0;
             overflow: hidden;
         }
+
+        .projects-col h2 {
+            font-size: 2.4rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
         .project-item {
-            flex: 1;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0 1.25rem;
-            min-height: 72px;
+            padding: 0.95rem 1.25rem;
+            min-height: 68px;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: background 0.2s ease, transform 0.2s ease;
             border-bottom: 1px solid #f3f4f6;
         }
-        .project-item:last-child { 
-            border-bottom: none; 
+
+        .project-item:last-child {
+            border-bottom: none;
         }
+
         .project-item:hover {
             background: var(--light-purple);
+            transform: translateX(2px);
         }
-        .project-item:hover span { 
-            color: var(--purple); 
+
+        .project-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            text-align: center;
+            flex: 1;
+            display: block;
         }
-        .project-item:hover .proj-arrow { 
-            opacity: 1; 
-            transform: translateX(5px); 
-        }
+
         .proj-arrow {
             margin-left: auto;
             opacity: 0;
-            transition: all 0.25s;
-            font-size: 0.7rem;
+            transform: translateX(-4px);
+            transition: all 0.25s ease;
+            font-size: 0.8rem;
             color: var(--purple);
         }
 
-        /* Hero Slider */
+        .project-item:hover .proj-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
         .hero-slider {
             position: relative;
             overflow: hidden;
+            min-height: 520px;
         }
+
         .hero-slide {
             position: absolute;
             inset: 0;
@@ -100,9 +208,27 @@
             display: flex;
             align-items: center;
         }
+
         .hero-slide:not(.active) {
             opacity: 0;
             pointer-events: none;
+        }
+
+        .slide-title {
+            font-size: clamp(2.5rem, 4vw, 3.7rem);
+            letter-spacing: -0.04em;
+            max-width: 12ch;
+        }
+
+        .slide-desc {
+            font-size: 1rem;
+            max-width: 38rem;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .hero-slider .cta-button {
+            font-size: 0.98rem;
+            padding: 0.95rem 2rem;
         }
 
         .slider-dots {
@@ -114,24 +240,58 @@
             gap: 8px;
             z-index: 10;
         }
+
         .dot {
-            width: 8px; height: 8px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.55);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
+
         .dot.active {
             background: white;
             width: 24px;
             border-radius: 4px;
         }
 
-        /* ==================== RESPONSIVE ==================== */
+        .section-heading {
+            font-size: clamp(2rem, 2.4vw, 2.8rem);
+            letter-spacing: -0.03em;
+        }
+
+        .section-copy {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.65rem;
+        }
+
+        .card-copy {
+            font-size: 0.98rem;
+            color: #4b5563;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border-radius: 999px;
+            box-shadow: 0 18px 35px rgba(99, 102, 241, 0.18);
+        }
+
+        .btn-secondary {
+            font-size: 0.95rem;
+        }
+
         @media (max-width: 1024px) {
             .hero-wrapper {
                 grid-template-columns: 2.1fr 1fr;
-                min-height: 680px;
+                min-height: 640px;
             }
         }
 
@@ -145,7 +305,6 @@
                 height: 55vw;
                 min-height: 300px;
                 order: 1;
-                
             }
             .projects-col {
                 order: 2;
@@ -157,6 +316,7 @@
                 width: 100%;
                 min-height: 64px;
                 border-right: none;
+                padding: 0.85rem 1rem;
             }
         }
     </style>
@@ -166,31 +326,42 @@
     <!-- ==================== NAVBAR (Fixed for 768px) ==================== -->
 <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20 md:h-24">
+        <div class="flex justify-between items-center h-16 md:h-20">
 
             <!-- Logo -->
             <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                     class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                     class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                 <div>
-                    <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                         Prisma Healthcare 
+                    <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                         Physioprisma 
                     </span>
-                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)</p>
+                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
                 </div>
             </a>
 
             <!-- Desktop Menu - Hide from 768px and below -->
-            <div class="hidden lg:flex items-center gap-8 font-semibold">   <!-- Changed md to lg -->
-                <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About Us</a>
-                <a href="gallery.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                <a href="contact.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                <!-- <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a> -->
+            <div class="hidden lg:flex items-center gap-6 font-semibold">
+                <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                <div class="dropdown">
+                    <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+                        Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                    </button>
+                    <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                        <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                        <a href="clinic.html">Physioprisma Online Clinic</a>
+                        <a href="courses.html">Physioprisma Academy</a>
+                        <a href="shop.html">Physioprisma Shop</a>
+                        <a href="blog.html">Healthcare Blogs</a>
+                    </div>
+                </div>
             </div>
 
             <!-- Book Appointment Button - Show only on large screens -->
             <a href="shop.html" 
-               class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg transition-all text-sm">
+               class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
                 Shop Now
             </a>
 
@@ -207,10 +378,21 @@
             <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
             <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
             <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+            <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                <span>Projects</span>
+                <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+            </button>
+            <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+            </div>
             <!-- <a href="shop.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Shop</a> -->
             
             <a href="shop.html" 
-               class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-4 rounded-2xl font-semibold text-lg">
+               class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
                 Shop Now
             </a>
         </div>
@@ -228,11 +410,11 @@
                  style="background-image: url('https://img.freepik.com/free-psd/room-physiotherapy-generative-ai_587448-1945.jpg?semt=ais_hybrid&w=740&q=80');">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent"></div>
                 <div class="relative z-10 px-8 md:px-16 py-6 max-w-xl">
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold logo-font leading-tight text-white slide-title">Experience World-Class Care</h1>
-                    <p class="text-lg md:text-xl lg:text-2xl mt-6 text-white leading-relaxed slide-desc max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font leading-tight text-white slide-title">Experience World-Class Care</h1>
+                    <p class="text-base md:text-lg mt-6 text-white leading-relaxed slide-desc max-w-2xl">
                         Step into our modern, fully equipped physiotherapy clinic designed for your comfort and healing.</p>                    
                     <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
-                       class="mt-8 inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-9 py-3.5 rounded-full text-base font-bold shadow-xl hover:shadow-2xl transition">
+                       class="mt-8 inline-block btn-primary cta-button font-bold">
                         Book Appointment
                     </a>
                 </div>
@@ -243,11 +425,11 @@
                  style="background-image: url('https://img.freepik.com/free-photo/senior-man-rehabilitation-clinic_482257-90418.jpg?semt=ais_hybrid&w=740&q=80');">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent"></div>
                 <div class="relative z-10 px-8 md:px-16 py-6 max-w-xl">
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold logo-font leading-tight text-white slide-title">Master New Skills</h1>
-                    <p class="text-lg md:text-xl lg:text-2xl mt-6 text-white leading-relaxed slide-desc max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font leading-tight text-white slide-title">Master New Skills</h1>
+                    <p class="text-base md:text-lg mt-6 text-white leading-relaxed slide-desc max-w-2xl">
                         Join professional physiotherapy courses and workshops led by Dr. Sultan Zaidi and Dr. Tuba Sultan.</p>                    
                     <a href="courses.html"
-                       class="mt-8 inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-9 py-3.5 rounded-full text-base font-bold shadow-xl hover:shadow-2xl transition">
+                       class="mt-8 inline-block btn-primary cta-button font-bold">
                         Start Learning
                     </a>
                 </div>
@@ -258,12 +440,12 @@
                  style="background-image: url('https://img.freepik.com/free-photo/equipment-rehabilitation-interior-physiotherapy-clinic_1139-1202.jpg?semt=ais_incoming&w=740&q=80');">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent"></div>
                 <div class="relative z-10 px-8 md:px-16 py-6 max-w-xl">
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold logo-font leading-tight text-white slide-title">Recover Faster at Home</h1>
-                    <p class="text-lg md:text-xl lg:text-2xl mt-6 text-white leading-relaxed slide-desc max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font leading-tight text-white slide-title">Recover Faster at Home</h1>
+                    <p class="text-base md:text-lg mt-6 text-white leading-relaxed slide-desc max-w-2xl">
                         Premium rehabilitation products recommended by physiotherapists for your recovery.
                     </p>
-                    <a href="products.html"
-                       class="mt-8 inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-9 py-3.5 rounded-full text-base font-bold shadow-xl hover:shadow-2xl transition">
+                    <a href="shop.html"
+                       class="mt-8 inline-block btn-primary cta-button font-bold">
                         Buy Now
                     </a>
                 </div>
@@ -279,35 +461,35 @@
 
         <!-- Right: Our Projects -->
         <div class="projects-col">
-            <h2 class="text-3xl lg:text-4xl font-bold logo-font text-center mb-6 px-4 text-gray-800">Our Projects</h2>
+            <h2 class="text-3xl font-bold logo-font text-center mb-6 px-4 text-gray-800">Our Projects</h2>
             
             <a href="dr.sultan.html" class="project-item">
                 <i class="fa-solid fa-hospital text-[var(--purple)] w-5 text-center flex-shrink-0"></i>
-                <span class="text-base md:text-2xl font-medium text-gray-700 break-words flex-1">Dr. Sultan Zaidi Physiotherapy Center</span>
+                <span class="text-sm md:text-base font-medium text-gray-700 break-words flex-1">Dr. Sultan Zaidi's Physiotherapy Clinic</span>
                 <i class="fa-solid fa-chevron-right proj-arrow"></i>
             </a>
 
             <a href="clinic.html" class="project-item">
                 <i class="fa-solid fa-graduation-cap text-[var(--purple)] w-5 text-center flex-shrink-0"></i>
-                <span class="text-base md:text-2xl font-medium text-gray-700">Prisma Healthcare Clinic</span>
+                <span class="text-sm md:text-base font-medium text-gray-700">Physioprisma Online Clinic</span>
                 <i class="fa-solid fa-chevron-right proj-arrow"></i>
             </a>
 
             <a href="courses.html" class="project-item">
                 <i class="fa-solid fa-bag-shopping text-[var(--purple)] w-5 text-center flex-shrink-0"></i>
-                <span class="text-base md:text-2xl font-medium text-gray-700">Prisma Healthcare Academy</span>
+                <span class="text-sm md:text-base font-medium text-gray-700">Physioprisma Academy</span>
                 <i class="fa-solid fa-chevron-right proj-arrow"></i>
             </a>
 
             <a href="shop.html" class="project-item">
                 <i class="fa-solid fa-newspaper text-[var(--purple)] w-5 text-center flex-shrink-0"></i>
-                <span class="text-base md:text-2xl font-medium text-gray-700">Physio Prisma Shop</span>
+                <span class="text-sm md:text-base font-medium text-gray-700">Physioprisma Shop</span>
                 <i class="fa-solid fa-chevron-right proj-arrow"></i>
             </a>
 
             <a href="blog.html" class="project-item">
                 <i class="fa-solid fa-images text-[var(--purple)] w-5 text-center flex-shrink-0"></i>
-                <span class="text-base md:text-2xl font-medium text-gray-700">Healthcare Blogs</span>
+                <span class="text-sm md:text-base font-medium text-gray-700">Healthcare Blogs</span>
                 <i class="fa-solid fa-chevron-right proj-arrow"></i>
             </a>
         </div>
@@ -317,70 +499,70 @@
     <!-- Shop Categories Section -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold logo-font text-center mb-4">Our Shop Categories</h2>
-            <p class="text-center text-gray-600 mb-12">High-quality physiotherapy and rehabilitation products</p>
+            <h2 class="text-3xl font-bold logo-font text-center mb-4">Our Shop Categories</h2>
+            <p class="text-center section-copy mb-12">High-quality physiotherapy and rehabilitation products</p>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="./img/consumables image.jpg" alt="Consumables" class="w-full h-56 object-contain">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-2">Consumables</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Consumables</h3>
                         <p class="text-gray-600">Tape, Bandages, Needles, and Massage products for better recovery.</p>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="./img/Testing & Measurement image.jpg" alt="Testing & Measurement" class="w-full h-56 object-contain">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-2">Testing & Measurement</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Testing & Measurement</h3>
                         <p class="text-gray-600">Health Tests , Movement Tests, Scales and Physiological Measurement.</p>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="./img/Clinic Equipment image.jpg" alt="Clinic Equipment" class="w-full h-56 object-cover">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-2">Clinic Equipment</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Clinic Equipment</h3>
                         <p class="text-gray-600">Ergonomics , Education , Treatment & Exercise Room and Therapy.</p>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-12">
-                <a href="shop.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-5 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition">View All Products</a>
+                <a href="shop.html" class="inline-block btn-primary text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl hover:shadow-2xl transition">View All Products</a>
             </div>
         </div>
     </section>
 
     <!-- Courses Section -->
-    <section class="py-20 bg-white">
+    <section class=" bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold logo-font text-center mb-4">Our Popular Courses</h2>
-            <p class="text-center text-gray-600 mb-12">Professional training workshops led by Dr. Sultan Zaidi</p>
+            <h2 class="text-3xl font-bold logo-font text-center mb-4">Our Popular Courses</h2>
+            <p class="text-center section-copy mb-12">Professional training workshops led by Dr. Sultan Zaidi</p>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="img/dry cupping image on home.jpg" alt="Dry Cupping" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Dry Cupping Therapy (Level 1 & 2)</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">Dry Cupping Therapy (Level 1 & 2)</h3>
                         <p class="text-gray-600 line-clamp-3">Master static and dynamic cupping techniques for pain relief and muscle recovery.</p>
-                        <div class="mt-6 text-sm text-gray-500">2 Days • Certification Included</div>
+                        <div class="mt-6 text-sm text-gray-500">2 Days - Certification Included</div>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="./img/dry needling on home.jpg" alt="Dry Needling" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Dry Needling – Basic to Advanced</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">Dry Needling - Basic to Advanced</h3>
                         <p class="text-gray-600 line-clamp-3">Learn trigger point dry needling for effective muscle pain relief and improved mobility.</p>
-                        <div class="mt-6 text-sm text-gray-500">3 Days • Hands-on Training</div>
+                        <div class="mt-6 text-sm text-gray-500">3 Days - Hands-on Training</div>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 hover:border-[var(--purple)] transition-all">
                     <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="K-Taping" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">K-Taping Certification</h3>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">K-Taping Certification</h3>
                         <p class="text-gray-600 line-clamp-3">Therapeutic taping for pain relief, posture correction, and sports performance.</p>
-                        <div class="mt-6 text-sm text-gray-500">2 Days • Includes Taping Kit</div>
+                        <div class="mt-6 text-sm text-gray-500">2 Days - Includes Taping Kit</div>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-12">
-                <a href="courses.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-5 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition">View All Courses</a>
+                <a href="courses.html" class="inline-block btn-primary text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl hover:shadow-2xl transition">View All Courses</a>
             </div>
         </div>
     </section>
@@ -388,33 +570,45 @@
     <!-- Blog Section -->
     <section class="py-20 bg-gradient-to-b from-[var(--light-purple)] to-white">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold logo-font text-center mb-4">Latest from Our Blog</h2>
-            <p class="text-center text-gray-600 mb-12">Expert tips, recovery guides, and health insights</p>
+            <h2 class="text-3xl font-bold logo-font text-center mb-4">Latest from Our Blog</h2>
+            <p class="text-center section-copy mb-12">Expert tips, recovery guides, and health insights</p>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Back Pain" class="w-full h-52 object-cover">
+                    <img src="https://img.freepik.com/free-photo/physiotherapist-doing-healing-treatment-womans-back-back-pain-patient-treatment-medical-doctor-massage-therapistoffice-syndrome_657921-323.jpg?semt=ais_hybrid&w=740&q=80" alt="Heat Therapy" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">How to Relieve Chronic Back Pain Without Surgery</h3>
-                        <p class="text-gray-600 line-clamp-3">Discover proven non-invasive techniques that have helped hundreds of our patients live pain-free.</p>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">How Heat Therapy Can Help Reduce Menstrual Cramps Naturally</h3>
+                        <p class="text-gray-600 line-clamp-3">For many women, dysmenorrhea, or menstrual cramps, can be a monthly struggle. Heat therapy is one of the best non-invasive treatments for menstrual cramps...</p>
+                        <div class="flex items-center justify-between mt-6">
+                            <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                            <span class="text-gray-500 text-sm italic">by Dr Tuba Sultan</span>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl">
-                    <img src="./img/dry needling blog on home.jpg" alt="Dry Needling" class="w-full h-52 object-cover">
+                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop" alt="Orthotic Insoles" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">What Is Dry Needling and How Can It Help You?</h3>
-                        <p class="text-gray-600 line-clamp-3">A powerful technique for releasing muscle knots and reducing chronic pain explained simply.</p>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">How Orthotic Insoles Can Help You Walk Pain-Free and Reduce Plantar Fasciitis</h3>
+                        <p class="text-gray-600 line-clamp-3">A common foot condition called plantar fasciitis is typified by a sharp, stabbing pain in the heel. Orthotic insoles have revolutionized management...</p>
+                        <div class="flex items-center justify-between mt-6">
+                            <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                            <span class="text-gray-500 text-sm italic">by Dr Sultan Zaidi</span>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-xl">
-                    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800" alt="Cupping" class="w-full h-52 object-cover">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1000&auto=format&fit=crop" alt="Steam Inhaler" class="w-full h-52 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">Benefits of Dry Cupping for Muscle Recovery</h3>
-                        <p class="text-gray-600 line-clamp-3">How cupping therapy improves blood flow and speeds up recovery after intense activity.</p>
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-3">How Steam Inhalers Can Help To Reduce Sinus Pressure Naturally</h3>
+                        <p class="text-gray-600 line-clamp-3">Frequently brought on by colds or allergies, sinus pressure can be annoying. A steam inhaler is a natural and efficient substitute for pharmaceuticals...</p>
+                        <div class="flex items-center justify-between mt-6">
+                            <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                            <span class="text-gray-500 text-sm italic">by Dr Tuba Sultan</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-12">
-                <a href="blog.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-5 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition">View More Articles</a>
+                <a href="blog.html" class="inline-block btn-primary text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl hover:shadow-2xl transition">View More Articles</a>
             </div>
         </div>
     </section>
@@ -429,14 +623,13 @@
             <!-- LEFT: Logo + Tagline -->
             <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                 <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
                          class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                 </a>
                 <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
+                    Physioprisma
                 </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
+                <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
             </div>
 
             <!-- CENTER: Explore Links -->
@@ -452,12 +645,12 @@
                             <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
                         </button>
                         <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
+                            <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
                         </div>
                         
                     </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
                     <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
                     <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
                     <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
@@ -477,12 +670,12 @@
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
+                    <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
                         rel="noopener noreferrer"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
                         <i class="fa-brands fa-facebook"></i>
                     </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
+                    <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
                         rel="noopener noreferrer"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
                         <i class="fa-brands fa-linkedin"></i>
@@ -500,7 +693,7 @@
 
     <!-- Bottom Bar -->
     <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+        <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
     </div>
 </footer>
 
@@ -516,7 +709,7 @@
         <div class="bg-white rounded-3xl max-w-md w-full mx-4 overflow-hidden shadow-2xl">
             <div class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] px-6 py-4 flex justify-between items-center">
                 <h3 class="text-white font-bold text-xl">Latest Announcement</h3>
-                <button onclick="closePopup()" class="text-white text-4xl leading-none hover:scale-110 transition">×</button>
+                <button onclick="closePopup()" class="text-white text-4xl leading-none hover:scale-110 transition">&times;</button>
             </div>
             <div class="p-8 text-center">
                 <img src="https://picsum.photos/id/1015/600/400" alt="Grand Opening" class="w-full rounded-2xl mb-6 shadow">
@@ -582,20 +775,50 @@
             if (e.target === this) closePopup();
         });
         // Clinic Dropdown Toggle
-function toggleClinicDropdown() {
-    const dropdown = document.getElementById('clinic-dropdown');
-    dropdown.classList.toggle('hidden');
-}
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
 
-// Optional: Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('clinic-dropdown');
-    const button = e.target.closest('button');
-    
-    if (!button && !dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
-    }
-});
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            dropdown.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            dropdown.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        // Optional: Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const clinicDropdown = document.getElementById('clinic-dropdown');
+            const clinicButton = e.target.closest('button[onclick="toggleClinicDropdown()"]');
+            const projectsDropdown = document.getElementById('mobile-projects-dropdown');
+            const projectsButton = e.target.closest('button[onclick="toggleProjectsDropdown()"]');
+            const desktopProjectsDropdown = document.getElementById('desktop-projects-dropdown');
+            const desktopProjectsButton = e.target.closest('button[onclick="toggleDesktopProjects()"]');
+
+            if (!clinicButton && !e.target.closest('#clinic-dropdown') && !clinicDropdown.classList.contains('hidden')) {
+                clinicDropdown.classList.add('hidden');
+            }
+
+            if (!projectsButton && !e.target.closest('#mobile-projects-dropdown') && !projectsDropdown.classList.contains('hidden')) {
+                projectsDropdown.classList.add('hidden');
+                document.getElementById('mobile-projects-arrow').classList.remove('rotate-180');
+            }
+
+            if (!desktopProjectsButton && !e.target.closest('#desktop-projects-dropdown') && !desktopProjectsDropdown.classList.contains('hidden')) {
+                desktopProjectsDropdown.classList.add('hidden');
+                const desktopArrow = document.querySelector('#desktop-projects-btn i');
+                if (desktopArrow) desktopArrow.classList.remove('rotate-180');
+            }
+        });
     </script>
 </body>
 </html>
+

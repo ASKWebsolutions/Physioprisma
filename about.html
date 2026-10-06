@@ -1,212 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Physio Prisma</title>
+  <title>About Us - Physioprisma</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
   <style>
     :root {
-      --purple: #6b46c1;
-      --blue: #3b82f6;
+      --purple: #6b21a8;
+      --blue: #0ea5e9;
       --light-purple: #f3e8ff;
+      --light-blue: #e0f2fe;
+      --text: #1f2937;
+      --muted: #52565f;
+      --card: #ffffff;
     }
-    .hero-bg {
-      background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), 
-                  url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic') center/cover no-repeat;
+
+    * {
+      box-sizing: border-box;
     }
-    .section-header {
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: #f8fafc;
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .logo-font {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: -0.04em;
+    }
+
+    .nav-link {
       position: relative;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      color: #374151;
     }
-    .glow-title {
-      transition: all 0.3s ease;
-      position: relative;
-      display: inline-block;
-    }
-    .glow-title:hover {
-      text-shadow: 0 0 15px rgba(107, 70, 193, 0.4);
-      color: var(--purple);
-    }
-    .glow-title::after {
+
+    .nav-link:after {
       content: '';
       position: absolute;
       width: 0;
-      height: 3px;
-      bottom: -6px;
+      height: 2px;
+      bottom: -4px;
       left: 0;
       background: linear-gradient(to right, var(--purple), var(--blue));
       transition: width 0.3s ease;
-      border-radius: 9999px;
     }
-    .glow-title:hover::after {
-      width: 100%;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
-    }
-    #contact-area{
-          font-size: 2rem;
-          padding-left: 1rem;
-        }
-         /* WhatsApp Button Enhancement */
-.fixed {
-    box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
-}
 
-.fixed:hover {
-    box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
-}
+    .nav-link:hover:after {
+      width: 100%;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      color: #374151;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropdown-trigger i {
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 220px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+      padding: 0.75rem 0;
+      display: none;
+      z-index: 50;
+    }
+
+    .dropdown-menu:not(.hidden) {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #374151;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--light-purple);
+      color: var(--purple);
+    }
+
+    /* WhatsApp Button Enhancement */
+    .fixed {
+      box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
+    }
+
+    .fixed:hover {
+      box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
+    }
   </style>
 </head>
-<body class="bg-gray-50 font-sans">
 
-  <!-- ==================== UPDATED NAVBAR ==================== -->
-<nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20 md:h-24">
+      <div class="flex justify-between items-center h-16 md:h-20">
 
-            <!-- Logo (Clickable → Home) -->
-            <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo" 
-                     class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
-                <div>
-                    <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                        Prisma Healthcare 
-                    </span>
-                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)</p>
-                </div>
-            </a>
+        <!-- Logo -->
+        <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+            class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
+          <div>
+            <span
+              class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+              Physioprisma
+            </span>
+            <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi
+              (PT)</p>
+          </div>
+        </a>
 
-            <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-
-                <a href="about.html" class="nav-link text-[var(--purple)] hover:text-[var(--purple)] transition">About Us</a>
-
-                <!-- Our Clinic with Dropdown -->
-                <!-- <div class="group relative">
-                    <a href="clinic.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition flex items-center gap-1">
-                        Our Clinic
-                        <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 group-hover:rotate-180"></i>
-                    </a>
-                    <div class="absolute left-0 mt-4 w-64 bg-white shadow-2xl rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100">
-                        <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                        <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                    </div>
-                </div> -->
-
-                <a href="gallery.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                <a href="contact.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
-            </div>
-
-            <!-- Shop Now Button (Right Side) -->
-            <!-- <a href="shop.html" 
-               class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105 whitespace-nowrap">
-                Shop Now
-            </a> -->
-
-            <!-- Mobile Hamburger -->
-            <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
-                <i class="fa-solid fa-bars"></i>
+        <!-- Desktop Menu - Hide from 768px and below -->
+        <div class="hidden lg:flex items-center gap-6 font-semibold">
+          <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+          <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+          <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+          <div class="dropdown">
+            <button id="desktop-projects-btn" class="dropdown-trigger nav-link hover:text-[var(--purple)] transition"
+              type="button" onclick="toggleDesktopProjects()">
+              Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
             </button>
+            <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+              <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+              <a href="clinic.html">Physioprisma Online Clinic</a>
+              <a href="courses.html">Physioprisma Academy</a>
+              <a href="shop.html">Physioprisma Shop</a>
+              <a href="blog.html">Healthcare Blogs</a>
+            </div>
+          </div>
         </div>
+
+        <!-- Book Appointment Button - Show only on large screens -->
+        <a href="shop.html"
+          class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+          Shop Now
+        </a>
+
+        <!-- Hamburger Button - Show from 768px and below -->
+        <button id="mobile-menu-btn"
+          class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-        <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-            
-            <a href="about.html" class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">About Us</a>
-
-            <!-- Our Clinic Dropdown (Mobile) -->
-            <!-- <div class="w-full">
-                <button id="mobile-clinic-btn" 
-                        class="w-full flex justify-between items-center px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">
-                    Our Clinic
-                    <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200" id="mobile-chevron"></i>
-                </button>
-                <div id="mobile-clinic-dropdown" class="hidden pl-8 mt-2 space-y-2 border-l-2 border-purple-200">
-                  <a href="clinic.html" 
-    class="block py-3 text-gray-600 hover:text-[var(--purple)]">Clinic Services</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                </div>
-            </div> -->
-
-            <a href="gallery.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-            <a href="contact.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-            <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
-
-            <!-- Shop Now Button in Mobile Menu -->
-            <!-- <a href="shop.html" 
-               class="block mt-6 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-center py-4 rounded-2xl font-bold shadow-lg">
-                Shop Now
-            </a> -->
+    <div id="mobile-menu"
+      class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+      <div class="px-5 py-4 space-y-1">
+        <a href="about.html"
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About
+          Us</a>
+        <a href="gallery.html"
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+        <a href="contact.html"
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+        <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()"
+          class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+          <span>Projects</span>
+          <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+        </button>
+        <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+          <a href="dr.sultan.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr.
+            Sultan Zaidi's Physiotherapy Clinic</a>
+          <a href="clinic.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Online Clinic</a>
+          <a href="courses.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Academy</a>
+          <a href="shop.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Shop</a>
+          <a href="blog.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare
+            Blogs</a>
         </div>
+        <!-- <a href="shop.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Shop</a> -->
+
+        <a href="shop.html"
+          class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+          Shop Now
+        </a>
+      </div>
     </div>
-</nav>
+  </nav>
 
   <!-- ==================== HERO SECTION ==================== -->
-  <section class="hero-bg text-white py-16 md:py-24">
-    <div class="max-w-6xl mx-auto px-5 text-center">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">About Prisma Healthcare</h1>
-       <p class="text-xl md:text-2xl text-white leading-relaxed mb-6">
-            Prisma Healthcare is an integrated healthcare organization founded in Pakistan. We specialize in combining high-standard clinical care, professional healthcare education, and the supply of world-class medical & rehabilitation equipment.
-          </p>
-
-      <!-- Stats - Enhanced with Glassmorphism -->
-      <!-- <div class="mt-16 grid grid-cols-3 gap-8 md:gap-16 max-w-4xl mx-auto backdrop-blur-md bg-white/10 p-8 md:p-12 rounded-[2rem] border border-white/20 shadow-2xl">
-        <div class="text-center">
-          <div class="text-4xl md:text-6xl font-extrabold text-white mb-2">2018</div>
-          <div class="text-sm md:text-base tracking-widest font-semibold uppercase text-white/90">Foundation</div>
-        </div>
-        <div class="text-center border-x border-white/10 px-4">
-          <div class="text-4xl md:text-6xl font-extrabold text-white mb-2">Clinician</div>
-          <div class="text-sm md:text-base tracking-widest font-semibold uppercase text-white/90">Driven</div>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl md:text-6xl font-extrabold text-white mb-2">5+</div>
-          <div class="text-sm md:text-base tracking-widest font-semibold uppercase text-white/90">Sub-Domains</div>
-        </div>
-      </div> -->
+  <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font text-white mb-6">About Us</h1>
+      <p class="text-base md:text-lg text-white max-w-3xl mx-auto">Physioprisma is Pakistan's integrated healthcare
+        organization - uniting clinical care, professional healthcare education, and premium treatment equipments under
+        one trusted name. Everything we offer is built by practicing clinicians, for patients and professionals alike.
+      </p>
     </div>
   </section>
 
-    <!-- ==================== DR. TUBA - CEO ==================== -->
+  <!-- ==================== DR. TUBA - CEO ==================== -->
   <section class="py-16 md:py-24 bg-white">
     <div class="max-w-6xl mx-auto px-5">
       <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
         <div class="md:col-span-5">
           <div class="rounded-3xl overflow-hidden shadow-2xl border-8 border-[var(--light-purple)]">
-            <img src="./img/dr-tuba.jpeg" 
-                 alt="Dr. Tuba Sultan - Founder & CEO" class="w-full h-auto object-cover">
+            <img src="./img/dr-tuba.jpeg" alt="Dr. Tuba Sultan - Founder & CEO" class="w-full h-auto object-cover">
           </div>
         </div>
         <div class="md:col-span-7">
           <div class="flex items-center gap-4 mb-4">
-            <span class="px-5 py-2 bg-[var(--purple)] text-white text-xs font-bold rounded-full uppercase tracking-widest">Founder & CEO</span>
+            <span
+              class="px-5 py-2 bg-[var(--purple)] text-white text-xs font-bold rounded-full uppercase tracking-widest">Founder
+              & CEO</span>
           </div>
-          <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-2">
+          <h2 class="text-3xl font-bold text-gray-800 mb-2">
             <span class="glow-title">Dr. Tuba Sultan</span>
           </h2>
-          <p class="text-[var(--purple)] text-lg font-medium mb-8">Consultant Physiotherapist | Clinical Researcher</p>
-          
+          <p class="text-[var(--purple)] text-lg font-medium mb-8">Consultant Physiotherapist | Clinical Researcher <br>
+            2+ Years of Clinical & Leadership Experience</p>
           <div class="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
             <p>
-              Dr. Tuba Sultan is a Consultant Physiotherapist graduated from the United College of Physical Therapy, a Certified Aesthetic Practitioner, Clinical Researcher, and licensed ACLS & BLS provider. As the Founder & CEO of Prisma Healthcare, she is dedicated to delivering ethical, evidence-based, and patient-centered rehabilitation care.
+              Dr. Tuba Sultan is a Consultant Physiotherapist graduated from the United College of Physical Therapy, a
+              Certified Aesthetic Practitioner, Clinical Researcher, and licensed ACLS & BLS provider. As the Founder &
+              CEO of Physioprisma, she is dedicated to delivering ethical, evidence-based, and patient-centered
+              rehabilitation care, with a strong focus on professionalism, compassion, and clinical excellence.
             </p>
             <p>
-              Her clinical expertise spans pain management and rehabilitation across orthopedic, musculoskeletal, neurological, gynaecological, pediatric, and geriatric conditions. Beyond direct patient care, Dr. Tuba actively ensures that both professionals and patients have access to clinically reliable treatment solutions and high-quality equipment.
+              Her clinical expertise spans pain management and rehabilitation across orthopedic, musculoskeletal,
+              neurological, gynaecological, pediatric, and geriatric conditions. She brings hands-on experience in
+              patient care, and healthcare management, always prioritizing recovery, and long-term wellness.
             </p>
             <p>
-              She is equally passionate about clinical education and has developed a learning platform that promotes practical training and continuous professional education through hands-on learning initiatives.
+              Beyond direct patient care, Dr. Tuba actively contributes to improving healthcare accessibility by
+              ensuring that both professionals and patients have access to clinically reliable treatment solutions and
+              high-quality physiotherapy equipment.
+            </p>
+            <p>
+              She is equally passionate about clinical education and professional development. Dr. Tuba is developed a
+              learning platform for healthcare professionals that promotes practical training, clinical skill-building,
+              and continuous professional education through hands-on learning initiatives including workshops and
+              courses.
+            </p>
+            <p>
+              Committed to innovation in physiotherapy practice, she integrates modern rehabilitation approaches and
+              evidence-based techniques to advance standards of care and improve patient outcomes across the field.
             </p>
           </div>
-          
+
           <!-- <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm">
             <div class="bg-gray-50 p-6 rounded-2xl border-l-4 border-[var(--purple)]">
               <h5 class="font-bold mb-3 text-gray-800 uppercase tracking-wider flex items-center gap-2">
@@ -232,25 +326,39 @@
       <div class="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
         <div class="md:col-span-7 order-2 md:order-1">
           <div class="flex items-center gap-4 mb-4">
-            <span class="px-5 py-2 bg-[var(--blue)] text-white text-xs font-bold rounded-full uppercase tracking-widest">Co-Founder & Director</span>
+            <span
+              class="px-5 py-2 bg-[var(--blue)] text-white text-xs font-bold rounded-full uppercase tracking-widest">Co-Founder
+              & Director</span>
           </div>
-          <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-2">
+          <h2 class="text-3xl font-bold text-gray-800 mb-2">
             <span class="glow-title">Dr. Syed Sultan Ahmed Zaidi</span>
           </h2>
-          <p class="text-[var(--blue)] text-lg font-medium mb-8">Rehabilitation Specialist | Consultant Physiotherapist</p>
-          
+          <p class="text-[var(--blue)] text-lg font-medium mb-8">Consultant Physiotherapist in Medicare cardiac &
+            general hospital | Rehabilitation Specialist
+            4+ Years of Experience
+          </p>
+
           <div class="space-y-4 text-gray-700 leading-relaxed text-sm md:text-base">
             <p>
-              Dr. Syed Sultan Ahmed Zaidi is a dedicated Consultant Physiotherapist from Ziauddin University and a UK-certified practitioner of Dry Needling and Dynamic Cupping. He currently serves at Medicare Cardiac & General Hospital as a senior consultant.
+              Dr. Syed Sultan Ahmed Zaidi is a dedicated Consultant Physiotherapist from Ziauddin University. He is a
+              UK-certified practitioner of Dry Needling and Dynamic Cupping. With over four years of hands-on clinical
+              experience in musculoskeletal, neurological, cardiac, orthopaedic, and sports rehabilitation, he is
+              committed to helping patients regain mobility, reduce pain, and improve quality of life through
+              evidence-based, patient-centered care.
             </p>
             <p>
-              With over four years of hands-on clinical experience in musculoskeletal, neurological, cardiac, orthopaedic, and sports rehabilitation, he is committed to helping patients regain mobility and improve quality of life through tailored, evidence-based care.
+              As Co-Founder & Director of Physioprisma, Dr. Zaidi is driven by a belief in clinical excellence,
+              continuous learning, and accessible rehabilitation for all. His approach combines modern physiotherapy
+              techniques with compassionate patient management, ensuring every treatment plan is tailored to the
+              individual needs of each patient.
             </p>
             <p>
-              As Director of Prisma Healthcare, Dr. Zaidi focuses on clinical excellence and developing learning platforms that bridge the gap between academic knowledge and clinical skill development for the next generation of healthcare professionals.
+              In addition to his clinical role, Dr. Zaidi is actively involved in developing a learning platform for
+              healthcare professionals under the umbrella of Physioprisma, focused on clinical skill development,
+              hands-on training, and continuous medical education to advance physiotherapy practice.
             </p>
           </div>
-          
+
           <!-- <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm">
             <div class="bg-white p-6 rounded-2xl border-l-4 border-[var(--blue)] shadow-sm">
               <h5 class="font-bold mb-3 text-gray-800 uppercase tracking-wider flex items-center gap-2">
@@ -266,11 +374,11 @@
             </div>
           </div> -->
         </div>
-        
+
         <div class="md:col-span-5 order-1 md:order-2">
           <div class="rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
-            <img src="./img/image.jpeg" 
-                 alt="Dr. Syed Sultan Ahmed Zaidi - Co-Founder" class="w-full h-auto object-cover">
+            <img src="./img/image.jpeg" alt="Dr. Syed Sultan Ahmed Zaidi - Co-Founder"
+              class="w-full h-auto object-cover">
           </div>
         </div>
       </div>
@@ -283,13 +391,13 @@
       <div class="grid md:grid-cols-12 gap-10 md:gap-12 items-center">
         <div class="md:col-span-7">
             <h2 class="section-header text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center md:text-left">
-              <span class="glow-title">Prisma Healthcare</span>
+              <span class="glow-title">Physioprisma</span>
             </h2>
           <p class="text-base md:text-lg text-gray-700 leading-relaxed mb-6 italic font-medium">
             "Driven by clinicians who practice what they preach."
           </p>
           <p class="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
-            Prisma Healthcare is an integrated healthcare organization founded in Pakistan. We specialize in combining high-standard clinical care, professional healthcare education, and the supply of world-class medical & rehabilitation equipment.
+            Physioprisma is an integrated healthcare organization founded in Pakistan. We specialize in combining high-standard clinical care, professional healthcare education, and the supply of world-class medical & rehabilitation equipment.
           </p>
           <p class="text-base md:text-lg text-gray-700 leading-relaxed">
             Our mission is to create a seamless ecosystem where patients receive expert treatment, professionals gain hands-on expertise, and everyone has access to the tools they need for a faster, more effective recovery.
@@ -314,7 +422,7 @@
         <div class="md:col-span-5">
           <div class="rounded-3xl overflow-hidden shadow-2xl bg-white p-6 border-4 border-[var(--light-purple)]">
             <img src="./img/logo pic (2).jpg" 
-                 alt="Prisma Healthcare Logo" class="w-full h-auto object-contain">
+                 alt="Physioprisma Logo" class="w-full h-auto object-contain">
           </div>
         </div>
       </div>
@@ -325,87 +433,100 @@
   <section class="py-16 md:py-20 bg-[var(--light-purple)]">
     <div class="max-w-6xl mx-auto px-5">
       <div class="text-center mb-16">
-        <p class="text-[var(--purple)] font-bold mb-4 uppercase tracking-widest text-sm italic">"Driven by clinicians who practice what they preach"</p>
-        <h2 class="section-header text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">
+        <p class="text-[var(--purple)] font-bold mb-4 uppercase tracking-widest text-sm italic">"Driven by clinicians
+          who practice what they preach"</p>
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
           <span class="glow-title">Our Core Projects</span>
         </h2>
-        <p class="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
-          An integrated organization founded in Pakistan, combining clinical care, healthcare education and medical & rehabilitation equipment supply under one trusted brand.
+        <p class="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          An integrated organization founded in Pakistan, combining clinical care, healthcare education and medical &
+          rehabilitation equipment supply under one trusted brand.
         </p>
       </div>
-      
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Project 1 -->
-        <a href="shop.html" class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 lg:col-span-2">
-          <div class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:rotate-12 transition">
-            🛒
+        <a href="shop.html"
+          class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 lg:col-span-2">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition">
+            <i class="fa-solid fa-cart-shopping"></i>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">PhysioPrisma Shop</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Physioprisma Shop</h3>
           <p class="text-gray-600 text-base mb-6">
-            Premium rehabilitation, treatment & sports recovery equipment — clinician-approved with nationwide delivery.
+            Premium rehabilitation, treatment & sports recovery equipment - clinician-approved with nationwide delivery.
           </p>
           <span class="text-[var(--purple)] font-medium flex items-center gap-2">
-            Visit Shop 
+            Visit Shop
             <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
           </span>
         </a>
 
         <!-- Project 2 -->
-        <a href="clinic.html" class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
-          <div class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:rotate-12 transition">
-            🏥
+        <a href="clinic.html"
+          class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition">
+            <i class="fa-solid fa-hospital"></i>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Dr. Sultan Zaidi Physiotherapy Center</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Dr. Sultan Zaidi's Physiotherapy Clinic</h3>
           <p class="text-gray-600 text-base mb-6">
-            Advanced physiotherapy, pain management & rehab services — available in-clinic, at home, or via online consultation.
+            Advanced physiotherapy, pain management & rehab services - available in-clinic, at home, or via online
+            consultation.
           </p>
           <span class="text-[var(--purple)] font-medium flex items-center gap-2">
-            View Center 
+            View Center
             <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
           </span>
         </a>
 
         <!-- Project 3 -->
-        <a href="clinic.html" class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
-          <div class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:rotate-12 transition">
-            🏢
+        <a href="clinic.html"
+          class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition">
+            <i class="fa-solid fa-laptop-medical"></i>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Prisma Healthcare Clinic</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Physioprisma Online Clinic</h3>
           <p class="text-gray-600 text-base mb-6">
-            A modern multi-specialty facility for clinical care across disciplines including paediatrics, aesthetics, and women's health.
+            A modern multi-specialty facility for clinical care across disciplines including paediatrics, aesthetics,
+            and women's health.
           </p>
           <span class="text-[var(--purple)] font-medium flex items-center gap-2">
-            Learn More 
+            Learn More
             <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
           </span>
         </a>
 
         <!-- Project 4 -->
-        <a href="courses.html" class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
-          <div class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:rotate-12 transition">
-            🎓
+        <a href="courses.html"
+          class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition">
+            <i class="fa-solid fa-graduation-cap"></i>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Prisma Healthcare Academy</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Physioprisma Academy</h3>
           <p class="text-gray-600 text-base mb-6">
             Professional certification programs & hands-on workshops for healthcare students and professionals.
           </p>
           <span class="text-[var(--purple)] font-medium flex items-center gap-2">
-            Join Academy 
+            Join Academy
             <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
           </span>
         </a>
 
         <!-- Project 5 -->
-        <a href="blog.html" class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
-          <div class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:rotate-12 transition">
-            ✍️
+        <a href="blog.html"
+          class="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition">
+            <i class="fa-solid fa-pen-nib"></i>
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Healthcare Blogs</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Healthcare Blogs</h3>
           <p class="text-gray-600 text-base mb-6">
             Expert tips, equipment guides & health insights from our professionals and the wider healthcare community.
           </p>
           <span class="text-[var(--purple)] font-medium flex items-center gap-2">
-            Read Insights 
+            Read Insights
             <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
           </span>
         </a>
@@ -416,167 +537,161 @@
   <!-- ==================== FINAL CTA ==================== -->
   <section class="py-16 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white">
     <div class="max-w-4xl mx-auto text-center px-5">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">Join the Physio Prisma Family</h2>
-      <p class="text-lg md:text-xl mb-10 opacity-90">Whether you need treatment, want to learn, or are looking for quality products — we are here for you.</p>
+      <h2 class="text-3xl font-bold mb-4">Join the Physioprisma Family</h2>
+      <p class="text-lg md:text-xl mb-10 opacity-90">Whether you need treatment, want to learn, or are looking for
+        quality products - we are here for you.</p>
       <a href="https://wa.link/zxbynh" target="_blank"
-         class="inline-flex items-center gap-3 bg-white text-[var(--purple)] font-bold text-lg md:text-xl px-10 py-5 rounded-3xl hover:scale-105 transition">
+        class="inline-flex items-center gap-3 bg-white text-[var(--purple)] font-bold text-lg md:text-xl px-10 py-5 rounded-3xl hover:scale-105 transition">
         <i class="fa-solid fa-phone-volume"></i>
-        Talk to Us Today: 03340249667
+        Talk to Us Today: +923340249667
       </a>
     </div>
   </section>
-<!-- Updated Responsive Footer -->
- <footer class="bg-gray-900 text-white pt-16 pb-8">
+  <!-- Updated Responsive Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-6 sm:px-8">
 
-        <!-- Top Row -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+      <!-- Top Row -->
+      <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
 
-            <!-- LEFT: Logo + Tagline -->
-            <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
-                <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                         class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
-                </a>
-                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
-                </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
-            </div>
-
-            <!-- CENTER: Explore Links -->
-            <div class="flex flex-col items-center text-center">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
-                <ul class="space-y-3 text-gray-400 text-sm">
-                    <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
-                    <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
-                    <li>
-                        <button onclick="toggleClinicDropdown()"
-                            class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
-                            Our Clinic
-                            <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
-                        </button>
-                        <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
-                        </div>
-                        
-                    </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
-                    <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
-                    <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
-                    <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- RIGHT: Social + CTA -->
-            <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
-                <div class="flex gap-4 text-2xl mb-6">
-                    <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                </div>
-                <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
-                <a href="contact.html"
-                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
-                    Get In Touch
-                </a>
-            </div>
-
+        <!-- LEFT: Logo + Tagline -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+          <a href="home.html">
+            <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+              class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+          </a>
+          <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+            Physioprisma
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
         </div>
+
+        <!-- CENTER: Explore Links -->
+        <div class="flex flex-col items-center text-center">
+          <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+          <ul class="space-y-3 text-gray-400 text-sm">
+            <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+            <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+            <li>
+              <button onclick="toggleClinicDropdown()"
+                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                Our Clinic
+                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy
+                  Clinic</a>
+                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+              </div>
+
+            </li>
+            <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+            <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+            <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- RIGHT: Social + CTA -->
+        <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+          <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+          <div class="flex gap-4 text-2xl mb-6">
+            <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"
+              aria-label="WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"
+              aria-label="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"
+              aria-label="Facebook">
+              <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank" rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"
+              aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+          </div>
+          <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+          <a href="contact.html"
+            class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+            Get In Touch
+          </a>
+        </div>
+
+      </div>
     </div>
 
     <!-- Bottom Bar -->
     <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+      <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
     </div>
-</footer>
+  </footer>
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
-    // Mobile Menu Toggle
+    // Mobile menu toggle
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
     menuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
-      const icon = menuBtn.querySelector('i');
-      icon.classList.toggle('fa-bars');
-      icon.classList.toggle('fa-xmark');
+      // Optional: change icon to X when open
+      menuBtn.querySelector('i').classList.toggle('fa-bars');
+      menuBtn.querySelector('i').classList.toggle('fa-times');
     });
 
-    // Mobile Services Dropdown
-    // const servicesBtn = document.getElementById('mobile-services-btn');
-    // const servicesDropdown = document.getElementById('mobile-services-dropdown');
-    // const chevron = document.getElementById('mobile-chevron');
-
-    // if (servicesBtn && servicesDropdown && chevron) {
-    //   servicesBtn.addEventListener('click', (e) => {
-    //     e.stopPropagation();
-    //     servicesDropdown.classList.toggle('hidden');
-    //     chevron.style.transform = servicesDropdown.classList.contains('hidden') 
-    //       ? 'rotate(0deg)' 
-    //       : 'rotate(180deg)';
-    //   });
-    // }
-
-     // Mobile Clinic Dropdown
-const clinicBtn = document.getElementById('mobile-clinic-btn');
-const clinicDropdown = document.getElementById('mobile-clinic-dropdown');
-const chevron = document.getElementById('mobile-chevron');
-
-clinicBtn.addEventListener('click', () => {
-    clinicDropdown.classList.toggle('hidden');
-    chevron.classList.toggle('rotate-180');
-});
-// Clinic Dropdown Toggle
-function toggleClinicDropdown() {
-    const dropdown = document.getElementById('clinic-dropdown');
-    dropdown.classList.toggle('hidden');
-}
-
-// Optional: Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('clinic-dropdown');
-    const button = e.target.closest('button');
-    
-    if (!button && !dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
+    // Clinic Dropdown Toggle
+    function toggleClinicDropdown() {
+      const dropdown = document.getElementById('clinic-dropdown');
+      dropdown.classList.toggle('hidden');
     }
-});
+
+    function toggleProjectsDropdown() {
+      const dropdown = document.getElementById('mobile-projects-dropdown');
+      const arrow = document.getElementById('mobile-projects-arrow');
+      if (dropdown) dropdown.classList.toggle('hidden');
+      if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function toggleDesktopProjects() {
+      const dropdown = document.getElementById('desktop-projects-dropdown');
+      const arrow = document.querySelector('#desktop-projects-btn i');
+      if (dropdown) dropdown.classList.toggle('hidden');
+      if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    // Optional: Close dropdown when clicking outside
+    document.addEventListener('click', function (e) {
+      const dropdown = document.getElementById('clinic-dropdown');
+      const button = e.target.closest('button');
+
+      if (!button && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+    });
   </script>
 
   <!-- Fixed WhatsApp Floating Button -->
-<a href="https://wa.link/lcqilt" 
-   target="_blank"
-   class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
-    
+  <a href="https://wa.link/lcqilt" target="_blank"
+    class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+
     <!-- WhatsApp Icon -->
     <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
-    
+
     <!-- Optional Tooltip -->
-    <span class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
-        Chat on WhatsApp
+    <span
+      class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+      Chat on WhatsApp
     </span>
-</a>
+  </a>
 
 </body>
+
 </html>

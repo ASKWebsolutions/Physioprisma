@@ -6,17 +6,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop - Physio Therapy Products</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+    rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+
   <style>
     :root {
-      --purple: #6b46c1;
-      --blue: #3b82f6;
+      --purple: #6b21a8;
+      --blue: #0ea5e9;
       --light-purple: #f3e8ff;
+      --light-blue: #e0f2fe;
+    }
+
+    .logo-font {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: -0.04em;
+    }
+
+    .nav-link {
+      position: relative;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: linear-gradient(to right, var(--purple), var(--blue));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover:after {
+      width: 100%;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      color: #374151;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropdown-trigger i {
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-trigger i {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      left: 0;
+      min-width: 220px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+      padding: 0.75rem 0;
+      display: none;
+      z-index: 50;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #374151;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--light-purple);
+      color: var(--purple);
     }
 
     .hero-bg {
-      background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic') center/cover no-repeat;
+      background: linear-gradient(rgba(107, 33, 168, 0.92), rgba(14, 165, 233, 0.92)),
+        url('https://source.unsplash.com/random/1600x900/?physiotherapy-products') center/cover no-repeat;
+    }
+
+    .product-card {
+      transition: all 0.4s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -12px rgba(107, 33, 168, 0.25);
     }
 
     .active-category {
@@ -25,74 +123,103 @@
       border-color: var(--purple);
     }
 
-    #contact-area {
-      font-size: 2rem;
-      padding-left: 1rem;
+    .product-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
     }
 
-    /* WhatsApp Button Enhancement */
-    .fixed {
-      box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
+    .order-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 140px;
+      padding: 0.8rem 1rem;
+      border-radius: 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+      color: white;
+      box-shadow: 0 12px 24px -14px rgba(109, 40, 217, 0.8);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
     }
 
-    .fixed:hover {
-      box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
+    .order-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px -16px rgba(59, 130, 246, 0.8);
+    }
+
+    @media (max-width: 480px) {
+      .product-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .order-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-gray-50 font-sans">
 
   <!-- ==================== NAVBAR ==================== -->
   <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20 md:h-24">
+      <div class="flex justify-between items-center h-16 md:h-20">
 
-        <!-- Logo (Clickable to Home) -->
+        <!-- Logo -->
         <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+          <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
             class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
           <div>
             <span
-              class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-              Prisma Healthcare
+              class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
+              Physioprisma
             </span>
-            <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)</p>
+            <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi
+              (PT)</p>
           </div>
         </a>
 
         <!-- Desktop Menu -->
-        <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-          <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About Us</a>
-
-          <!-- Our Clinic Dropdown -->
-          <!-- <div class="group relative">
-                        <a href="clinic.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition flex items-center gap-1">
-                            Our Clinic
-                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 group-hover:rotate-180"></i>
-                        </a>
-                        <div class="absolute left-0 mt-4 w-64 bg-white shadow-2xl rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100">
-                            <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                        <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                        </div>
-                    </div> -->
-
-          <a href="gallery.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-          <a href="contact.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-          <a href="shop.html" class="nav-link text-[var(--purple)] hover:text-[var(--purple)] transition">Shop</a>
+        <div class="hidden lg:flex items-center gap-6 font-semibold">
+          <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+          <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+          <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+          <div class="dropdown">
+            <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+              Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+            </button>
+            <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+              <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+              <a href="clinic.html">Physioprisma Online Clinic</a>
+              <a href="courses.html">Physioprisma Academy</a>
+              <a href="shop.html">Physioprisma Shop</a>
+              <a href="blog.html">Healthcare Blogs</a>
+            </div>
+          </div>
         </div>
 
-        <!-- Shop Now Button -->
-        <!-- <a href="shop.html" 
-                   class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105 whitespace-nowrap">
-                    Shop Now
-                </a> -->
+        <!-- Shop Button -->
+        <a href="shop.html"
+          class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+          Shop Now
+        </a>
 
-        <!-- Mobile Hamburger -->
+        <!-- Hamburger -->
         <button id="mobile-menu-btn"
-          class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+          class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
           <i class="fa-solid fa-bars"></i>
         </button>
       </div>
@@ -103,254 +230,172 @@
       class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
       <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
         <a href="about.html"
-          class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About
           Us</a>
-
-        <!-- Our Clinic Mobile Dropdown -->
-        <!-- <div class="w-full">
-                    <button id="mobile-clinic-btn" 
-                            class="w-full flex justify-between items-center px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">
-                        Our Clinic
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200" id="mobile-chevron"></i>
-                    </button>
-                    <div id="mobile-clinic-dropdown" class="hidden pl-8 mt-2 space-y-2 border-l-2 border-purple-200">
-                        <a href="clinic.html" 
-    class="block py-3 text-gray-600 hover:text-[var(--purple)]">Clinic Services</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                    </div>
-                </div> -->
-
         <a href="gallery.html"
-          class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
         <a href="contact.html"
-          class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
+          class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+        <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()"
+          class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+          <span>Projects</span>
+          <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+        </button>
+        <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+          <a href="dr.sultan.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr.
+            Sultan Zaidi's Physiotherapy Clinic</a>
+          <a href="clinic.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Online Clinic</a>
+          <a href="courses.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Academy</a>
+          <a href="shop.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+            Shop</a>
+          <a href="blog.html"
+            class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare
+            Blogs</a>
+        </div>
         <a href="shop.html"
-          class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
-
-        <!-- <a href="shop.html" 
-                   class="block mt-6 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-center py-4 rounded-2xl font-bold shadow-lg">
-                    Shop Now
-                </a> -->
+          class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+          Shop Now
+        </a>
       </div>
     </div>
   </nav>
 
-
-  <!-- Hero -->
-  <section class="hero-bg py-10">
+  <!-- ==================== HERO SECTION (Unchanged as per your instruction) ==================== -->
+  <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
     <div class="max-w-7xl mx-auto px-6 text-center">
-      <h1 class="text-4xl md:text-6xl font-bold logo-font text-white mb-6">PhysioPrisma Shop</h1>
-      <h1 class="text-4xl font-bold logo-font text-white mb-6">Clinical-grade products for patients &amp; professionals
-      </h1>
-      <h1 class="text-3xl  font-extrabold logo-font text-black mb-6">A Project of Prisma Healthcare</h1>
-      <p class="text-lg font-medium text-white max-w-5xl mx-auto">PhysioPrisma Shop is the official retail arm of Prisma
-        Healthcare, offering a carefully curated range of clinical-grade physiotherapy equipment, orthopedic supports,
-        orthosis, prosthesis and wellness products. Whether you are a healthcare professional equipping your clinic or a
-        patient continuing rehabilitation at home, our shop provides trusted, medically appropriate solutions to support
-        every stage of your recovery and wellbeing.</p>
+      <div
+        class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-6">
+        <span class="text-xs font-semibold tracking-[2px] text-white uppercase">Project of</span>
+        <span class="text-white font-bold logo-font tracking-wider text-lg">Physioprisma</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font text-white mb-6">Physioprisma Shop</h1>
+      <p class="text-xl md:text-2xl font-medium text-white/95 max-w-4xl mx-auto mb-4">
+        Clinical-grade products for patients & professionals
+      </p>
+      <p class="text-base md:text-lg text-white max-w-5xl mx-auto">
+        Physioprisma Shop is the official retail arm of Physioprisma, offering a carefully curated range of
+        clinical-grade physiotherapy equipment, orthopedic supports, orthosis, prosthesis and wellness products.
+      </p>
     </div>
   </section>
-  <!-- <div class="max-w-6xl mx-auto px-5 text-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4">PhysioPrisma Shop</h1>
-      <h1 class="text-2xl md:text-4xl font-bold mb-4">Clinical-grade products for patients & professionals</h1>
-      <p class="text-xl max-w-xl mx-auto">PhysioPrisma Shop is the official retail arm of Prisma Healthcare, offering a carefully curated range of clinical-grade physiotherapy equipment, orthopedic supports, orthosis, prosthesis and wellness products. Whether you are a healthcare professional equipping your clinic or a patient continuing rehabilitation at home, our shop provides trusted, medically appropriate solutions to support every stage of your recovery and wellbeing.</p>
-    </div>
-  </section> -->
 
-  <div class="max-w-6xl mx-auto px-5 py-10">
+  <!-- ==================== SHOP CONTENT ==================== -->
+  <div class="max-w-6xl mx-auto px-5 py-12">
 
-    <!-- Categories Sub Header -->
+    <!-- Categories -->
     <div class="mb-10">
       <h2 class="text-2xl font-semibold text-gray-800 mb-5">Categories</h2>
       <div id="categories" class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
-        <!-- Categories populated by JS -->
+        <!-- Populated by JS -->
       </div>
     </div>
 
     <!-- Products Grid -->
     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-      <!-- Products populated by JS -->
+      <!-- Populated by JS -->
     </div>
 
   </div>
 
-  <!-- Updated Responsive Footer -->
- <footer class="bg-gray-900 text-white pt-16 pb-8">
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-6 sm:px-8">
 
-        <!-- Top Row -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
 
-            <!-- LEFT: Logo + Tagline -->
-            <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
-                <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                         class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
-                </a>
-                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
-                </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
-            </div>
-
-            <!-- CENTER: Explore Links -->
-            <div class="flex flex-col items-center text-center">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
-                <ul class="space-y-3 text-gray-400 text-sm">
-                    <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
-                    <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
-                    <li>
-                        <button onclick="toggleClinicDropdown()"
-                            class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
-                            Our Clinic
-                            <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
-                        </button>
-                        <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
-                        </div>
-                        
-                    </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
-                    <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
-                    <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
-                    <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- RIGHT: Social + CTA -->
-            <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
-                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
-                <div class="flex gap-4 text-2xl mb-6">
-                    <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                </div>
-                <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
-                <a href="contact.html"
-                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
-                    Get In Touch
-                </a>
-            </div>
-
+        <!-- LEFT -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+          <a href="home.html">
+            <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+              class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+          </a>
+          <p
+            class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
+            Physioprisma
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed">By Dr Tuba Sultan and Dr Syed Sultan Ahmed Zaidi</p>
         </div>
+
+        <!-- CENTER -->
+        <div class="flex flex-col items-center text-center">
+          <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+          <ul class="space-y-3 text-gray-400 text-sm">
+            <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+            <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+            <li>
+              <button onclick="toggleClinicDropdown()"
+                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                Our Clinic
+                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+              </button>
+              <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy
+                  Clinic</a>
+                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+              </div>
+            </li>
+            <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+            <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+            <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+          <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+          <div class="flex gap-4 text-2xl mb-6">
+            <a href="https://wa.link/lcqilt" target="_blank"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i
+                class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"><i
+                class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"><i
+                class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
+              class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"><i
+                class="fa-brands fa-linkedin"></i></a>
+          </div>
+          <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+          <a href="contact.html"
+            class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+            Get In Touch
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Bottom Bar -->
     <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+      <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
     </div>
-</footer>
+  </footer>
 
   <script>
-    // All Products Data
+    // Products Data
     const products = [
-      {
-        id: 1,
-        category: "Massager",
-        name: "Glux massagar gun",
-        price: 10500,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP2qPq3Zxph6Gq4A1vHlxf9qDH4iRH41tuGA&s",
-        desc: ""
-      },
-      {
-        id: 2,
-        category: "Dry Needling",
-        name: "HUANQIU Dry Needling",
-        price: 2000,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkq6rtQLvNkndhsVktWSk1w97stGeanoCnxQ&s",
-        desc: ""
-      },
-      {
-        id: 3,
-        category: "Electrotherapy",
-        name: "Medicare Heating Pad",
-        price: 4500,
-        img: "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F13924.png&w=1280&q=50",
-        desc: ""
-      },
-      {
-        id: 4,
-        category: "Electrotherapy",
-        name: "Electrode Pad",
-        price: 450,
-        img: "https://static-01.daraz.pk/p/0b34e6c9a67478477a87fe1a49d871f2.jpg",
-        desc: ""
-      },
-      {
-        id: 5,
-        category: "Cupping",
-        name: "Therapeutic Cupping Sets",
-        price: 4000,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub8IdrJrLRzUZTWsbyX1d5uNrJ0bVjhW3EQ&s",
-        desc: ""
-      },
-      {
-        id: 6,
-        category: "Measuring Tools",
-        name: "1000 pulse Oximeter",
-        price: 1000,
-        img: "https://5.imimg.com/data5/SELLER/Default/2021/6/SF/JJ/QZ/37530758/fingertip-pulse-oximeter-500x500.jpeg",
-        desc: ""
-      },
-      {
-        id: 7,
-        category: "Electrotherapy",
-        name: "Mini TENS Machine",
-        price: 10000,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrYNQitZm-aDyVXHMfg5EiR1nJ_WvqHTD3jA&s",
-        desc: ""
-      },
-      {
-        id: 8,
-        category: "Exercise Tools",
-        name: "Lineup Exercise Ball",
-        price: 3500,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo8kCsa4qjjTsHnfG9PByy_h-jOAqf4x_zeg&s",
-        desc: ""
-      },
-      //   {
-      //     id: 9,
-      //     category: "Recovery",
-      //     name: "Ice Pack Gel Wrap",
-      //     price: 950,
-      //     img: "https://source.unsplash.com/random/600x400/?ice-pack",
-      //     desc: ""
-      //   },
-      //   {
-      //     id: 10,
-      //     category: "Training & Fitness",
-      //     name: "Resistance Bands Set",
-      //     price: 2200,
-      //     img: "https://source.unsplash.com/random/600x400/?resistance-band",
-      //     desc: "Professional exercise bands for jaw & neck"
-      //   }
+      { id: 1, category: "Massager", name: "Massager Gun (Single Head)", oldPrice: 2800, price: 2300, img: "./img/single head.jpeg" },
+      { id: 2, category: "Massager", name: "Massager Gun (Three Headed)", oldPrice: 3000, price: 2500, img: "./img/three-head.jpeg" },
+      { id: 3, category: "Massager", name: "Massager Gun (Five Headed)", oldPrice: 3500, price: 3000, img: "./img/five-head.jpeg" },
+      { id: 4, category: "Massager", name: "Massager Gun (Seven Headed)", oldPrice: 4000, price: 3500, img: "./img/seven-head.jpeg" },
+      { id: 5, category: "Massager", name: "Glux Massager Gun", oldPrice: 13000, price: 11000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP2qPq3Zxph6Gq4A1vHlxf9qDH4iRH41tuGA&s" },
+      { id: 6, category: "Dry Needling", name: "HUANQIU Dry Needling", oldPrice: 2800, price: 2350, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkq6rtQLvNkndhsVktWSk1w97stGeanoCnxQ&s" },
+      { id: 7, category: "Electrotherapy", name: "Medicare Heating Pad", oldPrice: 4000, price: 3750, img: "https://www.dvago.pk/_next/image?url=https%3A%2F%2Fdvago-assets.s3.ap-southeast-1.amazonaws.com%2FProductsImages%2F13924.png&w=1280&q=50" },
+      { id: 8, category: "Electrotherapy", name: "Electrode Pad", oldPrice: 600, price: 500, img: "https://static-01.daraz.pk/p/0b34e6c9a67478477a87fe1a49d871f2.jpg" },
+      { id: 9, category: "Cupping", name: "Therapeutic Cupping Sets", oldPrice: 1800, price: 1500, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub8IdrJrLRzUZTWsbyX1d5uNrJ0bVjhW3EQ&s" },
+      { id: 10, category: "Measuring Tools", name: "Pulse Oximeter", oldPrice: 600, price: 500, img: "https://5.imimg.com/data5/SELLER/Default/2021/6/SF/JJ/QZ/37530758/fingertip-pulse-oximeter-500x500.jpeg" },
+      { id: 11, category: "Electrotherapy", name: "Mini TENS Machine", oldPrice: 3000, price: 2500, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrYNQitZm-aDyVXHMfg5EiR1nJ_WvqHTD3jA&s" },
+      { id: 12, category: "Exercise Tools", name: "Lineup Exercise Ball", oldPrice: 3800, price: 3000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo8kCsa4qjjTsHnfG9PByy_h-jOAqf4x_zeg&s" }
     ];
 
-    const categories = [
-      "All", "Massager", "Dry Needling", "Electrotherapy",
-      "Cupping", "Measuring Tools", "Exercise Tools"
-    ];
+    const categories = ["All", "Massager", "Dry Needling", "Electrotherapy", "Cupping", "Measuring Tools", "Exercise Tools"];
 
     // Render Categories
     function renderCategories() {
@@ -372,30 +417,28 @@
       container.innerHTML = '';
 
       if (filteredProducts.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">No products found in this category.</p>`;
+        container.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">No products found.</p>`;
         return;
       }
 
       filteredProducts.forEach(product => {
         const card = document.createElement('div');
-        card.className = "bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition group";
+        card.className = "product-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition flex flex-col h-full";
         card.innerHTML = `
-          <div class="h-56 bg-gray-100 overflow-hidden">
-            <img src="${product.img}" alt="${product.name}" 
-                 class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+          <div class="h-56 bg-gray-100 overflow-hidden flex items-center justify-center p-4">
+            <img src="${product.img}" alt="${product.name}" class="w-full h-full object-contain transition duration-300">
           </div>
-          <div class="p-6">
-            <span class="text-xs font-medium text-[var(--purple)] bg-[var(--light-purple)] px-3 py-1 rounded-full">${product.category}</span>
-            <h3 class="font-semibold text-xl mt-4 mb-2 text-gray-800">${product.name}</h3>
-            <p class="text-gray-600 text-sm line-clamp-2 mb-5">${product.desc}</p>
+          <div class="p-6 flex-1 flex flex-col">
+            <span class="text-xs font-medium text-[var(--purple)] bg-[var(--light-purple)] px-3 py-1 rounded-full w-fit">${product.category}</span>
+            <h3 class="font-semibold text-xl mt-4 mb-4 text-gray-800 leading-tight">${product.name}</h3>
             
-            <div class="flex items-center justify-between">
-              <div>
-                <span class="text-2xl font-bold text-gray-900">Rs. ${product.price.toLocaleString()}</span>
+            <div class="product-footer">
+              <div class="flex flex-col items-start">
+                <span class="text-sm font-semibold text-black line-through">Rs. ${product.oldPrice.toLocaleString()}</span>
+                <span class="text-2xl font-extrabold text-[var(--purple)]">Rs. ${product.price.toLocaleString()}</span>
               </div>
-              <button onclick="addToCart(${product.id})"
-                class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-6 py-3 rounded-2xl font-medium hover:scale-105 transition flex items-center gap-2">
-                <i class="fa-solid fa-cart-plus"></i> Add
+              <button onclick="orderNow()" class="order-btn">
+                <i class="fa-brands fa-whatsapp"></i> Order Now
               </button>
             </div>
           </div>
@@ -404,15 +447,10 @@
       });
     }
 
-    // Filter Products
     function filterProducts(category) {
-      // Update active button
       document.querySelectorAll('#categories button').forEach(btn => {
-        if (btn.textContent === category) {
-          btn.classList.add('active-category');
-        } else {
-          btn.classList.remove('active-category');
-        }
+        if (btn.textContent === category) btn.classList.add('active-category');
+        else btn.classList.remove('active-category');
       });
 
       let filtered = products;
@@ -422,110 +460,52 @@
       renderProducts(filtered);
     }
 
-    // Simple Add to Cart (you can expand later)
-    function addToCart(id) {
-      alert("Product added to cart! (ID: " + id + ")\n\nYou can connect this to real cart functionality later.");
+    // Order Now - Opens WhatsApp
+    function orderNow() {
+      window.open('https://wa.link/lcqilt', '_blank');
     }
 
     // Initialize
     window.onload = () => {
       renderCategories();
-      renderProducts(products); // Show all by default
+      renderProducts(products);
     };
-  </script>
-  <script>
-    // Mobile menu toggle
+
+    // Mobile Menu
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
     menuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
-      // Optional: change icon to X when open
-      menuBtn.querySelector('i').classList.toggle('fa-bars');
-      menuBtn.querySelector('i').classList.toggle('fa-times');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
     });
-    // Smooth Hero Slider Logic
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.hero-slide');
 
-    function showSlide(n) {
-      slides.forEach(slide => slide.classList.remove('active'));
-      slides[n].classList.add('active');
-      currentSlide = n;
+    function toggleProjectsDropdown() {
+      const dropdown = document.getElementById('mobile-projects-dropdown');
+      const arrow = document.getElementById('mobile-projects-arrow');
+      if (dropdown) dropdown.classList.toggle('hidden');
+      if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
+    function toggleDesktopProjects() {
+      const dropdown = document.getElementById('desktop-projects-dropdown');
+      const arrow = document.querySelector('#desktop-projects-btn i');
+      if (dropdown) dropdown.classList.toggle('hidden');
+      if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    // Auto slide every 6 seconds
-    setInterval(nextSlide, 4000);
-
-    // Initialize
-    showSlide(0);
-  </script>
-  <script>
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const servicesBtn = document.getElementById('mobile-services-btn');
-    //     const servicesDropdown = document.getElementById('mobile-services-dropdown');
-    //     const chevron = document.getElementById('mobile-chevron');
-
-    //     if (servicesBtn && servicesDropdown && chevron) {
-    //         servicesBtn.addEventListener('click', function(e) {
-    //             e.stopPropagation(); // Prevent any parent clicks from interfering
-
-    //             // Toggle the dropdown visibility
-    //             servicesDropdown.classList.toggle('hidden');
-
-    //             // Rotate the chevron (smooth animation)
-    //             if (servicesDropdown.classList.contains('hidden')) {
-    //                 chevron.style.transform = 'rotate(0deg)';
-    //             } else {
-    //                 chevron.style.transform = 'rotate(180deg)';
-    //             }
-    //         });
-    //     }
-    // });
-
-    // Mobile Clinic Dropdown
-    const clinicBtn = document.getElementById('mobile-clinic-btn');
-    const clinicDropdown = document.getElementById('mobile-clinic-dropdown');
-    const chevron = document.getElementById('mobile-chevron');
-
-    clinicBtn.addEventListener('click', () => {
-      clinicDropdown.classList.toggle('hidden');
-      chevron.classList.toggle('rotate-180');
-    });
-    // Clinic Dropdown Toggle
     function toggleClinicDropdown() {
       const dropdown = document.getElementById('clinic-dropdown');
-      dropdown.classList.toggle('hidden');
+      if (dropdown) dropdown.classList.toggle('hidden');
     }
-
-    // Optional: Close dropdown when clicking outside
-    document.addEventListener('click', function (e) {
-      const dropdown = document.getElementById('clinic-dropdown');
-      const button = e.target.closest('button');
-
-      if (!button && !dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
-      }
-    });
   </script>
 
   <!-- Fixed WhatsApp Floating Button -->
   <a href="https://wa.link/lcqilt" target="_blank"
     class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
-
-    <!-- WhatsApp Icon -->
     <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
-
-    <!-- Optional Tooltip -->
-    <span
-      class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
-      Chat on WhatsApp
-    </span>
   </a>
 
 </body>

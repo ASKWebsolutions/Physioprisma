@@ -1,0 +1,23 @@
+<section class="hero-bg py-24 md:py-28 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-6">
+            <span class="text-xs font-semibold tracking-[2px] text-white uppercase">Project of</span>
+            <span class="text-white font-bold logo-font tracking-wider text-lg">Prisma Healthcare</span>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold logo-font text-white leading-tight mb-6">
+            Healthcare Blogs
+        </h1>
+        
+        <p class="text-xl md:text-2xl font-medium text-white/95 max-w-4xl mx-auto mb-4">
+            Evidence Based Articles For Patients & Clinicians
+        </p>
+
+        <p class="text-base md:text-lg text-white max-w-4xl mx-auto leading-relaxed">
+            The Prisma Healthcare Blog is your trusted source for evidence-based health information, clinical insights, and rehabilitation guidance. Written and reviewed by our clinical team.
+        </p>
+    </div>
+
+    <div class="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px] opacity-30"></div>
+</section>

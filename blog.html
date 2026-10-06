@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Physio Prisma</title>
+    <title>Blog - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    
     <style>
         :root {
             --purple: #6b21a8;
@@ -19,385 +17,618 @@
             --light-blue: #e0f2fe;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        .hero-bg {
-            background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic') center/cover no-repeat;
-        }
-
         .logo-font {
             font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
         }
 
         .nav-link {
             position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
-
         .nav-link:after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
+            height: 2px;
             bottom: -4px;
             left: 0;
             background: linear-gradient(to right, var(--purple), var(--blue));
-            transition: width 0.4s;
+            transition: width 0.3s ease;
         }
-
         .nav-link:hover:after {
             width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(107, 33, 168, 0.92), rgba(14, 165, 233, 0.92)), 
+                        url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic') center/cover no-repeat;
         }
 
         .blog-card {
             transition: all 0.4s ease;
             cursor: pointer;
         }
-
         .blog-card:hover {
             transform: translateY(-12px);
-            box-shadow: 0 25px 50px -12px rgba(107, 33, 168, 0.25);
-        }
-
-        .section-header:after {
-            content: '';
-            position: absolute;
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(to right, var(--purple), var(--blue));
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .fixed {
-            box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
-        }
-
-        .fixed:hover {
-            box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
-        }
-
-        .hidden-content {
-            display: none;
+            box-shadow: 0 25px 50px -12px rgba(107,33,168,0.25);
         }
     </style>
 </head>
+<body class="bg-gray-50 font-sans">
 
-<body class="bg-gray-50">
+<!-- ==================== NAVBAR ==================== -->
+<nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 md:h-20">
 
-    <!-- ==================== NAVBAR ==================== -->
-    <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
-
-                <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                        class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
-                    <div>
-                        <span
-                            class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare
-                        </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)
-                        </p>
-                    </div>
-                </a>
-
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About
-                        Us</a>
-                    <a href="gallery.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+            <!-- Logo -->
+            <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                     class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                <div>
+                    <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
+                        Physioprisma 
+                    </span>
+                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
                 </div>
+            </a>
 
-                <button id="mobile-menu-btn"
-                    class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-6 font-semibold">
+                <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                <a href="shop.html" class="nav-link hover:text-[var(--purple)] transition">Shop</a>
+                <div class="dropdown">
+                    <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+                        Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                    </button>
+                    <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                        <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                        <a href="clinic.html">Physioprisma Online Clinic</a>
+                        <a href="courses.html">Physioprisma Academy</a>
+                        <a href="shop.html">Physioprisma Shop</a>
+                        <a href="blog.html">Healthcare Blogs</a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div id="mobile-menu"
-            class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-            <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-                <a href="about.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About
-                    Us</a>
-                <a href="gallery.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-                <a href="contact.html"
-                    class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-                <a href="shop.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
+            <!-- Shop Button -->
+            <a href="shop.html" 
+               class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                Shop Now
+            </a>
+
+            <!-- Hamburger -->
+            <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+        <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+            <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+            <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+            <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                <span>Projects</span>
+                <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+            </button>
+            <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
             </div>
+            <a href="shop.html" 
+               class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                Shop Now
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- Page Header -->
-    <section class="hero-bg py-10">
+<!-- ==================== HERO SECTION ==================== -->
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold logo-font text-white mb-6">Healthcare Blogs</h1>
-            <h1 class="text-4xl font-extrabold logo-font text-white mb-6">Evidence Based Articles For Patients &
-                Clinicians</h1>
-            <h1 class="text-2xl font-extrabold logo-font text-black mb-6">A Project of Prisma Healthcare</h1>
-            <p class="text-xl font-medium text-white max-w-4xl mx-auto">The Prisma Healthcare Blog is your trusted
-                source for evidence-based health information, clinical insights, and rehabilitation guidance. Written
-                and reviewed by our clinical team, our articles bridge the gap between complex medical knowledge and
-                practical, accessible advice — empowering patients to make informed decisions and supporting healthcare
-                professionals with the latest developments in physiotherapy and allied health.</p>
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-6">
+            <span class="text-xs font-semibold tracking-[2px] text-white uppercase">Project of</span>
+            <span class="text-white font-bold logo-font tracking-wider text-lg">Physioprisma</span>
+        </div>
+            <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font text-white mb-6">Healthcare Blogs</h1>
+            <p class="text-xl md:text-2xl font-medium text-white/95 max-w-4xl mx-auto mb-4">
+            Evidence Based Articles For Patients & Clinicians
+            </p>
+            <p class="text-base md:text-lg text-white max-w-3xl mx-auto">The Physioprisma Blog is your trusted source for evidence-based health information, clinical insights, and rehabilitation guidance. Written and reviewed by our clinical team.
+        </p>
         </div>
     </section>
 
-    <!-- Blog Posts Grid -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- ==================== BLOG POSTS GRID ==================== -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-                <!-- Blog 1 - Heat Therapy for Menstrual Cramps -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=heat-therapy'">
-                    <img src="https://img.freepik.com/free-photo/physiotherapist-doing-healing-treatment-womans-back-back-pain-patient-treatment-medical-doctor-massage-therapistoffice-syndrome_657921-323.jpg?semt=ais_hybrid&w=740&q=80"
-                        alt="Heat Therapy" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Heat Therapy Can Help Reduce
-                            Menstrual Cramps Naturally</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">For many women, dysmenorrhea, or menstrual cramps, can be a monthly
-                                struggle. Heat therapy is one of the best non-invasive treatments for menstrual
-                                cramps...</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Tuba Sultan</span>
-                        </div>
+            <!-- Blog: Proprioception: Your Body's Sixth Sense -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=proprioception'">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1000&auto=format&fit=crop"
+                     alt="Proprioception: Your Body's Sixth Sense" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Proprioception: Your Body’s Sixth Sense</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Balance • Control • Movement • Injury Prevention. Proprioception helps us understand where our body is in space, how our joints are positioned, and how to train it to prevent injuries...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Physioprisma Clinical Team</span>
                     </div>
                 </div>
-
-                <!-- Blog 2 - Orthotic Insoles -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=orthotic-insoles'">
-                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop"
-                        alt="Orthotic Insoles" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Orthotic Insoles Can Help You Walk
-                            Pain-Free and Reduce Plantar Fasciitis</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">A common foot condition called plantar fasciitis is typified by a
-                                sharp, stabbing pain in the heel. Orthotic insoles have revolutionized management...</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Sultan Zaidi</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog 3 - Steam Inhalers -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=steam-inhalers'">
-                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1000&auto=format&fit=crop"
-                        alt="Steam Inhaler" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Steam Inhalers Can Help To Reduce
-                            Sinus Pressure Naturally</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">Frequently brought on by colds or allergies, sinus pressure can be
-                                annoying. A steam inhaler is a natural and efficient substitute for pharmaceuticals...
-                            </p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Tuba Sultan</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog 4 - Lower Back Pain -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=lower-back-pain'">
-                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop"
-                        alt="Back Pain Relief" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Managing Lower Back Pain Naturally: A
-                            Comprehensive Guide</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">Lower back discomfort frequently interferes with everyday
-                                activities. This blog examines practical strategies emphasizing the use of heating
-                                pads...</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Sultan Zaidi</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog 5 - Mental Health Technology -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=mental-health-tech'">
-                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop"
-                        alt="Mental Health Tech" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Revolutionizing Mental Health Care with
-                            Technology: Bridging the Gap</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">Technology is becoming a potent instrument to tackle mental health
-                                issues, providing creative answers for assistance, diagnosis, and therapy...</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Tuba Sultan</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog 6 - Diabetes Management Technology -->
-                <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-                    onclick="window.location.href='blog-post.html?id=diabetes-tech'">
-                    <img src="data:image/jpeg;base64,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"
-                        alt="Diabetes Tech" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Technology-Assisted Diabetes
-                            Management: A Revolution in the Treatment of Chronic Illnesses</h3>
-
-                        <div class="preview-text">
-                            <p class="text-gray-600">Diabetes care is becoming more intelligent, effective, and
-                                non-intrusive. This blog examines ways in which advanced technology is improving
-                                lives...</p>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="read-more-btn text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read
-                                More →</button>
-                            <span class="text-gray-500 text-sm italic">by Dr Sultan Zaidi</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="text-center mt-16">
-                <button
-                    class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-12 py-5 rounded-full text-lg font-bold shadow-xl hover:shadow-2xl transition">Load
-                    More Articles</button>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 text-white pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
-                <div
-                    class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
-                    <a href="home.html">
-                        <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                            class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
-                    </a>
-                    <p
-                        class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                        Prisma Healthcare</p>
-                    <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and
-                        better mobility.</p>
-                    <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free
-                        journey.</p>
-                </div>
-
-                <div class="flex flex-col items-center text-center">
-                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
-                    <ul class="space-y-3 text-gray-400 text-sm">
-                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
-                        <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
-                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
-                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
-                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
-                    <div class="flex gap-4 text-2xl mb-6">
-                        <a href="https://wa.link/lcqilt" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                        <a href="https://www.instagram.com/physio_prisma" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="https://www.facebook.com/PhysioPrisma" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/company/prismahealthcare" target="_blank"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition">
-                            <i class="fa-brands fa-linkedin"></i>
-                        </a>
+            <!-- Blog: From Nervous Beginner to Confident Physiotherapist -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=beginner-to-confident-physiotherapist'">
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000&auto=format&fit=crop"
+                     alt="From Nervous Beginner to Confident Physiotherapist" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">From Nervous Beginner to Confident Physiotherapist</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Walking into a clinic doubting every bit of clinical knowledge you studied for years — how that nervous beginner slowly became a confident, capable physiotherapist-in-training...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Aisha Hakim (PT)</span>
                     </div>
-                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
-                    <a href="contact.html"
-                        class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">Get
-                        In Touch</a>
                 </div>
             </div>
-        </div>
-        <div class="border-t border-gray-800 mt-14 pt-6">
-            <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
-        </div>
-    </footer>
 
-    <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+            <!-- Blog: Physiotherapy x Telerehabilitation -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=telerehabilitation'">
+                <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1000&auto=format&fit=crop"
+                     alt="Physiotherapy x Telerehabilitation" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Physiotherapy × Telerehabilitation: When Your Screen Becomes Part of Rehab</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Technology has changed the way healthcare can reach people. Discover how telerehabilitation provides new possibilities to continue physiotherapy beyond the clinic...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr. Atif-ur-Rehman & Dr Aisha Hakim</span>
+                    </div>
+                </div>
+            </div>
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.querySelector('i').classList.toggle('fa-bars');
-            menuBtn.querySelector('i').classList.toggle('fa-times');
+            <!-- Blog 1 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=heat-therapy'">
+                <img src="https://img.freepik.com/free-photo/physiotherapist-doing-healing-treatment-womans-back-back-pain-patient-treatment-medical-doctor-massage-therapistoffice-syndrome_657921-323.jpg?semt=ais_hybrid&w=740&q=80"
+                     alt="Heat Therapy" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Heat Therapy Can Help Reduce Menstrual Cramps Naturally</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">For many women, dysmenorrhea, or menstrual cramps, can be a monthly struggle. Heat therapy is one of the best non-invasive treatments...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 2 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=orthotic-insoles'">
+                <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop"
+                     alt="Orthotic Insoles" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Orthotic Insoles Can Help You Walk Pain-Free</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">A common foot condition called plantar fasciitis is typified by sharp heel pain. Orthotic insoles have revolutionized management...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Sultan Zaidi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 3 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=steam-inhalers'">
+                <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop"
+                     alt="Steam Inhaler" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">How Steam Inhalers Can Help Reduce Sinus Pressure Naturally</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Sinus pressure can be annoying. A steam inhaler is a natural and efficient substitute for pharmaceuticals...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 4 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=lower-back-pain'">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop"
+                     alt="Back Pain" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Managing Lower Back Pain Naturally: A Comprehensive Guide</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Lower back pain frequently interferes with daily activities. This guide examines practical strategies...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Sultan Zaidi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 5 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=mental-health-tech'">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop"
+                     alt="Mental Health" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Revolutionizing Mental Health Care with Technology</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Technology is becoming a powerful tool to tackle mental health issues...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 6 -->
+            <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=diabetes-tech'">
+                <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1000&auto=format&fit=crop"
+                     alt="Diabetes Tech" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Technology-Assisted Diabetes Management</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Diabetes care is becoming more intelligent and effective with advanced technology...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Sultan Zaidi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 7 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=wrist-braces'">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop"
+                     alt="Wrist Braces" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">The Advantages of Wrist Braces for Pain Relief</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">A frequent condition known as carpal tunnel syndrome (CTS) is brought on by compression of the median nerve...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 8 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=ai-physiotherapy'">
+                <img src="https://images.unsplash.com/photo-1527474305487-b87b222841cc?q=80&w=1000&auto=format&fit=crop"
+                     alt="AI Physiotherapy" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">The AI Revolution in Physiotherapy</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">The healthcare sector is not an exception to how artificial intelligence (AI) is changing industries. A major technological revolution...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Sultan Zaidi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 9 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=wearable-tech'">
+                <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=1000&auto=format&fit=crop"
+                     alt="Wearable Tech" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Using Wearable Health Technology to Revolutionize Physiotherapy</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Performance optimization and injury management are changing because of the incorporation of wearable technologies...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 10 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=virtual-assistants'">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000&auto=format&fit=crop"
+                     alt="Virtual Assistants" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Virtual Health Assistants' Ascent: A New Era in Patient Assistance</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">The use of virtual health aides in contemporary healthcare is growing in importance. These AI-powered digital products offer...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Sultan Zaidi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 11 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=healing-through-movement'">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop"
+                     alt="Healing Through Movement" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Healing Through Movement: My Journey as a Physiotherapist</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Movement may improve function, lessen suffering, and restore joy. My patients' fortitude, tenacity, and commitment to recovery are a constant reminder of why I do what I do...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 12 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=physio-student-journey'">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000&auto=format&fit=crop"
+                     alt="Physiotherapy Student Journey" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">The Path of a Physiotherapy Student: Obstacles, Development, and Goals</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">It's thrilling and challenging to start your career as a physiotherapist. You're surrounded by a world that combines science, compassionate thinking, and persistence...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 13 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=spinal-health-happiness'">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop"
+                     alt="Spinal Health and Happiness" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Small Things That Make Me Happy (And Maintain the Health of My Spine)</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">Everybody has times when life seems a little too much to handle and it's a little difficult to find a grin. However, maintaining spinal health can keep you physically fit and happy...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 14 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=my-beginnings-physiotherapist'">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1000&auto=format&fit=crop"
+                     alt="My Beginnings as a Physiotherapist" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">My Beginnings as a Physiotherapist: Interest, Difficulties, and Development</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">I knew I was entering a field where I could actually improve people's lives when I chose to become a physiotherapist. Along the way, I have continuously learned and developed...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 15 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=power-of-touch'">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000&auto=format&fit=crop"
+                     alt="The Power of Touch" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">The Power of Touch: How Physiotherapy Can Heal Beyond the Body</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">As a physiotherapist, I frequently discover that the most potent healing results from the interpersonal connections I form with my patients rather than merely the exercises...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 16 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=joy-of-little-things'">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1000&auto=format&fit=crop"
+                     alt="The Joy of Little Things" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">The Joy of Little Things: Finding Happiness in Everyday Moments</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">In a world that is always moving quickly, we frequently fail to see the joy and beauty in the little things in life. When we pause to enjoy life's small pleasures...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 17 -->
+            <div class="blog-card more-blog-card hidden bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+                 onclick="window.location.href='blog-post.html?id=move-more-live-better'">
+                <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1000&auto=format&fit=crop"
+                     alt="Move More, Live Better" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-3">Move More, Live Better: Joyful Ways to Keep Your Body Active</h3>
+                    <p class="text-gray-600 line-clamp-3 mb-6">"A healthy mind starts with a healthy body," but did you know that increasing your physical activity might also open up a treasure trove of happiness...</p>
+                    <div class="flex items-center justify-between">
+                        <button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>
+                        <span class="text-gray-500 text-sm">by Dr Tuba Sultan</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-16">
+            <button id="load-more-btn" onclick="loadMoreBlogs()" 
+                    class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-12 py-5 rounded-full text-lg font-bold shadow-xl hover:shadow-2xl transition">
+                Load More Articles
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+            <!-- LEFT -->
+            <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                <a href="home.html">
+                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                         class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                </a>
+                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
+                    Physioprisma
+                </p>
+                <p class="text-gray-400 text-sm leading-relaxed">By Dr Tuba Sultan and Dr Syed Sultan Ahmed Zaidi</p>
+            </div>
+
+            <!-- CENTER -->
+            <div class="flex flex-col items-center text-center">
+                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                    <li>
+                        <button onclick="toggleClinicDropdown()" class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                            Our Clinic
+                            <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                            <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                        </div>
+                    </li>
+                    <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+                    <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                    <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                    <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                <div class="flex gap-4 text-2xl mb-6">
+                    <a href="https://wa.link/lcqilt" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/physio_prisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/Physioprisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/company/Physioprisma" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+                <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-14 pt-6">
+        <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Mobile Menu
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
+
+    function toggleClinicDropdown() {
+        const dropdown = document.getElementById('clinic-dropdown');
+        if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    function toggleProjectsDropdown() {
+        const dropdown = document.getElementById('mobile-projects-dropdown');
+        const arrow = document.getElementById('mobile-projects-arrow');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function toggleDesktopProjects() {
+        const dropdown = document.getElementById('desktop-projects-dropdown');
+        const arrow = document.querySelector('#desktop-projects-btn i');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function loadMoreBlogs() {
+        const hiddenCards = document.querySelectorAll('.more-blog-card');
+        hiddenCards.forEach(card => {
+            card.classList.remove('hidden');
         });
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+</script>
 
-        // Toggle Read More / Read Less for blog posts
-        // Legacy function removed as we now use separate pages
-    </script>
-
-    <!-- Fixed WhatsApp Floating Button -->
-    <a href="https://wa.link/lcqilt" target="_blank"
-        class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
-        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
-        <span
-            class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
-            Chat on WhatsApp
-        </span>
-    </a>
+<!-- Fixed WhatsApp Floating Button -->
+<a href="https://wa.link/lcqilt" target="_blank"
+   class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+    <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+</a>
 
 </body>
-
 </html>
+

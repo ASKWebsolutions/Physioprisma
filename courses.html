@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses & Workshops - Physio Prisma</title>
+    <title>Courses & Workshops - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    
     <style>
         :root {
             --purple: #6b21a8;
@@ -15,406 +16,470 @@
             --light-purple: #f3e8ff;
             --light-blue: #e0f2fe;
         }
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
         .hero-bg {
-            background: linear-gradient(rgba(107, 70, 193, 0.9), rgba(59, 130, 246, 0.9)), url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic') center/cover no-repeat;
+            background: linear-gradient(rgba(107, 33, 168, 0.92), rgba(14, 165, 233, 0.92)), 
+                        url('https://source.unsplash.com/random/1600x900/?physiotherapy-training') center/cover no-repeat;
         }
-        .logo-font { font-family: 'Playfair Display', serif; }
-        .nav-link { position: relative; }
-        .nav-link:after { content: ''; position: absolute; width: 0; height: 3px; bottom: -4px; left: 0; background: linear-gradient(to right, var(--purple), var(--blue)); transition: width 0.4s; }
-        .nav-link:hover:after { width: 100%; }
-        .course-card { transition: all 0.4s ease; }
-        .course-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgba(107,33,168,0.25); }
-        .info-box { transition: all 0.3s ease; }
-        .info-box:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(107,33,168,0.2); }
-        .section-header:after { content: ''; position: absolute; width: 120px; height: 4px; background: linear-gradient(to right, var(--purple), var(--blue)); bottom: -12px; left: 50%; transform: translateX(-50%); border-radius: 2px; }
-        #contact-area{
-            font-size: 2rem;
-            padding-left: 1rem;
+
+        .course-card {
+            transition: all 0.4s ease;
         }
-        /* WhatsApp Button Enhancement */
-        .fixed {
-            box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
+        .course-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(107,33,168,0.25);
         }
-        .fixed:hover {
-            box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
+
+        .info-box {
+            transition: all 0.3s ease;
+        }
+        .info-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -12px rgba(107,33,168,0.2);
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 font-sans">
 
-    <!-- ==================== NAVBAR ==================== -->
-    <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
+<!-- ==================== NAVBAR ==================== -->
+<nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 md:h-20">
 
-                <!-- Logo (Clickable to Home) -->
-                <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo" 
-                         class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
-                    <div>
-                        <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare 
-                        </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)</p>
-                    </div>
-                </a>
-
-                <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About Us</a>
-                    <a href="gallery.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+            <!-- Logo -->
+            <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                     class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                <div>
+                    <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
+                        Physioprisma 
+                    </span>
+                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
                 </div>
+            </a>
 
-                <!-- Mobile Hamburger -->
-                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-6 font-semibold">
+                <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                <div class="dropdown">
+                    <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+                        Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                    </button>
+                    <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                        <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                        <a href="clinic.html">Physioprisma Online Clinic</a>
+                        <a href="courses.html">Physioprisma Academy</a>
+                        <a href="shop.html">Physioprisma Shop</a>
+                        <a href="blog.html">Healthcare Blogs</a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-            <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-                <a href="about.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About Us</a>
-                <a href="gallery.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-                <a href="contact.html" class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
+            <!-- Shop Button -->
+            <a href="shop.html" 
+               class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                Shop Now
+            </a>
+
+            <!-- Hamburger -->
+            <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+        <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+            <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+            <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+            <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                <span>Projects</span>
+                <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+            </button>
+            <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
             </div>
+            <a href="shop.html" 
+               class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                Shop Now
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- Page Header - Using SAME HERO BACKGROUND and STYLING as blog.html -->
-    <section class="hero-bg py-10">
+<!-- ==================== HERO SECTION ==================== -->
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold logo-font text-white mb-6">Prisma Healthcare Academy</h1>
-            <h1 class="text-4xl font-extrabold logo-font text-white mb-6">Professional training & clinical education.</h1>
-            <h1 class="text-2xl font-extrabold logo-font text-black mb-6">A Project of Prisma Healthcare</h1>
-            <p class="text-xl font-medium text-white max-w-4.5xl mx-auto">Prisma Healthcare Academy is the educational division of Prisma Healthcare, dedicated to advancing clinical knowledge and professional development in the healthcare. We offer nationally and internationally recognized training programs, certification courses, workshops, and seminars for healthcare practitioners at every level — from newly healthcare professionals to experienced specialists seeking advanced skills.</p>
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-6">
+            <span class="text-xs font-semibold tracking-[2px] text-white uppercase">Project of</span>
+            <span class="text-white font-bold logo-font tracking-wider text-lg">Physioprisma</span>
+        </div>
+            <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font text-white mb-6">Physioprisma Academy</h1>
+            <p class="text-xl md:text-2xl font-medium text-white/95 max-w-4xl mx-auto mb-4">
+            Professional training & clinical education
+            </p>
+            <p class="text-base md:text-lg text-white max-w-5xl mx-auto">  Physioprisma Academy is the educational division of Physioprisma, dedicated to advancing clinical knowledge and professional development in healthcare. We offer nationally and internationally recognized training programs, certification courses, workshops, and seminars.</p>
         </div>
     </section>
 
-    <!-- NEW SECTION: 4 Info Boxes in one line (below hero, above courses) -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Box 1 -->
-                <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
-                    <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-3xl mb-4">
-                        <i class="fa-solid fa-user-graduate text-[var(--purple)]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Certification Programs</h3>
-                    <p class="text-gray-600 text-sm">Accredited diplomas and certificates in phsiotherapy, dry needing, dynamic cupping, and related disciplines </p>
+<!-- ==================== INFO BOXES ==================== -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
+                <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-3xl mb-4">
+                    <i class="fa-solid fa-user-graduate text-[var(--purple)]"></i>
                 </div>
+                <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Certification Programs</h3>
+                <p class="text-gray-600 text-sm">Accredited diplomas and certificates in physiotherapy, aesthetics, healthcare management, clinical procedures and treatments and much more.</p>
+            </div>
 
-                <!-- Box 2 -->
-                <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
-                    <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-3xl mb-4">
-                        <i class="fa-solid fa-hand-peace text-[var(--blue)]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--blue)] mb-2">Workshops & Seminars</h3>
-                    <p class="text-gray-600 text-sm">Hands-on Clinical workshops led bu UK-certified and international faculty, focused on pratical Skill-building</p>
+            <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
+                <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-3xl mb-4">
+                    <i class="fa-solid fa-hand-peace text-[var(--blue)]"></i>
                 </div>
+                <h3 class="text-xl font-bold text-[var(--blue)] mb-2">Workshops & Seminars</h3>
+                <p class="text-gray-600 text-sm">Hands-on clinical workshops led by UK-certified and international faculty, focused on practical skill-building.</p>
+            </div>
 
-                <!-- Box 3 -->
-                <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
-                    <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-3xl mb-4">
-                        <i class="fa-solid fa-laptop text-[var(--purple)]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Online Learning</h3>
-                    <p class="text-gray-600 text-sm">Flexible webinars and self-paced digital courses accessible to healthcare professionals  worldwide</p>
+            <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
+                <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-3xl mb-4">
+                    <i class="fa-solid fa-laptop text-[var(--purple)]"></i>
                 </div>
+                <h3 class="text-xl font-bold text-[var(--purple)] mb-2">Online Learning</h3>
+                <p class="text-gray-600 text-sm">Flexible webinars and self-paced digital courses accessible to healthcare professionals worldwide.</p>
+            </div>
 
-                <!-- Box 4 -->
-                <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
-                    <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-3xl mb-4">
-                        <i class="fa-solid fa-calendar-check text-[var(--blue)]"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--blue)] mb-2">Healthcare Training courses</h3>
-                    <p class="text-gray-600 text-sm">Structured training in patient management, clinical reasoning, rehabilitation protocols and healthcare administration </p>
+            <div class="info-box bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-lg border border-gray-100">
+                <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-3xl mb-4">
+                    <i class="fa-solid fa-calendar-check text-[var(--blue)]"></i>
                 </div>
-
+                <h3 class="text-xl font-bold text-[var(--blue)] mb-2">Healthcare Training Courses</h3>
+                <p class="text-gray-600 text-sm">Structured training in patient management, clinical reasoning, clinical procedures & treatments and healthcare administration.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Courses Grid -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- ==================== COURSES GRID ==================== -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-                <!-- Course 1 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                    <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6"><img src="https://cdn-icons-png.flaticon.com/512/2531/2531156.png" alt="Cupping"></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Dry Cupping Therapy – Level 1 & 2</h3>
-                    <p class="text-gray-600 text-center mb-6">Learn safe & effective cupping techniques — static, dynamic, and combo methods for pain relief and recovery.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 2 days (16 hours)</li>
-                        <li>• Format: In-person + hands-on practice</li>
-                        <li>• Who it's for: Physiotherapists, massage therapists, sports coaches</li>
-                        <li>• Certification provided</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--blue)] mb-4">Rs. 12,000 – 18,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
+            <!-- Course 1 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2531/2531156.png" alt="Cupping">
                 </div>
-
-                <!-- Course 2 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                    <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6"><i class="fa-solid fa-syringe"></i></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Dry Needling – Basic to Advanced</h3>
-                    <p class="text-gray-600 text-center mb-6">Master trigger point dry needling for myofascial pain, muscle tightness, and sports injuries.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 3 days (24 hours)</li>
-                        <li>• Format: Theory + live practice on models</li>
-                        <li>• Who it's for: Licensed physiotherapists & final-year DPT students</li>
-                        <li>• Internationally recognized certificate</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--purple)] mb-4">Rs. 22,000 – 32,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Dry Cupping Therapy - Level 1 & 2</h3>
+                <p class="text-gray-600 text-center mb-6">Learn safe & effective cupping techniques - static, dynamic, and combo methods for pain relief and recovery.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 2 days (16 hours)</li>
+                    <li>Format: In-person + hands-on practice</li>
+                    <li>Who it's for: Physiotherapists, massage therapists, sports coaches</li>
+                    <li>Certification provided</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
                 </div>
-
-                <!-- Course 3 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                    <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6"><i class="fa-solid fa-tape"></i></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">K-Taping / Kinesiology Taping Certification</h3>
-                    <p class="text-gray-600 text-center mb-6">Learn therapeutic taping applications for pain relief, edema reduction, posture correction & sports performance.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 2 days (16 hours)</li>
-                        <li>• Format: Hands-on workshop</li>
-                        <li>• Who it's for: Physios, chiropractors, athletic trainers</li>
-                        <li>• Includes taping kit</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--blue)] mb-4">Rs. 10,000 – 15,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
-                </div>
-
-                <!-- Course 4 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                    <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6"><i class="fa-solid fa-hands"></i></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Manual Therapy Techniques</h3>
-                    <p class="text-gray-600 text-center mb-6">Advanced joint mobilization, manipulation, soft tissue work & myofascial release for musculoskeletal conditions.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 3 days (24 hours)</li>
-                        <li>• Format: Practical + theory</li>
-                        <li>• Who it's for: Practicing physiotherapists</li>
-                        <li>• CPD points awarded</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--purple)] mb-4">Rs. 18,000 – 25,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
-                </div>
-
-                <!-- Course 5 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                    <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6"><i class="fa-solid fa-person-running"></i></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Sports Injury Management & Taping</h3>
-                    <p class="text-gray-600 text-center mb-6">Assessment, taping, rehab protocols & return-to-sport strategies for common athletic injuries.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 2 days (16 hours)</li>
-                        <li>• Format: Sports-field practicals</li>
-                        <li>• Who it's for: Sports physios & trainers</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--blue)] mb-4">Rs. 14,000 – 20,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
-                </div>
-
-                <!-- Course 6 -->
-                <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                    <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6"><i class="fa-solid fa-child"></i></div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Pediatric Physiotherapy Essentials</h3>
-                    <p class="text-gray-600 text-center mb-6">Developmental assessment, neurodevelopmental treatment, and play-based therapy for children.</p>
-                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                        <li>• Duration: 2 days (16 hours)</li>
-                        <li>• Format: Interactive & case-based</li>
-                        <li>• Who it's for: Pediatric physios & DPT students</li>
-                    </ul>
-                    <div class="text-center">
-                        <!-- <p class="text-lg font-semibold text-[var(--purple)] mb-4">Rs. 12,000 – 18,000</p> -->
-                        <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- Call to Action -->
-            <div class="text-center mt-20">
-                <h3 class="text-3xl font-bold logo-font mb-6">Ready to Level Up Your Skills?</h3>
-                <p class="text-lg text-gray-600 mb-8">Limited seats — early registration recommended. Contact us for upcoming batch dates & registration.</p>
-                <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-12 py-6 rounded-full text-xl font-bold shadow-2xl hover:shadow-3xl transition">Register Now</a>
+            <!-- Course 2 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <i class="fa-solid fa-syringe"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Dry Needling - Basic to Advanced</h3>
+                <p class="text-gray-600 text-center mb-6">Master trigger point dry needling for myofascial pain, muscle tightness, and sports injuries.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 3 days (24 hours)</li>
+                    <li>Format: Theory + live practice on models</li>
+                    <li>Who it's for: Licensed physiotherapists & final-year DPT students</li>
+                    <li>Internationally recognized certificate</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                </div>
             </div>
+
+            <!-- Course 3 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <i class="fa-solid fa-tape"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">K-Taping / Kinesiology Taping Certification</h3>
+                <p class="text-gray-600 text-center mb-6">Learn therapeutic taping applications for pain relief, edema reduction, posture correction & sports performance.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 2 days (16 hours)</li>
+                    <li>Format: Hands-on workshop</li>
+                    <li>Who it's for: Physios, chiropractors, athletic trainers</li>
+                    <li>Includes taping kit</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <i class="fa-solid fa-hands"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Manual Therapy Techniques</h3>
+                <p class="text-gray-600 text-center mb-6">Advanced joint mobilization, manipulation, soft tissue work & myofascial release for musculoskeletal conditions.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 3 days (24 hours)</li>
+                    <li>Format: Practical + theory</li>
+                    <li>Who it's for: Practicing physiotherapists</li>
+                    <li>CPD points awarded</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <i class="fa-solid fa-person-running"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Sports Injury Management & Taping</h3>
+                <p class="text-gray-600 text-center mb-6">Assessment, taping, rehab protocols & return-to-sport strategies for common athletic injuries.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 2 days (16 hours)</li>
+                    <li>Format: Sports-field practicals</li>
+                    <li>Who it's for: Sports physios & trainers</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
+                    <i class="fa-solid fa-child"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Pediatric Physiotherapy Essentials</h3>
+                <p class="text-gray-600 text-center mb-6">Developmental assessment, neurodevelopmental treatment, and play-based therapy for children.</p>
+                <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                    <li>Duration: 2 days (16 hours)</li>
+                    <li>Format: Interactive & case-based</li>
+                    <li>Who it's for: Pediatric physios & DPT students</li>
+                </ul>
+                <div class="text-center">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                </div>
+            </div>
+
         </div>
-    </section>
 
-    <!-- Updated Responsive Footer -->
- <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <!-- Call to Action -->
+        <div class="text-center mt-20">
+            <h3 class="text-3xl font-bold logo-font mb-6">Ready to Level Up Your Skills?</h3>
+            <p class="text-lg text-gray-600 mb-8">Limited seats - early registration recommended. Contact us for upcoming batch dates & registration.</p>
+            <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-12 py-6 rounded-full text-xl font-bold shadow-2xl hover:shadow-3xl transition">Register Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-6 sm:px-8">
 
-        <!-- Top Row -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
 
-            <!-- LEFT: Logo + Tagline -->
+            <!-- LEFT -->
             <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                 <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
                          class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                 </a>
-                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
+                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
+                    Physioprisma
                 </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
+                <p class="text-gray-400 text-sm leading-relaxed">By Dr Tuba Sultan and Dr Syed Sultan Ahmed Zaidi</p>
             </div>
 
-            <!-- CENTER: Explore Links -->
+            <!-- CENTER -->
             <div class="flex flex-col items-center text-center">
                 <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
                 <ul class="space-y-3 text-gray-400 text-sm">
                     <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
                     <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
                     <li>
-                        <button onclick="toggleClinicDropdown()"
-                            class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                        <button onclick="toggleClinicDropdown()" class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
                             Our Clinic
                             <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
                         </button>
                         <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
+                            <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
                         </div>
-                        
                     </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
                     <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
                     <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
                     <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
                 </ul>
             </div>
 
-            <!-- RIGHT: Social + CTA -->
+            <!-- RIGHT -->
             <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
                 <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
                 <div class="flex gap-4 text-2xl mb-6">
-                    <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
+                    <a href="https://wa.link/lcqilt" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
                 </div>
                 <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
-                <a href="contact.html"
-                    class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
                     Get In Touch
                 </a>
             </div>
-
         </div>
     </div>
 
-    <!-- Bottom Bar -->
     <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+        <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
     </div>
 </footer>
 
-    <!-- Mobile Menu Script -->
-    <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+<script>
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.querySelector('i').classList.toggle('fa-bars');
-            menuBtn.querySelector('i').classList.toggle('fa-times');
-        });
-        
-        // Smooth Hero Slider Logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
 
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            slides[n].classList.add('active');
-            currentSlide = n;
+    // Clinic Dropdown
+    function toggleClinicDropdown() {
+        const dropdown = document.getElementById('clinic-dropdown');
+        if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    function toggleProjectsDropdown() {
+        const dropdown = document.getElementById('mobile-projects-dropdown');
+        const arrow = document.getElementById('mobile-projects-arrow');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function toggleDesktopProjects() {
+        const dropdown = document.getElementById('desktop-projects-dropdown');
+        const arrow = document.querySelector('#desktop-projects-btn i');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    document.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('clinic-dropdown');
+        if (!dropdown) return;
+        const button = e.target.closest('button');
+        if (!button && !dropdown.classList.contains('hidden')) {
+            dropdown.classList.add('hidden');
         }
+    });
+</script>
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        setInterval(nextSlide, 4000);
-        showSlide(0);
-    </script>
-    <script>
-        // Mobile Clinic Dropdown
-        const clinicBtn = document.getElementById('mobile-clinic-btn');
-        const clinicDropdown = document.getElementById('mobile-clinic-dropdown');
-        const chevron = document.getElementById('mobile-chevron');
-        
-        if (clinicBtn) {
-            clinicBtn.addEventListener('click', () => {
-                clinicDropdown.classList.toggle('hidden');
-                chevron.classList.toggle('rotate-180');
-            });
-        }
-        
-        // Clinic Dropdown Toggle
-        function toggleClinicDropdown() {
-            const dropdown = document.getElementById('clinic-dropdown');
-            if (dropdown) dropdown.classList.toggle('hidden');
-        }
-
-        // Optional: Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('clinic-dropdown');
-            if (!dropdown) return;
-            const button = e.target.closest('button');
-            if (!button && !dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
-            }
-        });
-    </script>
-
-    <!-- Fixed WhatsApp Floating Button -->
-    <a href="https://wa.link/lcqilt" 
-       target="_blank"
-       class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
-        
-        <!-- WhatsApp Icon -->
-        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
-        
-        <!-- Optional Tooltip -->
-        <span class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
-            Chat on WhatsApp
-        </span>
-    </a>
+<!-- Fixed WhatsApp Floating Button -->
+<a href="https://wa.link/lcqilt" target="_blank"
+   class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+    <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+</a>
 
 </body>
 </html>
+

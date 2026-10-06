@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Physio Prisma</title>
+    <title>Contact Us - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link
@@ -17,49 +17,307 @@
             --blue: #0ea5e9;
             --light-purple: #f3e8ff;
             --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: "Open Sans", sans-serif;
-            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
         }
 
         .logo-font {
             font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
         }
 
         .nav-link {
             position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
         }
 
         .nav-link:after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
+            height: 2px;
             bottom: -4px;
             left: 0;
             background: linear-gradient(to right, var(--purple), var(--blue));
-            transition: width 0.4s;
+            transition: width 0.3s ease;
         }
 
         .nav-link:hover:after {
             width: 100%;
         }
 
-        #contact-area {
-            font-size: 2rem;
-            padding-left: 1rem;
-            margin-bottom: 0px;
+        .dropdown {
+            position: relative;
         }
 
-        /* WhatsApp Button Enhancement */
-        .fixed {
-            box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.5);
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
 
-        .fixed:hover {
-            box-shadow: 0 15px 40px -10px rgba(37, 211, 102, 0.6);
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .hero-wrapper {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            height: 78vh;
+            min-height: 520px;
+        }
+
+        .projects-col {
+            background: var(--card);
+            border-left: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 0 0 0;
+            overflow: hidden;
+        }
+
+        .projects-col h2 {
+            font-size: 2.4rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.95rem 1.25rem;
+            min-height: 68px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .project-item:hover {
+            background: var(--light-purple);
+            transform: translateX(2px);
+        }
+
+        .project-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            text-align: center;
+            flex: 1;
+            display: block;
+        }
+
+        .proj-arrow {
+            margin-left: auto;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.25s ease;
+            font-size: 0.8rem;
+            color: var(--purple);
+        }
+
+        .project-item:hover .proj-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            min-height: 520px;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-slide:not(.active) {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .slide-title {
+            font-size: clamp(2.5rem, 4vw, 3.7rem);
+            letter-spacing: -0.04em;
+            max-width: 12ch;
+        }
+
+        .slide-desc {
+            font-size: 1rem;
+            max-width: 38rem;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .hero-slider .cta-button {
+            font-size: 0.98rem;
+            padding: 0.95rem 2rem;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.55);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .section-heading {
+            font-size: clamp(2rem, 2.4vw, 2.8rem);
+            letter-spacing: -0.03em;
+        }
+
+        .section-copy {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.65rem;
+        }
+
+        .card-copy {
+            font-size: 0.98rem;
+            color: #4b5563;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border-radius: 999px;
+            box-shadow: 0 18px 35px rgba(99, 102, 241, 0.18);
+        }
+
+        .btn-secondary {
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-wrapper {
+                grid-template-columns: 2.1fr 1fr;
+                min-height: 640px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                height: auto;
+            }
+            .hero-slider {
+                height: 55vw;
+                min-height: 300px;
+                order: 1;
+            }
+            .projects-col {
+                order: 2;
+                border-left: none;
+                border-top: 1px solid #e5e7eb;
+                padding: 1.2rem 1rem;
+            }
+            .project-item {
+                width: 100%;
+                min-height: 64px;
+                border-right: none;
+                padding: 0.85rem 1rem;
+            }
         }
     </style>
 </head>
@@ -69,98 +327,75 @@
     <!-- ==================== NAVBAR ==================== -->
     <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
+            <div class="flex justify-between items-center h-16 md:h-20">
 
-                <!-- Logo (Clickable to Home) -->
+                <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                        class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                         class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                     <div>
-                        <span
-                            class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare
+                        <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                             Physioprisma 
                         </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)
-                        </p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
                     </div>
                 </a>
 
-                <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About
-                        Us</a>
-
-                    <!-- Our Clinic Dropdown -->
-                    <!-- <div class="group relative">
-                        <a href="clinic.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition flex items-center gap-1">
-                            Our Clinic
-                            <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 group-hover:rotate-180"></i>
-                        </a>
-                        <div class="absolute left-0 mt-4 w-64 bg-white shadow-2xl rounded-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100">
-                            <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                        <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block px-6 py-3 text-gray-700 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] transition">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
+                <!-- Desktop Menu - Hide from 768px and below -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn" class="dropdown-trigger nav-link hover:text-[var(--purple)] transition" type="button" onclick="toggleDesktopProjects()">
+                            Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
                         </div>
-                    </div> -->
-
-                    <a href="gallery.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html"
-                        class="nav-link text-[var(--purple)] hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+                    </div>
                 </div>
 
-                <!-- Shop Now Button -->
-                <!-- <a href="shop.html" 
-                   class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105 whitespace-nowrap">
+                <!-- Book Appointment Button - Show only on large screens -->
+                <a href="shop.html" 
+                   class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
                     Shop Now
-                </a> -->
+                </a>
 
-                <!-- Mobile Hamburger -->
-                <button id="mobile-menu-btn"
-                    class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+                <!-- Hamburger Button - Show from 768px and below -->
+                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu"
-            class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-            <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-                <a href="about.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About
-                    Us</a>
-
-                <!-- Our Clinic Mobile Dropdown -->
-                <!-- <div class="w-full">
-                    <button id="mobile-clinic-btn" 
-                            class="w-full flex justify-between items-center px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">
-                        Our Clinic
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200" id="mobile-chevron"></i>
-                    </button>
-                    <div id="mobile-clinic-dropdown" class="hidden pl-8 mt-2 space-y-2 border-l-2 border-purple-200">
-                        <a href="clinic.html" 
-    class="block py-3 text-gray-600 hover:text-[var(--purple)]">Clinic Services</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 1 : E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</a>
-                    <a href="https://wa.link/zxbynh" 
-   target="_blank" class="block py-3 text-gray-600 hover:text-[var(--purple)]">Branch 2 : C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</a>
-                    </div>
-                </div> -->
-
-                <a href="gallery.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
-                <a href="contact.html"
-                    class="block px-4 py-3 text-base font-semibold text-[var(--purple)] hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
-                <a href="shop.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
-
-                <!-- <a href="shop.html" 
-                   class="block mt-6 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-center py-4 rounded-2xl font-bold shadow-lg">
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+            <div class="px-5 py-4 space-y-1">
+                <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+                <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+                <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                    <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                    <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                    <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                    <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+                </div>
+                <!-- <a href="shop.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Shop</a> -->
+                
+                <a href="shop.html" 
+                   class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
                     Shop Now
-                </a> -->
+                </a>
             </div>
         </div>
     </nav>
@@ -168,7 +403,7 @@
     <!-- Page Title -->
     <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-7xl font-bold logo-font text-white mb-6">Get in Touch</h1>
+            <h1 class="text-5xl md:text-6xl font-bold logo-font text-white mb-6">Get in Touch</h1>
             <p class="text-xl text-white max-w-3xl mx-auto">We're here to help you start your pain-free journey.
                 Reach out today!</p>
         </div>
@@ -180,55 +415,50 @@
             <!-- Left: Social & Info -->
             <div class="space-y-12">
                 <div>
-                    <h2 class="text-4xl font-bold logo-font mb-8">Connect With Us</h2>
-                    <p class="text-lg text-gray-700 mb-8">Have questions or ready to book? Message us on your favorite
-                        platform — we usually reply within an hour.</p>
-                    <div class="flex flex-wrap gap-8 text-6xl text-[var(--purple)]">
-                        <a href="https://wa.link/zxbynh" target="_blank" class="hover:text-[var(--blue)] transition"><i
-                                class="fa-brands fa-whatsapp"></i></a>
-                        <a href="https://www.instagram.com/dr.sultan_physiotherapy_center/?hl=en" target="_blank"
-                            class="hover:text-[var(--blue)] transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/fizyoexperts/?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
-                            target="_blank" class="hover:text-[var(--blue)] transition"><i
-                                class="fa-brands fa-facebook"></i></a>
-                        <a href="#" target="_blank" class="hover:text-[var(--blue)] transition"><i
-                                class="fa-brands fa-linkedin"></i></a>
-                    </div>
+                    <h2 class="text-3xl font-bold logo-font mb-8">Connect With Us</h2>
+                    <p class="text-base text-gray-700 mb-8">Have any query? Feel free to contact us - we usually reply as soon as possible.</p>
+                <div class="flex flex-wrap gap-6 text-3xl text-[var(--purple)]">
+                    <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer" class="hover:text-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
                 </div>
 
                 <div class="space-y-6">
-                    <div class="bg-[var(--light-purple)] p-8 rounded-3xl shadow">
-                        <h3 class="text-2xl font-bold text-[var(--purple)] mb-4">Branch 1 – Block-13 Rose Garden </h3>
-                        <p class="text-gray-700"> E-6 ,Rose Garden , Block-13 ,Gulistan-e-Johar, Karachi.</p>
-                        <p class="text-gray-700 mt-2">Morning: Mon to Sat 11 am to 2 pm <br>
-                            Friday: 11 am to 1 pm <br>
-
-                            Evening: Mon to Sat 7.30 pm to 10.30 pm</p>
+                    <div class="bg-[var(--light-purple)] p-6 rounded-3xl shadow">
+                        <h3 class="text-xl font-bold text-[var(--purple)] mb-4">Branch 1 - Block-13 Rose Garden</h3>
+                        <p class="text-gray-700 mb-2">JMC, Block-13 ,Gulistan-e-Johar, Karachi.</p>
+                        <div class="text-sm text-gray-600">
+                            <p><strong>Morning:</strong> Mon to Sat 11 am to 2 pm</p>
+                            <p><strong>Morning:</strong> Fri 11 am to 1 pm</p>
+                            <p><strong>Evening:</strong> Mon to Sat 7.30 pm to 10.30 pm</p>
+                        </div>
                     </div>
-                    <div class="bg-[var(--light-blue)] p-8 rounded-3xl shadow">
-                        <h3 class="text-2xl font-bold text-[var(--blue)] mb-4">Branch 2 – Block 1-A Johar</h3>
-
-                        <p class="text-gray-700">C-39 Johar , Block-1A ,Gulistan-e-Johar, Karachi.</p>
-<br>
-                            Evening: Mon to Sat 7.30 pm to 10.30 pm</p>
-                        <!-- <p class="text-gray-700 mt-2">Evening hours — call for exact timing</p> -->
+                    <div class="bg-[var(--light-blue)] p-6 rounded-3xl shadow">
+                        <h3 class="text-xl font-bold text-[var(--blue)] mb-4">Branch 2 - Block 1-A Johar</h3>
+                        <p class="text-gray-700 mb-2">FMJ, Block-1A ,Gulistan-e-Johar, Karachi.</p>
+                        <div class="text-sm text-gray-600">
+                            <p><strong>Evening:</strong> Mon to Sat 7.30 pm to 10.30 pm</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Right: Contact Form -->
             <div
-                class="bg-gradient-to-br from-[var(--light-purple)] to-[var(--light-blue)] p-10 rounded-3xl shadow-2xl">
-                <h2 class="text-4xl font-bold logo-font mb-8 text-center">Send Us a Message</h2>
-                <form class="space-y-6" action="https://formsubmit.co" method="POST">
-                    <input type="text" placeholder="Your Full Name"
-                        class="w-full p-5 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
-                    <input type="tel" placeholder="Phone / WhatsApp Number"
-                        class="w-full p-5 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
-                    <input type="email" placeholder="Email Address (optional)"
-                        class="w-full p-5 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
-                    <select
-                        class="w-full p-5 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
+                class="bg-gradient-to-br from-[var(--light-purple)] to-[var(--light-blue)] p-8 rounded-3xl shadow-2xl">
+                <h2 class="text-3xl font-bold logo-font mb-8 text-center">Send Us a Message</h2>
+                <form class="space-y-6" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="42fd5d5c-5259-42ba-8ad5-6174a06deef0">
+                    <input type="text" name="Your Full Name"  placeholder="Full Name"
+                        class="w-full p-4 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
+                    <input type="tel" name="Phone / WhatsApp Number" placeholder="Phone / WhatsApp Number"
+                        class="w-full p-4 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
+                    <input type="email" name="Email Address (optional)" placeholder="Email Address (optional)"
+                        class="w-full p-4 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
+                    <select name="Your Concern"
+                        class="w-full p-4 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none">
                         <option value="">Select Your Concern</option>
                         <option>Back / Neck Pain</option>
                         <option>Knee / Joint Pain</option>
@@ -238,10 +468,10 @@
                         <option>Home Visit</option>
                         <option>Other</option>
                     </select>
-                    <textarea placeholder="Tell us more about your condition or question..." rows="5"
-                        class="w-full p-5 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none"></textarea>
+                    <textarea name="Your Message" placeholder="Tell us more about your condition or question..." rows="5"
+                        class="w-full p-4 rounded-2xl border border-gray-300 focus:border-[var(--purple)] focus:ring-[var(--purple)] outline-none"></textarea>
                     <button type="submit"
-                        class="w-full bg-[#111827]  text-white py-5 rounded-full font-bold text-xl shadow-xl hover:shadow-2xl transition">Send
+                        class="w-full bg-[#111827] text-white py-4 rounded-full font-semibold text-base shadow-xl hover:shadow-2xl transition">Send
                         Message</button>
                 </form>
                 <p class="text-center text-sm text-gray-600 mt-6">We'll get back to you within 1 hour during clinic
@@ -253,27 +483,22 @@
     <!-- Google Maps -->
     <section class="pb-14 bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold logo-font text-center mb-12">Find Us</h2>
+            <h2 class="text-3xl font-bold logo-font text-center mb-12">Find Us</h2>
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
-                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-4 text-center">Rose Garden Block-13 Branch
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-4 text-center">Branch 1
                     </h3>
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.6373514839925!2d67.12847237443137!3d24.91034874326133!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33902a3957d75%3A0x7b9f53df4cf0e047!2sRose%20Garden%20Apartments!5e0!3m2!1sen!2s!4v1773744666254!5m2!1sen!2s"
-                        width="100%" height="400" style="border:0; border-radius: 24px;" allowfullscreen=""
-                        loading="lazy"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.632800656386!2d67.1313043!3d24.910503900000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb3390068efc3d5%3A0xabe56f0c76c8670b!2sDr%20Sultan%20Zaidi%20Physiotherapy%20Center!5e0!3m2!1sen!2s!4v1779221168205!5m2!1sen!2s" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-4 text-center">Johar Block 1-A Branch</h3>
+                    <h3 class="text-2xl font-bold text-[var(--purple)] mb-4 text-center">Branch 2</h3>
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7235.945172286373!2d67.12163538955075!3d24.933003795032864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb338f2b3bb7561%3A0xe43f528e356c7abe!2sBlock%201%20A%20Gulistan-e-Johar%2C%20Karachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1773745184318!5m2!1sen!2s"
-                        width="100%" height="400" style="border:0; border-radius: 24px;" allowfullscreen=""
-                        loading="lazy"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3617.9646306425716!2d67.1303222!3d24.9332748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb3397531ce67dd%3A0xa41f101012448c08!2sFMJ%20Healthcare!5e0!3m2!1sen!2s!4v1779221205611!5m2!1sen!2s" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
     </section>
-
 
  <footer class="bg-gray-900 text-white pt-16 pb-8">
     <div class="max-w-7xl mx-auto px-6 sm:px-8">
@@ -284,14 +509,13 @@
             <!-- LEFT: Logo + Tagline -->
             <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                 <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
                          class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                 </a>
                 <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    Prisma Healthcare
+                    Physioprisma
                 </p>
-                <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and better mobility.</p>
-                <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free journey.</p>
+                <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
             </div>
 
             <!-- CENTER: Explore Links -->
@@ -307,12 +531,12 @@
                             <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
                         </button>
                         <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                            <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi Physiotherapy Center</a>
-                            <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
+                            <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
                         </div>
                         
                     </li>
-                    <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
                     <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
                     <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
                     <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
@@ -332,12 +556,12 @@
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
+                    <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
                         rel="noopener noreferrer"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
                         <i class="fa-brands fa-facebook"></i>
                     </a>
-                    <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
+                    <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
                         rel="noopener noreferrer"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
                         <i class="fa-brands fa-linkedin"></i>
@@ -355,7 +579,7 @@
 
     <!-- Bottom Bar -->
     <div class="border-t border-gray-800 mt-14 pt-6">
-        <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+        <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
     </div>
 </footer>
 
@@ -421,14 +645,30 @@
         const clinicDropdown = document.getElementById('mobile-clinic-dropdown');
         const chevron = document.getElementById('mobile-chevron');
 
-        clinicBtn.addEventListener('click', () => {
-            clinicDropdown.classList.toggle('hidden');
-            chevron.classList.toggle('rotate-180');
-        });
+        if (clinicBtn && clinicDropdown && chevron) {
+            clinicBtn.addEventListener('click', () => {
+                clinicDropdown.classList.toggle('hidden');
+                chevron.classList.toggle('rotate-180');
+            });
+        }
         // Clinic Dropdown Toggle
         function toggleClinicDropdown() {
             const dropdown = document.getElementById('clinic-dropdown');
             dropdown.classList.toggle('hidden');
+        }
+
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
         }
 
         // Optional: Close dropdown when clicking outside
@@ -459,3 +699,4 @@
 </body>
 
 </html>
+

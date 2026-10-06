@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinic - Physio Prisma</title>
+    <title>Clinic - Physioprisma</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
     <style>
         :root {
@@ -14,34 +17,119 @@
             --blue: #0ea5e9;
             --light-purple: #f3e8ff;
             --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
         }
 
-        .hero-bg {
-            background: linear-gradient(rgba(107, 33, 168, 0.9), rgba(14, 165, 233, 0.9)),
-                url('https://source.unsplash.com/random/1600x900/?physiotherapy-clinic-modern') center/cover no-repeat;
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
         }
 
         .logo-font {
             font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
         }
 
         .nav-link {
             position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
         }
 
         .nav-link:after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
+            height: 2px;
             bottom: -4px;
             left: 0;
             background: linear-gradient(to right, var(--purple), var(--blue));
-            transition: width 0.4s;
+            transition: width 0.3s ease;
         }
 
         .nav-link:hover:after {
             width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
         }
 
         .info-box {
@@ -133,67 +221,115 @@
     </style>
 </head>
 
-<body class="bg-gray-50 font-sans">
+<body>
 
     <!-- ==================== NAVBAR ==================== -->
     <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
+            <div class="flex justify-between items-center h-16 md:h-20">
 
+                <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
-                        class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                        class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                     <div>
                         <span
-                            class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
-                            Prisma Healthcare
+                            class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                            Physioprisma
                         </span>
-                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba (PT) & Dr. Sultan (PT)
-                        </p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr.
+                            Sultan Zaidi (PT)</p>
                     </div>
                 </a>
 
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8 font-semibold">
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">About
-                        Us</a>
-                    <a href="gallery.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Gallery</a>
-                    <a href="contact.html"
-                        class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Contact</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-[var(--purple)] transition">Shop</a>
+                <!-- Desktop Menu - Hide from 768px and below -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn" class="dropdown-trigger" type="button"
+                            onclick="toggleDesktopProjects()">
+                            Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Book Appointment Button - Show only on large screens -->
+                <a href="shop.html"
+                    class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                    Shop Now
+                </a>
+
+                <!-- Hamburger Button - Show from 768px and below -->
                 <button id="mobile-menu-btn"
-                    class="lg:hidden text-[var(--purple)] text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+                    class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
+        <!-- Mobile Menu -->
         <div id="mobile-menu"
             class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
-            <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <div class="px-5 py-4 space-y-1">
                 <a href="about.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">About
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About
                     Us</a>
                 <a href="gallery.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Gallery</a>
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
                 <a href="contact.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Contact</a>
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()"
+                    class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow"
+                        class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr.
+                        Sultan Zaidi Physiotherapy Center</a>
+                    <a href="clinic.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+                        Online Clinic</a>
+                    <a href="courses.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+                        Academy</a>
+                    <a href="shop.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma
+                        Shop</a>
+                    <a href="blog.html"
+                        class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare
+                        Blogs</a>
+                </div>
                 <a href="shop.html"
-                    class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] rounded-xl">Shop</a>
+                    class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                    Shop Now
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- ==================== HERO SECTION ==================== -->
-    <section class="hero-bg py-14">
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-20">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold logo-font text-white mb-6">Dr. Sultan Zaidi's Physiotherapy Center</h1>
-            <h1 class="text-2xl md:text-3xl font-extrabold logo-font text-black mb-6">A Project of Prisma Healthcare
-            </h1>
-            <p class="text-xl font-medium text-white/70 max-w-4.5xl mx-auto">
-                Advanced Rehabilitation . Modern Techniques . Compassionate Care</p>
+            <div
+                class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-6">
+                <span class="text-xs font-semibold tracking-[2px] text-white uppercase">Project of</span>
+                <span class="text-white font-bold logo-font tracking-wider text-lg">Physioprisma</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-5xl font-bold logo-font text-white mb-6">Dr. Sultan Zaidi's
+                Physiotherapy Center</h1>
+            <p class="text-base md:text-lg text-white max-w-3xl mx-auto">Advanced rehabilitation services with modern
+                techniques and compassionate care.</p>
         </div>
     </section>
 
@@ -231,84 +367,97 @@
     <!-- </section> -->
 
     <!-- ==================== ABOUT THE CENTER (from Image 1) ==================== -->
-<section class="py-16 md:py-24 bg-[var(--light-blue)]">
-    <div class="max-w-6xl mx-auto px-5">
+    <section class="py-16 md:py-24 bg-[var(--light-blue)]">
+        <div class="max-w-6xl mx-auto px-5">
 
-        <div class="grid md:grid-cols-2 gap-8 items-stretch">
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
 
-            <!-- About Text Box -->
-            <div class="bg-white rounded-3xl p-8 md:p-10 shadow-lg border border-blue-100 flex flex-col justify-center">
-                <div class="flex items-center gap-3 mb-5">
-                    <div class="w-10 h-10 rounded-xl bg-[var(--light-purple)] flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-hospital text-[var(--purple)] text-lg"></i>
+                <!-- About Text Box -->
+                <div
+                    class="bg-white rounded-3xl p-8 md:p-10 shadow-lg border border-blue-100 flex flex-col justify-center">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-[var(--light-purple)] flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-hospital text-[var(--purple)] text-lg"></i>
+                        </div>
+                        <span class="text-xs font-bold tracking-widest text-[var(--purple)] uppercase">Our
+                            Facility</span>
                     </div>
-                    <span class="text-xs font-bold tracking-widest text-[var(--purple)] uppercase">Our Facility</span>
-                </div>
 
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-5 leading-snug">
-                    About the Center
-                </h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-5 leading-snug">
+                        About the Clinic
+                    </h2>
 
-                <p class="text-gray-600 leading-relaxed text-sm md:text-base">
-                    Dr. Sultan Zaidi's Physiotherapy Center is a premier rehabilitation facility operating under the
-                    Prisma Healthcare umbrella. We are committed to delivering world-class physiotherapy through
-                    innovation, evidence-based methods, and compassionate patient care. Our experienced team provides
-                    advanced clinical expertise focused on effective rehabilitation and patient recovery.
-                </p>
+                    <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                        Dr. Sultan Zaidi's Physiotherapy Center is a premier rehabilitation facility operating under the
+                        Physioprisma umbrella. We are committed to delivering world-class physiotherapy through
+                        innovation, evidence-based methods, and compassionate patient care. Our experienced team
+                        provides
+                        advanced clinical expertise focused on effective rehabilitation and patient recovery.
+                    </p>
 
-                <div class="mt-7 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4 text-center">
-                    <div>
-                        <p class="text-2xl font-bold text-[var(--purple)]">500+</p>
-                        <p class="text-xs text-gray-500 mt-1">Patients Treated</p>
-                    </div>
-                    <div>
+                    <div class="mt-7 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-2xl font-bold text-[var(--purple)]">500+</p>
+                            <p class="text-xs text-gray-500 mt-1">Patients Treated</p>
+                        </div>
+                        <!-- <div>
                         <p class="text-2xl font-bold text-[var(--blue)]">10+</p>
                         <p class="text-xs text-gray-500 mt-1">Years of Experience</p>
+                    </div> -->
                     </div>
                 </div>
-            </div>
 
-            <!-- UK-Certified Expertise Box -->
-            <div class="bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] rounded-3xl p-8 md:p-10 shadow-xl flex flex-col justify-center">
-                <div class="flex items-center gap-3 mb-5">
-                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-certificate text-white text-lg"></i>
+                <!-- UK-Certified Expertise Box -->
+                <div
+                    class="bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] rounded-3xl p-8 md:p-10 shadow-xl flex flex-col justify-center">
+                    <!-- <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-certificate text-white text-lg"></i>
+                        </div>
+                        <span class="text-xs font-bold tracking-widest text-white/80 uppercase">Certifications</span>
+                    </div> -->
+
+                    <h3 class="text-3xl font-bold text-white mb-5 leading-snug">
+                        About Dr Sultan Zaidi
+                    </h3>
+
+                    <p class="text-white/90 leading-relaxed text-sm md:text-base">
+                        Dr Syed Sultan Ahmed Zaidi is a UK-certified practitioner of Dry Needling and Dynamic Cupping,
+                        and
+                        is also CORU licensed (Ireland). He practices advanced therapeutic techniques that offer
+                        targeted
+                        pain relief, improved mobility, and accelerated recovery for a wide range of conditions. Dr.
+                        Sultan
+                        Zaidi also serves as the Incharge of the Physiotherapy Department at Medicare Cardiac and
+                        General
+                        Hospital, reflecting his strong clinical leadership and expertise in rehabilitation care.
+                    </p>
+                    <!-- Badges -->
+                    <div class="flex flex-wrap gap-2 mt-7">
+                        <span
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
+                            <i class="fa-solid fa-award"></i> UK-Certified Practitioner
+                        </span>
+                        <span
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
+                            <i class="fa-solid fa-certificate"></i> CORU Licensed
+                        </span>
+                        <span
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
+                            <i class="fa-solid fa-syringe"></i> Dry Needling
+                        </span>
+                        <span
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
+                            <i class="fa-solid fa-circle-dot"></i> Dynamic Cupping
+                        </span>
                     </div>
-                    <span class="text-xs font-bold tracking-widest text-white/80 uppercase">Certifications</span>
-                </div>
-
-                <h3 class="text-2xl md:text-3xl font-bold text-white mb-5 leading-snug">
-                    About Dr Sultan Zaidi
-                </h3>
-
-                <p class="text-white/90 leading-relaxed text-sm md:text-base">
-                    Dr Syed Sultan Ahmed Zaidi is a UK-certified practitioner of Dry Needling and Dynamic Cupping, and
-                    is also CORU licensed (Ireland). He practices advanced therapeutic techniques that offer targeted
-                    pain relief, improved mobility, and accelerated recovery for a wide range of conditions. Dr. Sultan
-                    Zaidi also serves as the Incharge of the Physiotherapy Department at Medicare Cardiac and General
-                    Hospital, reflecting his strong clinical leadership and expertise in rehabilitation care.
-                </p>
-
-                <!-- Badges -->
-                <div class="flex flex-wrap gap-2 mt-7">
-                    <span class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
-                        🏅 UK-Certified Practitioner
-                    </span>
-                    <span class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
-                        🇮🇪 CORU Licensed
-                    </span>
-                    <span class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
-                        💉 Dry Needling
-                    </span>
-                    <span class="flex items-center gap-1.5 px-3 py-1.5 bg-white/15 border border-white/25 rounded-full text-white text-xs font-semibold">
-                        🔵 Dynamic Cupping
-                    </span>
                 </div>
             </div>
 
         </div>
-    </div>
-</section>
+        </div>
+    </section>
 
     <!-- ==================== CONDITIONS WE TREAT (from Image 2) ==================== -->
     <section class="py-16 md:py-20 bg-white">
@@ -440,7 +589,7 @@
                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-doctor\'></i>'">
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold text-gray-800">Dr. Sultan Zaidi</h3>
-                    <p class="text-[var(--purple)] font-semibold text-sm md:text-base mt-1">Chief Executive Officer —
+                    <p class="text-[var(--purple)] font-semibold text-sm md:text-base mt-1">Chief Executive Officer -
                         Founder & Director</p>
                 </div>
 
@@ -453,7 +602,8 @@
                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-nurse\'></i>'">
                     </div>
                     <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Tuba Sultan</h4>
-                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Administrator</p>
+                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Administrator and Consultant Physiotherapist
+                    </p>
                 </div>
 
                 <!-- Dr. Basit -->
@@ -464,20 +614,9 @@
                         <img src="./img/basit.jpeg" alt="Dr. Basit" class="w-full h-full object-cover"
                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-tie\'></i>'">
                     </div>
-                    <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Basit</h4>
-                    <p class="text-xs md:text-sm text-[var(--purple)] mt-1">Operations Coordinator</p>
-                </div>
-
-                <!-- Dr. Faiza -->
-                <div
-                    class="leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center">
-                    <div
-                        class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-100 to-[var(--light-blue)] flex items-center justify-center text-[var(--blue)] text-3xl mb-4 overflow-hidden flex-shrink-0">
-                        <img src="./img/faiza.jpeg" alt="Dr. Faiza" class="w-full h-full object-cover"
-                            onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-doctor\'></i>'">
-                    </div>
-                    <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Faiza</h4>
-                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Incharge</p>
+                    <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Basit Hussain</h4>
+                    <p class="text-xs md:text-sm text-[var(--purple)] mt-1">Operations Coordinator and Physiotherapist
+                    </p>
                 </div>
 
                 <!-- Dr. Bisma -->
@@ -485,11 +624,11 @@
                     class="leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center">
                     <div
                         class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-purple-100 to-[var(--light-purple)] flex items-center justify-center text-[var(--purple)] text-3xl mb-4 overflow-hidden flex-shrink-0">
-                        <img src="./img/bisma img.png" alt="Dr. Bisma" class="w-full h-full object-cover"
+                        <img src="./img/image.png" alt="Dr. Bisma" class="w-full h-full object-cover"
                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-nurse\'></i>'">
                     </div>
                     <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Bisma</h4>
-                    <p class="text-xs md:text-sm text-[var(--purple)] mt-1">Assistant Incharge</p>
+                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Incharge and Physiotherapist</p>
                 </div>
 
                 <!-- Dr. Atif -->
@@ -497,12 +636,37 @@
                     class="leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center">
                     <div
                         class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-100 to-[var(--light-blue)] flex items-center justify-center text-[var(--blue)] text-3xl mb-4 overflow-hidden flex-shrink-0">
-                        <img src="./img/atif img.png" alt="Dr. Atif" class="w-full h-full object-cover"
+                        <img src="./img/dratif2.jpeg" alt="Dr. Atif" class="w-full h-full object-cover"
                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-shield-halved\'></i>'">
                     </div>
                     <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Atif</h4>
-                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Compliance Coordinator</p>
+                    <p class="text-xs md:text-sm text-[var(--purple)] mt-1">Compliance Coordinator and Physiotherapist
+                    </p>
                 </div>
+
+                <div
+                    class="leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center">
+                    <div
+                        class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-100 to-[var(--light-blue)] flex items-center justify-center text-[var(--blue)] text-3xl mb-4 overflow-hidden flex-shrink-0">
+                        <img src="./img/Dr Sabahat Fatima.png" alt="Dr. Sabahat Fatima"
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-shield-halved\'></i>'">
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Sabahat Fatima</h4>
+                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Physiotherapist</p>
+                </div>
+
+                <div
+                    class="leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center">
+                    <div
+                        class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-blue-100 to-[var(--light-blue)] flex items-center justify-center text-[var(--blue)] text-3xl mb-4 overflow-hidden flex-shrink-0">
+                        <img src="./img/fatima maqsood.png" alt="Dr. Fatima Maqsood" class="w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-shield-halved\'></i>'">
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-sm md:text-base">Dr. Fatima Maqsood</h4>
+                    <p class="text-xs md:text-sm text-[var(--blue)] mt-1">Physiotherapist</p>
+                </div>
+
 
             </div>
         </div>
@@ -519,8 +683,8 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">🦷</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Braces & Orthodontics</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-tooth"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Braces & Orthodontics</h3>
                     <p class="text-gray-600 mb-6">Traditional metal braces, ceramic braces, and invisible aligners with
                         expert guidance.</p>
                     <span class="text-[var(--purple)] font-medium">Starting from Rs. 45,000</span>
@@ -528,8 +692,8 @@
 
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">💪</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Physiotherapy & Rehabilitation</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-dumbbell"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Physiotherapy & Rehabilitation</h3>
                     <p class="text-gray-600 mb-6">Advanced manual therapy, exercise programs, and post-injury recovery
                         plans.</p>
                     <span class="text-[var(--purple)] font-medium">Personalized Sessions</span>
@@ -537,8 +701,8 @@
 
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">🏥</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Pain Management</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-hospital"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Pain Management</h3>
                     <p class="text-gray-600 mb-6">Chronic back pain, neck pain, joint pain, and sports injuries
                         treatment.</p>
                     <span class="text-[var(--purple)] font-medium">Evidence-Based Approach</span>
@@ -546,16 +710,16 @@
 
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">🦵</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Sports Injury Recovery</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-person-running"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Sports Injury Recovery</h3>
                     <p class="text-gray-600 mb-6">Specialized rehabilitation for athletes and active individuals.</p>
                     <span class="text-[var(--purple)] font-medium">Return to Play Faster</span>
                 </div>
 
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">🧠</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Post-Surgical Rehab</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-user-doctor"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Post-Surgical Rehab</h3>
                     <p class="text-gray-600 mb-6">Knee, shoulder, spine, and hip replacement rehabilitation programs.
                     </p>
                     <span class="text-[var(--purple)] font-medium">Structured Recovery Plans</span>
@@ -563,8 +727,8 @@
 
                 <div
                     class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition hover:-translate-y-1 border border-gray-100">
-                    <div class="text-5xl mb-6">🦴</div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Musculoskeletal Care</h3>
+                    <div class="text-5xl mb-6 text-[var(--purple)]"><i class="fa-solid fa-bone"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Musculoskeletal Care</h3>
                     <p class="text-gray-600 mb-6">Treatment for arthritis, posture correction, and spinal disorders.</p>
                     <span class="text-[var(--purple)] font-medium">Long-term Wellness</span>
                 </div>
@@ -572,18 +736,18 @@
         </div>
     </section> -->
 
-    ==================== BOOK APPOINTMENT SECTION ====================
-<section id="book-appointment" class="py-16 md:py-20 bg-[var(--light-purple)]">
-    <div class="max-w-4xl mx-auto px-5">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Book Your Appointment</h2>
-            <p class="text-gray-600 text-lg">Take the first step towards better health and recovery</p>
-        </div>
+    <!-- ==================== BOOK APPOINTMENT SECTION ==================== -->
+    <section id="book-appointment" class="py-16 md:py-20 bg-[var(--light-purple)]">
+        <div class="max-w-4xl mx-auto px-5">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Book Your Appointment</h2>
+                <p class="text-gray-600 text-lg">Take the first step towards better health and recovery</p>
+            </div>
 
-        <div class="bg-gradient-to-br from-[var(--light-purple)] to-white rounded-3xl p-8 md:p-12 shadow-xl">
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- <div>
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Why Choose Us?</h3>
+            <div class="bg-gradient-to-br from-[var(--light-purple)] to-white rounded-3xl p-8 md:p-12 shadow-xl">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- <div>
+                    <h3 class="text-3xl font-semibold mb-6 text-gray-800">Why Choose Us?</h3>
                     <ul class="space-y-5">
                         <li class="flex gap-4">
                             <i class="fa-solid fa-check text-[var(--purple)] mt-1 text-xl"></i>
@@ -616,28 +780,28 @@
                     </ul>
                 </div> -->
 
-                <div class="md:col-span-2 bg-white rounded-2xl p-8 shadow-inner w-full">
-                    <h3 class="text-2xl font-semibold mb-8 text-gray-800 text-center">Get In Touch</h3>
+                    <div class="md:col-span-2 bg-white rounded-2xl p-8 shadow-inner w-full">
+                        <h3 class="text-3xl font-semibold mb-8 text-gray-800 text-center">Get In Touch</h3>
 
-                    <div class="space-y-6">
-                        <a href="https://wa.link/zxbynh" target="_blank"
-                            class="flex items-center justify-center gap-4 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white p-5 rounded-2xl hover:scale-105 transition font-medium w-full">
-                            <i class="fa-brands fa-whatsapp text-5xl"></i>
-                            <div class="text-center">
-                                <div class="text-lg">Chat on WhatsApp</div>
-                                <div class="text-sm opacity-90">Fast Response • 0317-0324412</div>
-                            </div>
-                        </a>
+                        <div class="space-y-6">
+                            <a href="https://wa.link/zxbynh" target="_blank"
+                                class="flex items-center justify-center gap-4 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white p-5 rounded-2xl hover:scale-105 transition font-medium w-full">
+                                <i class="fa-brands fa-whatsapp text-5xl"></i>
+                                <div class="text-center">
+                                    <div class="text-lg">Chat on WhatsApp</div>
+                                    <div class="text-sm opacity-90">Fast Response +923170324412</div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <p class="text-center text-xs text-gray-500 mt-8">
+                            Our team will contact you within 24 hours to confirm your appointment
+                        </p>
                     </div>
-
-                    <p class="text-center text-xs text-gray-500 mt-8">
-                        Our team will contact you within 24 hours to confirm your appointment
-                    </p>
                 </div>
             </div>
         </div>
-    </div>
-</section> 
+    </section>
 
     <!-- ==================== FOOTER ==================== -->
     <footer class="bg-gray-900 text-white pt-16 pb-8">
@@ -650,17 +814,14 @@
                 <div
                     class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                     <a href="home.html">
-                        <img src="./img/logo pic (2).jpg" alt="Physio Prisma Logo"
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                     </a>
                     <p
                         class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                        Prisma Healthcare
+                        Physioprisma
                     </p>
-                    <p class="text-gray-400 text-sm leading-relaxed">Expert physiotherapy for lasting pain relief and
-                        better mobility.</p>
-                    <p class="text-gray-400 text-sm mt-2 leading-relaxed">Book your appointment and start your pain-free
-                        journey.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
                 </div>
 
                 <!-- CENTER: Explore Links -->
@@ -677,13 +838,14 @@
                                     class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
                             </button>
                             <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
-                                <a href="clinic.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi
                                     Physiotherapy Center</a>
-                                <a href="#" class="block py-1 hover:text-white transition">Prisma Healthcare Clinic</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma
+                                    Clinic</a>
                             </div>
 
                         </li>
-                        <li><a href="courses.html" class="hover:text-white transition">Prisma Healthcare Academy</a>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a>
                         </li>
                         <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
                         <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
@@ -706,13 +868,13 @@
                             aria-label="Instagram">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
-                        <a href="https://www.facebook.com/PhysioPrisma?mibextid=wwXIfr" target="_blank"
+                        <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
                             rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"
                             aria-label="Facebook">
                             <i class="fa-brands fa-facebook"></i>
                         </a>
-                        <a href="https://www.linkedin.com/company/prismahealthcare/about/" target="_blank"
+                        <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
                             rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"
                             aria-label="LinkedIn">
@@ -731,7 +893,7 @@
 
         <!-- Bottom Bar -->
         <div class="border-t border-gray-800 mt-14 pt-6">
-            <p class="text-center text-gray-500 text-sm">© 2026 Physio Prisma. All rights reserved.</p>
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
         </div>
     </footer>
 
@@ -750,12 +912,42 @@
             if (dropdown) dropdown.classList.toggle('hidden');
         }
 
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
         document.addEventListener('click', function (e) {
-            const dropdown = document.getElementById('clinic-dropdown');
-            if (!dropdown) return;
-            const button = e.target.closest('button');
-            if (!button && !dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
+            const clinicDropdown = document.getElementById('clinic-dropdown');
+            const clinicButton = e.target.closest('button[onclick="toggleClinicDropdown()"]');
+            const projectsDropdown = document.getElementById('mobile-projects-dropdown');
+            const projectsButton = e.target.closest('button[onclick="toggleProjectsDropdown()"]');
+            const desktopProjectsDropdown = document.getElementById('desktop-projects-dropdown');
+            const desktopProjectsButton = e.target.closest('button[onclick="toggleDesktopProjects()"]');
+
+            if (clinicDropdown && !clinicButton && !e.target.closest('#clinic-dropdown') && !clinicDropdown.classList.contains('hidden')) {
+                clinicDropdown.classList.add('hidden');
+            }
+
+            if (projectsDropdown && !projectsButton && !e.target.closest('#mobile-projects-dropdown') && !projectsDropdown.classList.contains('hidden')) {
+                projectsDropdown.classList.add('hidden');
+                const arrow = document.getElementById('mobile-projects-arrow');
+                if (arrow) arrow.classList.remove('rotate-180');
+            }
+
+            if (desktopProjectsDropdown && !desktopProjectsButton && !e.target.closest('#desktop-projects-dropdown') && !desktopProjectsDropdown.classList.contains('hidden')) {
+                desktopProjectsDropdown.classList.add('hidden');
+                const desktopArrow = document.querySelector('#desktop-projects-btn i');
+                if (desktopArrow) desktopArrow.classList.remove('rotate-180');
             }
         });
     </script>
