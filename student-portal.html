@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Physioprisma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+            --light-purple: #f3e8ff;
+            --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.7rem 0.5rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #6b7280;
+            user-select: none;
+        }
+
+        @media (min-width: 640px) {
+            .auth-tab {
+                padding: 0.75rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        .auth-message {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+            border-radius: 0.85rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 1.25rem;
+        }
+
+        #mobile-menu {
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.9rem;
+            font-size: 0.95rem;
+            background: white;
+            transition: border 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(107, 33, 168, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border-radius: 999px;
+            box-shadow: 0 18px 35px rgba(99, 102, 241, 0.18);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                         class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
+                    <div>
+                        <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                             Physioprisma 
+                        </span>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu - Hide from 768px and below -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition text-[var(--purple)]">Students</a>
+                    <a href="ambassador-portal.html" class="nav-link hover:text-[var(--purple)] transition">Ambassadors</a>
+                    <a href="admin-dashboard.html" class="nav-link hover:text-[var(--purple)] transition">Admin</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn" class="dropdown-trigger nav-link hover:text-[var(--purple)] transition" type="button" onclick="toggleDesktopProjects()">
+                            Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Appointment Button - Show only on large screens -->
+                <a href="shop.html" 
+                   class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                    Shop Now
+                </a>
+
+                <!-- Hamburger Button - Show from 768px and below -->
+                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+            <div class="px-5 py-4 space-y-1">
+                <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+                <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+                <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-[var(--purple)] bg-[var(--light-purple)] rounded-xl transition">Students</a>
+                <a href="ambassador-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Ambassadors</a>
+                <a href="admin-dashboard.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Admin</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                    <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                    <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                    <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                    <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+                </div>
+
+                <a href="shop.html" 
+                   class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                    Shop Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Title -->
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-14 sm:py-16 md:py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px] opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 sm:px-5 py-2 rounded-full border border-white/30 mb-5">
+                <i class="fa-solid fa-user-graduate text-white text-sm"></i>
+                <span class="text-[10px] sm:text-xs font-semibold tracking-[2px] text-white uppercase">Physioprisma Academy</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold logo-font text-white mb-4 sm:mb-5">Student Portal</h1>
+            <p class="text-base sm:text-lg md:text-xl text-white max-w-3xl mx-auto">Sign in to view all your enrolled courses in one place and manage your learning - completely free.</p>
+        </div>
+    </section>
+
+    <!-- Portal Section -->
+    <section class="py-14 sm:py-16 md:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 xl:gap-14 items-start">
+
+            <!-- Left: Auth Card -->
+            <div class="bg-gradient-to-br from-[var(--light-purple)] to-[var(--light-blue)] p-4 sm:p-6 lg:p-8 rounded-3xl shadow-2xl">
+                <div class="bg-white rounded-2xl p-5 sm:p-7 lg:p-8 shadow-inner">
+                    <h2 class="text-xl sm:text-2xl font-bold logo-font text-gray-800 mb-5 sm:mb-6 text-center">Welcome Back</h2>
+
+                    <!-- Tabs -->
+                    <div class="flex gap-2 bg-gray-100 p-1.5 rounded-2xl mb-6 sm:mb-7">
+                        <div id="tab-login" class="auth-tab active" onclick="showAuthTab('login')">Login</div>
+                        <div id="tab-register" class="auth-tab" onclick="showAuthTab('register')">Create Account</div>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="form-login" class="space-y-4" onsubmit="return handleAuth(event, 'login')">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Email or Phone</label>
+                            <input type="text" name="identity" class="auth-input" placeholder="you@example.com" autocomplete="username" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Password</label>
+                            <input type="password" name="password" class="auth-input" placeholder="••••••••" autocomplete="current-password" required minlength="6">
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3.5 font-bold text-base hover:scale-[1.02] transition">
+                            Login to Portal
+                        </button>
+                        <p class="text-center text-sm text-gray-500">
+                            Don't have an account?
+                            <button type="button" class="text-[var(--purple)] font-semibold hover:underline" onclick="showAuthTab('register')">Register</button>
+                        </p>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="form-register" class="space-y-4 hidden" onsubmit="return handleAuth(event, 'register')">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Full Name</label>
+                            <input type="text" name="name" class="auth-input" placeholder="e.g. Ali Raza" autocomplete="name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Email</label>
+                            <input type="email" name="email" class="auth-input" placeholder="you@example.com" autocomplete="email" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Phone / WhatsApp</label>
+                            <input type="tel" name="phone" class="auth-input" placeholder="03XX-XXXXXXX" autocomplete="tel" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600 mb-1.5">Password</label>
+                            <input type="password" name="password" class="auth-input" placeholder="Minimum 6 characters" autocomplete="new-password" required minlength="6">
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3.5 font-bold text-base hover:scale-[1.02] transition">
+                            Create Free Account
+                        </button>
+                        <p class="text-center text-sm text-gray-500">
+                            Already have an account?
+                            <button type="button" class="text-[var(--purple)] font-semibold hover:underline" onclick="showAuthTab('login')">Login</button>
+                        </p>
+                    </form>
+
+                    <div id="auth-message" class="auth-message hidden"></div>
+
+                    <p class="text-center text-xs text-gray-400 mt-6">
+                        * Free enrollment with no payment - for students only
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right: Benefits -->
+            <div class="space-y-5 sm:space-y-6">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold logo-font mb-3 sm:mb-4">Your Dashboard</h2>
+                    <p class="text-gray-600">Everything you need in one place - from enrolled courses to your profile.</p>
+                </div>
+
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-2xl flex items-center justify-center text-xl text-[var(--purple)]">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">My Enrolled Courses</h3>
+                            <p class="text-sm text-gray-600">Every course you enroll in appears right in your profile - access it in one click.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-blue-100 rounded-2xl flex items-center justify-center text-xl text-[var(--blue)]">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Progress Tracking</h3>
+                            <p class="text-sm text-gray-600">Track progress, lectures and completion status for every course.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-lg hover:shadow-xl transition">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-purple-100 rounded-2xl flex items-center justify-center text-xl text-[var(--purple)]">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">Profile & Certificates</h3>
+                            <p class="text-sm text-gray-600">Manage your profile and earn a certificate when you complete a course.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="courses.html"
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-8 py-4 rounded-full font-bold shadow-xl hover:scale-105 transition">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Browse Courses
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+            <!-- Top Row -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+                <!-- LEFT: Logo + Tagline -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                    <a href="home.html">
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                    </a>
+                    <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                        Physioprisma
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
+                </div>
+
+                <!-- CENTER: Explore Links -->
+                <div class="flex flex-col items-center text-center">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                        <li>
+                            <button onclick="toggleClinicDropdown()"
+                                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                                Our Clinic
+                                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                            </button>
+                            <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                            </div>
+                        </li>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT: Social + CTA -->
+                <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                    <div class="flex gap-4 text-2xl mb-6">
+                        <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                    <a href="contact.html"
+                        class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                        Get In Touch
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 mt-14 pt-6">
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Auth tabs
+        function showAuthTab(tab) {
+            const loginTab = document.getElementById('tab-login');
+            const registerTab = document.getElementById('tab-register');
+            const loginForm = document.getElementById('form-login');
+            const registerForm = document.getElementById('form-register');
+            const message = document.getElementById('auth-message');
+            message.classList.add('hidden');
+
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        }
+
+        // Simple redirect (frontend only for now - API will be added here once backend is ready)
+        function handleAuth(event, mode) {
+            event.preventDefault();
+            const form = event.target;
+            const message = document.getElementById('auth-message');
+
+            const label = mode === 'register' ? 'Account created!' : 'Login successful!';
+            message.textContent = label + ' Redirecting to your dashboard...';
+            message.classList.remove('hidden');
+            message.style.background = '#ecfdf5';
+            message.style.color = '#047857';
+            message.style.border = '1px solid #a7f3d0';
+
+            form.reset();
+            setTimeout(() => {
+                window.location.href = 'student-dashboard.html';
+            }, 600);
+            return false;
+        }
+
+        // Dropdowns
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('clinic-dropdown');
+            const button = e.target.closest('button');
+            if (dropdown && !button && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Fixed WhatsApp Floating Button -->
+    <a href="https://wa.link/lcqilt" target="_blank"
+        class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+        <span
+            class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+            Chat on WhatsApp
+        </span>
+    </a>
+
+</body>
+
+</html>

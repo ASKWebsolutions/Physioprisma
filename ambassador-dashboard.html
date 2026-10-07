@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambassador Dashboard - Physioprisma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+            --light-purple: #f3e8ff;
+            --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        #mobile-menu {
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Dashboard */
+        .stat-card {
+            background: white;
+            border: 1px solid #eef1f6;
+            border-radius: 1.1rem;
+            padding: 0.9rem 1rem;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.09);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+        }
+
+        .stat-value {
+            font-size: 1.45rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #111827;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #8b90a0;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+
+        .stat-note {
+            font-size: 0.72rem;
+            color: #a1a7b4;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #eef1f6;
+            border-radius: 1.15rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 0.8rem 1.05rem;
+            background: linear-gradient(to right, #fbf9ff, #ffffff);
+            border-bottom: 1px solid #f1f3f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .panel-title {
+            font-size: 0.97rem;
+            font-weight: 800;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title i {
+            color: var(--purple);
+            font-size: 0.92rem;
+        }
+
+        .panel-body {
+            padding: 1.05rem;
+        }
+
+        .panel-note {
+            padding: 0.75rem 1.05rem;
+            background: var(--light-purple);
+            border-top: 1px solid #ede9fe;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.26rem 0.6rem;
+            border-radius: 999px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .badge-purple {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .badge-blue {
+            background: var(--light-blue);
+            color: #0369a1;
+        }
+
+        .badge-green {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .badge-amber {
+            background: #fffbeb;
+            color: #b45309;
+        }
+
+        .btn-grad {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.83rem;
+            padding: 0.5rem 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-grad:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(99, 102, 241, 0.28);
+        }
+
+        .btn-grad.full {
+            width: 100%;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn-outline {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.45rem 0.95rem;
+            color: #374151;
+            background: white;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--light-purple);
+        }
+
+        .btn-approve {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-approve:hover {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+        }
+
+        .btn-reject {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1.5px solid #fecaca;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-reject:hover {
+            background: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            font-weight: 800;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eef2f7;
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .profile-line:last-child {
+            border-bottom: none;
+        }
+
+        .profile-line i {
+            color: var(--purple);
+            width: 16px;
+            text-align: center;
+            margin-top: 3px;
+            font-size: 0.85rem;
+        }
+
+        .profile-line span {
+            color: #8b90a0;
+            font-size: 0.76rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .profile-line strong {
+            color: #111827;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .quick-link {
+            border: 1.5px solid #eceff5;
+            border-radius: 0.85rem;
+            padding: 0.7rem 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #4b5563;
+            background: #fbfcfe;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            text-decoration: none;
+        }
+
+        .quick-link i {
+            font-size: 1.05rem;
+            color: var(--purple);
+        }
+
+        .quick-link:hover {
+            border-color: var(--purple);
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        /* Referral code box */
+        .referral-box {
+            background: linear-gradient(135deg, var(--light-purple), var(--light-blue));
+            border: 1.5px dashed var(--purple);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .referral-code {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            color: var(--purple);
+            word-break: break-all;
+            margin: 0.3rem 0 0.7rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .referral-link {
+            font-size: 0.75rem;
+            color: #4b5563;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.7rem;
+            padding: 0.5rem 0.7rem;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 0.75rem;
+            text-align: left;
+        }
+
+        /* Referral table */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .ref-table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .ref-table th {
+            text-align: left;
+            padding: 0.65rem 1.05rem;
+            background: #fafbfe;
+            color: #8b90a0;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .ref-table td {
+            padding: 0.7rem 1.05rem;
+            border-top: 1px solid #f5f6fa;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        .ref-table tr:hover td {
+            background: #fcfbff;
+        }
+
+        .notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+            border-radius: 1rem;
+            padding: 0.85rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .notice i {
+            margin-top: 3px;
+            color: #d97706;
+        }
+
+        .empty-state {
+            padding: 1.6rem 1.05rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.88rem;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 6rem;
+            transform: translateX(-50%) translateY(120%);
+            background: #111827;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.7rem 1.25rem;
+            border-radius: 999px;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transition: all 0.35s ease;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                         class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
+                    <div>
+                        <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                             Physioprisma 
+                        </span>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
+                    <a href="ambassador-portal.html" class="nav-link hover:text-[var(--purple)] transition text-[var(--purple)]">Ambassadors</a>
+                    <a href="admin-dashboard.html" class="nav-link hover:text-[var(--purple)] transition">Admin</a>
+                    <div class="dropdown">
+                        <button id="desktop-projects-btn" class="dropdown-trigger nav-link hover:text-[var(--purple)] transition" type="button" onclick="toggleDesktopProjects()">
+                            Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                        </button>
+                        <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                            <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html">Physioprisma Online Clinic</a>
+                            <a href="courses.html">Physioprisma Academy</a>
+                            <a href="shop.html">Physioprisma Shop</a>
+                            <a href="blog.html">Healthcare Blogs</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User chip + Logout (desktop) -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <span id="nav-user" class="text-sm font-semibold text-gray-600 max-w-[150px] truncate"></span>
+                    <button onclick="logout()"
+                        class="bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                        Logout
+                    </button>
+                </div>
+
+                <!-- Hamburger Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+            <div class="px-5 py-4 space-y-1">
+                <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+                <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+                <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Students</a>
+                <a href="ambassador-portal.html" class="block px-4 py-3.5 text-base font-semibold text-[var(--purple)] bg-[var(--light-purple)] rounded-xl transition">Ambassadors</a>
+                <a href="admin-dashboard.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Admin</a>
+                <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                    <span>Projects</span>
+                    <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                </button>
+                <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                    <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                    <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                    <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                    <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                    <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+                </div>
+
+                <div class="mt-4 px-4 py-3 bg-[var(--light-purple)] rounded-xl">
+                    <p class="text-sm font-semibold text-[var(--purple)] mb-2">Logged in as <span id="nav-user-mobile" class="font-bold"></span></p>
+                    <button onclick="logout()" class="w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white py-3 rounded-xl font-semibold text-sm">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Band -->
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-8 sm:py-10 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px] opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5 min-w-0">
+                <div id="avatar" class="avatar w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl border-2 border-white/40"></div>
+                <div class="min-w-0">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-0.5 rounded-full border border-white/30 mb-1.5">
+                        <i class="fa-solid fa-handshake text-white text-[10px]"></i>
+                        <span class="text-[10px] font-semibold tracking-[2px] text-white uppercase">Ambassador Portal</span>
+                    </div>
+                    <h1 class="text-lg sm:text-2xl font-bold logo-font text-white truncate">Welcome, Ambassador!</h1>
+                    <p class="text-white/90 text-xs sm:text-sm">Share your referrals and track them here.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span id="status-badge" class="badge bg-white px-3.5 py-2 text-[11px]"></span>
+                <button onclick="logout()" class="bg-white text-[var(--purple)] px-4 py-2.5 rounded-full font-bold text-[13px] hover:scale-105 transition">
+                    <i class="fa-solid fa-right-from-bracket mr-1.5"></i>Logout
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <main class="pt-6 sm:pt-8 pb-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-5 sm:space-y-6">
+
+            <!-- Approval notice (until the admin approves) -->
+            <div id="pending-notice" class="notice hidden">
+                <i class="fa-solid fa-hourglass-half"></i>
+                <div>
+                    Your application is waiting for <strong>admin approval</strong>.
+                    You will become a full ambassador only after approval - usually within 24 hours.
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="stat-card">
+                    <div class="stat-icon bg-purple-100 text-[var(--purple)]"><i class="fa-solid fa-users"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total Referrals</div>
+                        <div class="stat-note">Through my code</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green-100 text-green-600"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-approved">0</div>
+                        <div class="stat-label">Enrolled</div>
+                        <div class="stat-note">Joined the course</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-amber-100 text-amber-600"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-pending">0</div>
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-note">Being confirmed</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue-100 text-[var(--blue)]"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-earned">0</div>
+                        <div class="stat-label">Rewards (PKR)</div>
+                        <div class="stat-note">500 per enrollment</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Referral + Profile -->
+            <section class="grid lg:grid-cols-3 gap-5 items-start">
+
+                <!-- Left: Referrals -->
+                <div class="lg:col-span-2 space-y-5">
+
+                    <!-- Referral Code -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-link"></i> My Referral Code</h2>
+                            <span class="badge badge-purple"><i class="fa-solid fa-shield-halved"></i> Unique</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="referral-box">
+                                <p class="text-[11px] font-semibold uppercase tracking-[2px] text-[var(--purple)]">Your Code</p>
+                                <div class="referral-code" id="ref-code">--------</div>
+                                <code class="referral-link" id="ref-link">-</code>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="copyCode()" class="btn-grad full">
+                                        <i class="fa-solid fa-copy"></i> Copy Code
+                                    </button>
+                                    <a id="wa-share" href="#" target="_blank" rel="noopener noreferrer"
+                                       class="btn-grad full" style="background:linear-gradient(135deg,#25D366,#128C7E)">
+                                        <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referred Students -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-list-check"></i> Referred Students</h2>
+                            <span class="badge badge-blue" id="ref-count">0 Referrals</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="ref-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Student</th>
+                                        <th>Course</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ref-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="ref-empty" class="empty-state hidden">
+                            <i class="fa-solid fa-user-plus"></i>
+                            No referrals yet. Share your code to get your first student.
+                        </div>
+                        <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Every new referral updates here in real time.</div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-5">
+
+                    <!-- Profile -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-id-card"></i> My Profile</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div id="avatar-2" class="avatar"></div>
+                                <div class="min-w-0">
+                                    <p id="profile-name" class="font-bold text-gray-800 text-[0.95rem] truncate">Ambassador</p>
+                                    <span class="badge badge-purple"><i class="fa-solid fa-star"></i> Ambassador</span>
+                                </div>
+                            </div>
+                            <div class="profile-line">
+                                <i class="fa-solid fa-envelope"></i>
+                                <div><span>Email</span><br><strong id="profile-email">-</strong></div>
+                            </div>
+                            <div class="profile-line">
+                                <i class="fa-solid fa-phone"></i>
+                                <div><span>Phone / WhatsApp</span><br><strong id="profile-phone">-</strong></div>
+                            </div>
+                            <div class="profile-line">
+                                <i class="fa-solid fa-city"></i>
+                                <div><span>City</span><br><strong id="profile-city">-</strong></div>
+                            </div>
+                            <div class="profile-line">
+                                <i class="fa-solid fa-calendar"></i>
+                                <div><span>Applied On</span><br><strong id="profile-joined">-</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- How to grow -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-rocket"></i> How to Grow</h2>
+                        </div>
+                        <div class="panel-body space-y-2.5 text-[0.85rem] text-gray-600">
+                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Share your referral code with friends and classmates.</p>
+                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Post it on your WhatsApp status and social media.</p>
+                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Earn reward points for every enrollment.</p>
+                            <a href="contact.html" class="btn-grad full mt-1">
+                                <i class="fa-solid fa-headset"></i> Contact Support
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-bolt"></i> Quick Links</h2>
+                        </div>
+                        <div class="panel-body grid grid-cols-2 gap-2.5">
+                            <a href="courses.html" class="quick-link"><i class="fa-solid fa-graduation-cap"></i> Courses</a>
+                            <a href="blog.html" class="quick-link"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                            <a href="shop.html" class="quick-link"><i class="fa-solid fa-cart-shopping"></i> Shop</a>
+                            <a href="contact.html" class="quick-link"><i class="fa-solid fa-headset"></i> Support</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+            <!-- Top Row -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+                <!-- LEFT: Logo + Tagline -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                    <a href="home.html">
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                    </a>
+                    <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                        Physioprisma
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
+                </div>
+
+                <!-- CENTER: Explore Links -->
+                <div class="flex flex-col items-center text-center">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                        <li>
+                            <button onclick="toggleClinicDropdown()"
+                                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                                Our Clinic
+                                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                            </button>
+                            <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                            </div>
+                        </li>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT: Social + CTA -->
+                <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                    <div class="flex gap-4 text-2xl mb-6">
+                        <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                    <a href="contact.html"
+                        class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                        Get In Touch
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 mt-14 pt-6">
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Frontend only for now - no login guard, the page opens directly
+        function logout() {
+            window.location.href = 'ambassador-portal.html';
+        }
+
+        // Application status (saved when applied on the portal, approved by the admin)
+        const REQ_KEY = 'pp_ambassador_request';
+
+        function readRequest() {
+            try {
+                return JSON.parse(localStorage.getItem(REQ_KEY));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        const req = readRequest() || {};
+        const name = req.name || 'Ambassador';
+        const email = req.email || 'you@example.com';
+        const phone = req.phone || '03XX-XXXXXXX';
+        const city = req.city || 'Your City';
+        const status = req.status || 'Approved';
+        const joined = req.date || '01 Oct 2026';
+        const code = 'PPAMB1234';
+        const referralLink = location.origin + location.pathname.replace(/ambassador-dashboard\.html$/, 'student-portal.html') + '?ref=' + code;
+        const initials = name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+
+        document.getElementById('nav-user').textContent = name;
+        document.getElementById('nav-user-mobile').textContent = name;
+        document.getElementById('avatar').textContent = initials;
+        document.getElementById('avatar-2').textContent = initials;
+        document.getElementById('profile-name').textContent = name;
+        document.getElementById('profile-email').textContent = email;
+        document.getElementById('profile-phone').textContent = phone;
+        document.getElementById('profile-city').textContent = city;
+        document.getElementById('profile-joined').textContent = joined;
+        document.getElementById('ref-code').textContent = code;
+        document.getElementById('ref-link').textContent = referralLink;
+
+        const statusBadge = document.getElementById('status-badge');
+        const pendingNotice = document.getElementById('pending-notice');
+
+        if (status === 'Approved') {
+            statusBadge.className = 'badge bg-white text-green-700 px-3.5 py-2 text-[11px]';
+            statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Approved';
+            pendingNotice.classList.add('hidden');
+        } else if (status === 'Rejected') {
+            statusBadge.className = 'badge bg-white text-red-700 px-3.5 py-2 text-[11px]';
+            statusBadge.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Rejected';
+            pendingNotice.classList.remove('hidden');
+        } else {
+            statusBadge.className = 'badge bg-white text-amber-700 px-3.5 py-2 text-[11px]';
+            statusBadge.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Pending Approval';
+            pendingNotice.classList.remove('hidden');
+        }
+
+        document.getElementById('wa-share').href =
+            'https://wa.me/?text=' + encodeURIComponent(
+                'Check out Physioprisma Academy courses! Use my referral code: ' + code + '\n' + referralLink
+            );
+
+        // Demo referrals (will be replaced by backend data)
+        const referrals = [
+            { name: 'Ayesha Khan', course: 'Dry Needling - Basic to Advanced', date: '02 Oct 2026', status: 'Enrolled' },
+            { name: 'Hamza Ali', course: 'Dry Cupping Therapy - Level 1 & 2', date: '28 Sep 2026', status: 'Enrolled' },
+            { name: 'Sara Ahmed', course: 'K-Taping Certification', date: '25 Sep 2026', status: 'Pending' },
+            { name: 'Bilal Hussain', course: 'Manual Therapy Techniques', date: '19 Sep 2026', status: 'Enrolled' }
+        ];
+
+        function refBadge(s) {
+            if (s === 'Enrolled') return '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Enrolled</span>';
+            return '<span class="badge badge-amber"><i class="fa-solid fa-hourglass-half"></i> Pending</span>';
+        }
+
+        const refBody = document.getElementById('ref-body');
+        const refEmpty = document.getElementById('ref-empty');
+
+        if (referrals.length === 0) {
+            refBody.innerHTML = '';
+            refEmpty.classList.remove('hidden');
+            document.querySelector('.table-wrap').classList.add('hidden');
+        } else {
+            refBody.innerHTML = referrals.map((r, i) => `
+                <tr>
+                    <td class="font-bold text-gray-400">${i + 1}</td>
+                    <td class="font-semibold text-gray-800">${r.name}</td>
+                    <td>${r.course}</td>
+                    <td class="whitespace-nowrap">${r.date}</td>
+                    <td>${refBadge(r.status)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Stats
+        const total = referrals.length;
+        const enrolledCount = referrals.filter(r => r.status === 'Enrolled').length;
+        const pendingCount = referrals.filter(r => r.status === 'Pending').length;
+        const earned = enrolledCount * 500;
+
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-approved').textContent = enrolledCount;
+        document.getElementById('stat-pending').textContent = pendingCount;
+        document.getElementById('stat-earned').textContent = earned.toLocaleString();
+        document.getElementById('ref-count').textContent = total + ' Referrals';
+
+        // Copy code
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        function copyCode() {
+            const text = code;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showToast('Referral code copied!'))
+                    .catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('Referral code copied!');
+            } catch (e) {
+                showToast('Could not copy - please note the code manually');
+            }
+            document.body.removeChild(ta);
+        }
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Dropdowns
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        function toggleProjectsDropdown() {
+            const dropdown = document.getElementById('mobile-projects-dropdown');
+            const arrow = document.getElementById('mobile-projects-arrow');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        function toggleDesktopProjects() {
+            const dropdown = document.getElementById('desktop-projects-dropdown');
+            const arrow = document.querySelector('#desktop-projects-btn i');
+            if (dropdown) dropdown.classList.toggle('hidden');
+            if (arrow) arrow.classList.toggle('rotate-180');
+        }
+
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('clinic-dropdown');
+            const button = e.target.closest('button');
+            if (dropdown && !button && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+            const projDropdown = document.getElementById('desktop-projects-dropdown');
+            const projButton = e.target.closest('#desktop-projects-btn');
+            if (projDropdown && !projButton && !projDropdown.classList.contains('hidden')) {
+                projDropdown.classList.add('hidden');
+                const arrow = document.querySelector('#desktop-projects-btn i');
+                if (arrow) arrow.classList.remove('rotate-180');
+            }
+        });
+    </script>
+
+    <!-- Fixed WhatsApp Floating Button -->
+    <a href="https://wa.link/lcqilt" target="_blank"
+        class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+        <span
+            class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+            Chat on WhatsApp
+        </span>
+    </a>
+
+</body>
+
+</html>

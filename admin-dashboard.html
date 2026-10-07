@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Physioprisma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+            --light-purple: #f3e8ff;
+            --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        #mobile-menu {
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Dashboard */
+        .stat-card {
+            background: white;
+            border: 1px solid #eef1f6;
+            border-radius: 1.1rem;
+            padding: 0.9rem 1rem;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.09);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+        }
+
+        .stat-value {
+            font-size: 1.45rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #111827;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #8b90a0;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+
+        .stat-note {
+            font-size: 0.72rem;
+            color: #a1a7b4;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #eef1f6;
+            border-radius: 1.15rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 0.8rem 1.05rem;
+            background: linear-gradient(to right, #fbf9ff, #ffffff);
+            border-bottom: 1px solid #f1f3f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .panel-title {
+            font-size: 0.97rem;
+            font-weight: 800;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title i {
+            color: var(--purple);
+            font-size: 0.92rem;
+        }
+
+        .panel-body {
+            padding: 1.05rem;
+        }
+
+        .panel-note {
+            padding: 0.75rem 1.05rem;
+            background: var(--light-purple);
+            border-top: 1px solid #ede9fe;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        /* Tabs */
+        .adm-tabs {
+            display: flex;
+            gap: 0.4rem;
+            background: white;
+            border: 1px solid #eef1f6;
+            border-radius: 1rem;
+            padding: 0.4rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .adm-tab {
+            flex: 1;
+            min-width: max-content;
+            text-align: center;
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            user-select: none;
+        }
+
+        .adm-tab:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .adm-tab.active {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            box-shadow: 0 8px 18px rgba(99, 102, 241, 0.25);
+        }
+
+        .adm-tab .count {
+            font-size: 0.68rem;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+            padding: 0.05rem 0.45rem;
+            font-weight: 800;
+        }
+
+        .adm-tab:not(.active) .count {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.26rem 0.6rem;
+            border-radius: 999px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .badge-purple { background: var(--light-purple); color: var(--purple); }
+        .badge-blue { background: var(--light-blue); color: #0369a1; }
+        .badge-green { background: #ecfdf5; color: #047857; }
+        .badge-amber { background: #fffbeb; color: #b45309; }
+        .badge-red { background: #fef2f2; color: #b91c1c; }
+        .badge-gray { background: #f3f4f6; color: #4b5563; }
+
+        .btn-grad {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.83rem;
+            padding: 0.5rem 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-grad:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(99, 102, 241, 0.28);
+        }
+
+        .btn-grad.full {
+            width: 100%;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn-outline {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.45rem 0.95rem;
+            color: #374151;
+            background: white;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--light-purple);
+        }
+
+        .btn-approve {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-approve:hover {
+            background: #047857;
+            color: white;
+            border-color: #047857;
+        }
+
+        .btn-reject {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1.5px solid #fecaca;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-reject:hover {
+            background: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+        }
+
+        .btn-mini {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            padding: 0.3rem 0.75rem;
+            color: #4b5563;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-mini:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: var(--light-purple);
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar.sm {
+            width: 34px;
+            height: 34px;
+            font-size: 0.8rem;
+        }
+
+        /* Request cards */
+        .req-card {
+            border: 1px solid #eef1f6;
+            border-radius: 1rem;
+            padding: 0.9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .req-card:hover {
+            border-color: #ddd6fe;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+        }
+
+        .req-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem 1rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .req-meta i {
+            color: var(--purple);
+            width: 15px;
+            text-align: center;
+            margin-right: 0.3rem;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .data-table {
+            width: 100%;
+            min-width: 640px;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 0.65rem 1.05rem;
+            background: #fafbfe;
+            color: #8b90a0;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 0.7rem 1.05rem;
+            border-top: 1px solid #f5f6fa;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover td {
+            background: #fcfbff;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 280px;
+            padding: 0.55rem 0.95rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: white;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(107, 33, 168, 0.1);
+        }
+
+        /* Activity list */
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.7rem 0;
+            border-bottom: 1px dashed #eef2f7;
+            font-size: 0.85rem;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .progress-track {
+            height: 6px;
+            width: 100%;
+            min-width: 90px;
+            background: #eef2f7;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+        }
+
+        .quick-link {
+            border: 1.5px solid #eceff5;
+            border-radius: 0.85rem;
+            padding: 0.7rem 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: inherit;
+            width: 100%;
+            color: #4b5563;
+            background: #fbfcfe;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .quick-link i {
+            font-size: 1.05rem;
+            color: var(--purple);
+        }
+
+        .quick-link:hover {
+            border-color: var(--purple);
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .empty-state {
+            padding: 1.6rem 1.05rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.88rem;
+        }
+
+        .empty-state i {
+            display: block;
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 6rem;
+            transform: translateX(-50%) translateY(120%);
+            background: #111827;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.7rem 1.25rem;
+            border-radius: 999px;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transition: all 0.35s ease;
+            z-index: 200;
+            pointer-events: none;
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+
+                <!-- Logo -->
+                <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                         class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
+                    <div>
+                        <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                             Physioprisma 
+                        </span>
+                        <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-6 font-semibold">
+                    <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
+                    <a href="ambassador-portal.html" class="nav-link hover:text-[var(--purple)] transition">Ambassadors</a>
+                    <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
+                    <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                    <a href="admin-dashboard.html" class="nav-link hover:text-[var(--purple)] transition text-[var(--purple)]">Admin</a>
+                </div>
+
+                <div class="hidden lg:flex items-center gap-3">
+                    <span class="badge badge-purple"><i class="fa-solid fa-shield-halved"></i> Admin Panel</span>
+                    <a href="home.html"
+                        class="bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                        View Site
+                    </a>
+                </div>
+
+                <!-- Hamburger Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+            <div class="px-5 py-4 space-y-1">
+                <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Students</a>
+                <a href="ambassador-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Ambassadors</a>
+                <a href="courses.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
+                <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+                <a href="admin-dashboard.html" class="block px-4 py-3.5 text-base font-semibold text-[var(--purple)] bg-[var(--light-purple)] rounded-xl transition">Admin Panel</a>
+                <a href="home.html" class="block mx-4 mt-5 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                    View Site
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Band -->
+    <section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-8 sm:py-10 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:50px_50px] opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5 min-w-0">
+                <div class="avatar w-12 h-12 sm:w-14 sm:h-14 text-lg sm:text-xl border-2 border-white/40">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="min-w-0">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-0.5 rounded-full border border-white/30 mb-1.5">
+                        <i class="fa-solid fa-gauge-high text-white text-[10px]"></i>
+                        <span class="text-[10px] font-semibold tracking-[2px] text-white uppercase">Physioprisma Admin</span>
+                    </div>
+                    <h1 class="text-lg sm:text-2xl font-bold logo-font text-white truncate">Admin Panel</h1>
+                    <p class="text-white/90 text-xs sm:text-sm">Manage users, students and ambassadors here.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span class="badge bg-white text-[var(--purple)] px-3.5 py-2 text-[11px]"><i class="fa-solid fa-circle-check"></i> System Online</span>
+                <a href="home.html" class="bg-white text-[var(--purple)] px-4 py-2.5 rounded-full font-bold text-[13px] hover:scale-105 transition">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i>View Site
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <main class="pt-6 sm:pt-8 pb-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-5 sm:space-y-6">
+
+            <!-- Stats -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="stat-card">
+                    <div class="stat-icon bg-purple-100 text-[var(--purple)]"><i class="fa-solid fa-users"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-users">0</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-note">All registered</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue-100 text-[var(--blue)]"><i class="fa-solid fa-user-graduate"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-students">0</div>
+                        <div class="stat-label">Students</div>
+                        <div class="stat-note">Course learners</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green-100 text-green-600"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-ambassadors">0</div>
+                        <div class="stat-label">Ambassadors</div>
+                        <div class="stat-note">Approved only</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-amber-100 text-amber-600"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div class="min-w-0">
+                        <div class="stat-value" id="stat-pending">0</div>
+                        <div class="stat-label">Pending Requests</div>
+                        <div class="stat-note">Awaiting approval</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabs -->
+            <div class="adm-tabs" role="tablist">
+                <div id="tab-overview" class="adm-tab active" onclick="showTab('overview')">
+                    <i class="fa-solid fa-chart-pie"></i> Overview
+                </div>
+                <div id="tab-requests" class="adm-tab" onclick="showTab('requests')">
+                    <i class="fa-solid fa-user-clock"></i> Ambassador Requests
+                    <span class="count" id="tab-req-count">0</span>
+                </div>
+                <div id="tab-students" class="adm-tab" onclick="showTab('students')">
+                    <i class="fa-solid fa-user-graduate"></i> Students
+                    <span class="count" id="tab-stu-count">0</span>
+                </div>
+                <div id="tab-users" class="adm-tab" onclick="showTab('users')">
+                    <i class="fa-solid fa-users-gear"></i> Users
+                </div>
+            </div>
+
+            <!-- ============ OVERVIEW ============ -->
+            <section id="panel-overview">
+                <div class="grid lg:grid-cols-3 gap-5 items-start">
+                    <div class="lg:col-span-2 panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h2>
+                            <span class="badge badge-purple">Live</span>
+                        </div>
+                        <div class="panel-body" id="activity-list"></div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="panel">
+                            <div class="panel-head">
+                                <h2 class="panel-title"><i class="fa-solid fa-bolt"></i> Quick Actions</h2>
+                            </div>
+                            <div class="panel-body grid grid-cols-2 gap-2.5">
+                                <button class="quick-link" onclick="showTab('requests')"><i class="fa-solid fa-user-clock"></i> Requests</button>
+                                <button class="quick-link" onclick="showTab('students')"><i class="fa-solid fa-user-graduate"></i> Students</button>
+                                <button class="quick-link" onclick="showTab('users')"><i class="fa-solid fa-users-gear"></i> Users</button>
+                                <a href="courses.html" class="quick-link"><i class="fa-solid fa-book-open"></i> Courses</a>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-head">
+                                <h2 class="panel-title"><i class="fa-solid fa-circle-info"></i> Panel Guide</h2>
+                            </div>
+                            <div class="panel-body space-y-2.5 text-[0.85rem] text-gray-600">
+                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> When someone applies as an ambassador, their request appears here.</p>
+                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Only applicants you <strong>Approve</strong> become ambassadors.</p>
+                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Control student status from here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ AMBASSADOR REQUESTS ============ -->
+            <section id="panel-requests" class="hidden">
+                <div class="grid lg:grid-cols-2 gap-5 items-start">
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-user-clock"></i> Pending Approval</h2>
+                            <span class="badge badge-amber" id="pending-count">0 Waiting</span>
+                        </div>
+                        <div class="panel-body space-y-3" id="pending-list"></div>
+                        <div id="pending-empty" class="empty-state hidden">
+                            <i class="fa-solid fa-inbox"></i>
+                            No pending applications.
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2 class="panel-title"><i class="fa-solid fa-circle-check"></i> Approved Ambassadors</h2>
+                            <span class="badge badge-green" id="approved-count">0 Active</span>
+                        </div>
+                        <div class="panel-body space-y-3" id="approved-list"></div>
+                        <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Approved ambassadors receive their referral code on the dashboard.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ STUDENTS ============ -->
+            <section id="panel-students" class="hidden">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h2 class="panel-title"><i class="fa-solid fa-user-graduate"></i> Student Management</h2>
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span class="badge badge-blue" id="student-count">0 Students</span>
+                            <input id="student-search" class="search-input" type="text" placeholder="Search by name or course..."
+                                   oninput="renderStudents()">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Course</th>
+                                    <th>Progress</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-body"></tbody>
+                        </table>
+                    </div>
+                    <div id="student-empty" class="empty-state hidden">
+                        <i class="fa-solid fa-user-slash"></i>
+                        No students found.
+                    </div>
+                    <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Only active students can access courses.</div>
+                </div>
+            </section>
+
+            <!-- ============ USERS ============ -->
+            <section id="panel-users" class="hidden">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h2 class="panel-title"><i class="fa-solid fa-users-gear"></i> All Users</h2>
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span class="badge badge-purple" id="user-count">0 Users</span>
+                            <input id="user-search" class="search-input" type="text" placeholder="Search by name or email..."
+                                   oninput="renderUsers()">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Contact</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-body"></tbody>
+                        </table>
+                    </div>
+                    <div id="user-empty" class="empty-state hidden">
+                        <i class="fa-solid fa-user-slash"></i>
+                        No users found.
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+            <!-- Top Row -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+                <!-- LEFT: Logo + Tagline -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                    <a href="home.html">
+                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                    </a>
+                    <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                        Physioprisma
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">By Dr.Tuba Sultan & Dr. Syed Sultan Ahmed Zaidi</p>
+                </div>
+
+                <!-- CENTER: Explore Links -->
+                <div class="flex flex-col items-center text-center">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                        <li>
+                            <button onclick="toggleClinicDropdown()"
+                                class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                                Our Clinic
+                                <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                            </button>
+                            <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                                <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                                <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                            </div>
+                        </li>
+                        <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT: Social + CTA -->
+                <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                    <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                    <div class="flex gap-4 text-2xl mb-6">
+                        <a href="https://wa.link/lcqilt" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                    <a href="contact.html"
+                        class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                        Get In Touch
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 mt-14 pt-6">
+            <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script>
+        // ---------- Storage helpers (page keeps working if storage fails) ----------
+        const REQ_LIST_KEY = 'pp_amb_requests';
+        const REQ_KEY = 'pp_ambassador_request';
+
+        function readList() {
+            try {
+                return JSON.parse(localStorage.getItem(REQ_LIST_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function writeList(list) {
+            try {
+                localStorage.setItem(REQ_LIST_KEY, JSON.stringify(list));
+            } catch (e) { }
+        }
+
+        // ---------- Demo data (will come from the API once backend is ready) ----------
+        const demoRequests = [
+            { name: 'Usman Tariq', email: 'usman@test.com', phone: '0321-5551234', city: 'Lahore', status: 'Pending', date: '05 Oct 2026' },
+            { name: 'Hina Aslam', email: 'hina@test.com', phone: '0333-7788990', city: 'Islamabad', status: 'Pending', date: '04 Oct 2026' },
+            { name: 'Faisal Mehmood', email: 'faisal@test.com', phone: '0300-1122334', city: 'Karachi', status: 'Approved', date: '28 Sep 2026' },
+            { name: 'Ayesha Noor', email: 'ayesha.n@test.com', phone: '0345-9988776', city: 'Multan', status: 'Approved', date: '21 Sep 2026' }
+        ];
+
+        const demoStudents = [
+            { id: 1, name: 'Ali Raza', email: 'ali@test.com', course: 'Dry Needling - Basic to Advanced', progress: 68, joined: '02 Oct 2026', active: true },
+            { id: 2, name: 'Ayesha Khan', email: 'ayesha@test.com', course: 'Dry Cupping Therapy - Level 1 & 2', progress: 100, joined: '28 Sep 2026', active: true },
+            { id: 3, name: 'Hamza Ali', email: 'hamza@test.com', course: 'K-Taping Certification', progress: 25, joined: '25 Sep 2026', active: true },
+            { id: 4, name: 'Sara Ahmed', email: 'sara.ahmed@test.com', course: 'Manual Therapy Techniques', progress: 42, joined: '19 Sep 2026', active: true },
+            { id: 5, name: 'Bilal Hussain', email: 'bilal@test.com', course: 'Sports Injury Management', progress: 12, joined: '15 Sep 2026', active: false },
+            { id: 6, name: 'Mehwish Aslam', email: 'mehwish@test.com', course: 'Pediatric Physiotherapy Essentials', progress: 77, joined: '11 Sep 2026', active: true }
+        ];
+
+        const demoUsers = [
+            { name: 'Admin', email: 'admin@physioprisma.com', role: 'Admin', joined: '01 Jan 2026', status: 'Active' },
+            { name: 'Ali Raza', email: 'ali@test.com', role: 'Student', joined: '02 Oct 2026', status: 'Active' },
+            { name: 'Ayesha Khan', email: 'ayesha@test.com', role: 'Student', joined: '28 Sep 2026', status: 'Active' },
+            { name: 'Bilal Hussain', email: 'bilal@test.com', role: 'Student', joined: '15 Sep 2026', status: 'Suspended' },
+            { name: 'Faisal Mehmood', email: 'faisal@test.com', role: 'Ambassador', joined: '28 Sep 2026', status: 'Active' },
+            { name: 'Ayesha Noor', email: 'ayesha.n@test.com', role: 'Ambassador', joined: '21 Sep 2026', status: 'Active' }
+        ];
+
+        // Merge: applications submitted on the portal appear first (sorted by date)
+        function allRequests() {
+            const stored = readList();
+            const seen = {};
+            const merged = [];
+
+            stored.forEach(r => {
+                seen[(r.email || '').toLowerCase()] = true;
+                merged.push(r);
+            });
+
+            demoRequests.forEach(r => {
+                if (!seen[(r.email || '').toLowerCase()]) merged.push(r);
+            });
+
+            return merged;
+        }
+
+        let requests = allRequests();
+        let students = demoStudents.slice();
+
+        // ---------- Tabs ----------
+        function showTab(tab) {
+            ['overview', 'requests', 'students', 'users'].forEach(t => {
+                document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+                document.getElementById('panel-' + t).classList.toggle('hidden', t !== tab);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ---------- Toast ----------
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+        }
+
+        // ---------- Requests ----------
+        function initialsOf(name) {
+            return (name || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        }
+
+        function saveRequests() {
+            writeList(requests);
+        }
+
+        function syncSingleRequest(email, status) {
+            try {
+                const single = JSON.parse(localStorage.getItem(REQ_KEY));
+                if (single && (single.email || '').toLowerCase() === (email || '').toLowerCase()) {
+                    single.status = status;
+                    localStorage.setItem(REQ_KEY, JSON.stringify(single));
+                }
+            } catch (e) { }
+        }
+
+        function approveReq(email) {
+            const r = requests.find(x => (x.email || '').toLowerCase() === (email || '').toLowerCase());
+            if (!r) return;
+            r.status = 'Approved';
+            saveRequests();
+            syncSingleRequest(email, 'Approved');
+            renderRequests();
+            renderStats();
+            renderActivity();
+            showToast(r.name + ' is now an Approved Ambassador!');
+        }
+
+        function rejectReq(email) {
+            const r = requests.find(x => (x.email || '').toLowerCase() === (email || '').toLowerCase());
+            if (!r) return;
+            r.status = 'Rejected';
+            saveRequests();
+            syncSingleRequest(email, 'Rejected');
+            renderRequests();
+            renderStats();
+            renderActivity();
+            showToast(r.name + ' - application has been rejected.');
+        }
+
+        function renderRequests() {
+            const pending = requests.filter(r => r.status === 'Pending');
+            const approved = requests.filter(r => r.status === 'Approved');
+
+            const pendingList = document.getElementById('pending-list');
+            const approvedList = document.getElementById('approved-list');
+
+            document.getElementById('pending-count').textContent = pending.length + ' Waiting';
+            document.getElementById('approved-count').textContent = approved.length + ' Active';
+            document.getElementById('tab-req-count').textContent = pending.length;
+            document.getElementById('pending-empty').classList.toggle('hidden', pending.length > 0);
+            pendingList.classList.toggle('hidden', pending.length === 0);
+
+            pendingList.innerHTML = pending.map(r => `
+                <div class="req-card">
+                    <div class="flex items-start gap-3">
+                        <div class="avatar sm">${initialsOf(r.name)}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="font-bold text-gray-800 text-[0.95rem] truncate">${r.name}</p>
+                                <span class="badge badge-amber"><i class="fa-solid fa-hourglass-half"></i> Pending</span>
+                            </div>
+                            <div class="req-meta mt-1">
+                                <span><i class="fa-solid fa-envelope"></i>${r.email || '-'}</span>
+                                <span><i class="fa-solid fa-phone"></i>${r.phone || '-'}</span>
+                                <span><i class="fa-solid fa-city"></i>${r.city || '-'}</span>
+                                <span><i class="fa-solid fa-calendar"></i>${r.date || '-'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="btn-approve" onclick="approveReq('${(r.email || '').replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </button>
+                        <button class="btn-reject" onclick="rejectReq('${(r.email || '').replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-xmark"></i> Reject
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            approvedList.innerHTML = approved.length === 0
+                ? '<div class="empty-state"><i class="fa-solid fa-handshake"></i>No approved ambassadors yet.</div>'
+                : approved.map(r => `
+                    <div class="req-card">
+                        <div class="flex items-start gap-3">
+                            <div class="avatar sm">${initialsOf(r.name)}</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <p class="font-bold text-gray-800 text-[0.95rem] truncate">${r.name}</p>
+                                    <span class="badge badge-green"><i class="fa-solid fa-circle-check"></i> Approved</span>
+                                </div>
+                                <div class="req-meta mt-1">
+                                    <span><i class="fa-solid fa-envelope"></i>${r.email || '-'}</span>
+                                    <span><i class="fa-solid fa-city"></i>${r.city || '-'}</span>
+                                    <span><i class="fa-solid fa-calendar"></i>${r.date || '-'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        // ---------- Students ----------
+        function renderStudents() {
+            const q = (document.getElementById('student-search').value || '').toLowerCase();
+            const list = students.filter(s =>
+                s.name.toLowerCase().includes(q) || s.course.toLowerCase().includes(q)
+            );
+
+            document.getElementById('student-count').textContent = students.length + ' Students';
+            document.getElementById('tab-stu-count').textContent = students.length;
+            document.getElementById('student-empty').classList.toggle('hidden', list.length > 0);
+
+            document.getElementById('student-body').innerHTML = list.map(s => `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2.5">
+                            <div class="avatar sm">${initialsOf(s.name)}</div>
+                            <div class="min-w-0">
+                                <p class="font-bold text-gray-800 text-[0.88rem] leading-tight">${s.name}</p>
+                                <p class="text-[11px] text-gray-500">${s.email}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-[0.82rem]">${s.course}</td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div class="progress-track"><div class="progress-fill" style="width:${s.progress}%"></div></div>
+                            <span class="text-[11px] font-bold text-[var(--purple)] whitespace-nowrap">${s.progress}%</span>
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap text-[0.8rem]">${s.joined}</td>
+                    <td>${s.active
+                        ? '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Active</span>'
+                        : '<span class="badge badge-red"><i class="fa-solid fa-ban"></i> Suspended</span>'}</td>
+                    <td>
+                        <button class="btn-mini" onclick="toggleStudent(${s.id})">
+                            ${s.active ? 'Suspend' : 'Activate'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function toggleStudent(id) {
+            const s = students.find(x => x.id === id);
+            if (!s) return;
+            s.active = !s.active;
+            renderStudents();
+            renderStats();
+            showToast(s.name + (s.active ? ' is now active.' : ' has been suspended.'));
+        }
+
+        // ---------- Users ----------
+        function roleBadge(role) {
+            if (role === 'Admin') return '<span class="badge badge-purple"><i class="fa-solid fa-shield-halved"></i> Admin</span>';
+            if (role === 'Ambassador') return '<span class="badge badge-blue"><i class="fa-solid fa-handshake"></i> Ambassador</span>';
+            return '<span class="badge badge-gray"><i class="fa-solid fa-user-graduate"></i> Student</span>';
+        }
+
+        function allUsers() {
+            const list = demoUsers.slice();
+
+            students.forEach(s => {
+                if (!list.some(u => u.email === s.email)) {
+                    list.push({ name: s.name, email: s.email, role: 'Student', joined: s.joined, status: s.active ? 'Active' : 'Suspended' });
+                } else {
+                    const u = list.find(x => x.email === s.email);
+                    if (u) u.status = s.active ? 'Active' : 'Suspended';
+                }
+            });
+
+            requests.filter(r => r.status === 'Approved').forEach(r => {
+                if (!list.some(u => u.email === r.email)) {
+                    list.push({ name: r.name, email: r.email, role: 'Ambassador', joined: r.date, status: 'Active' });
+                }
+            });
+
+            return list;
+        }
+
+        function renderUsers() {
+            const q = (document.getElementById('user-search').value || '').toLowerCase();
+            const users = allUsers();
+            const list = users.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+
+            document.getElementById('user-count').textContent = users.length + ' Users';
+            document.getElementById('user-empty').classList.toggle('hidden', list.length > 0);
+
+            document.getElementById('user-body').innerHTML = list.map(u => `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-2.5">
+                            <div class="avatar sm">${initialsOf(u.name)}</div>
+                            <p class="font-bold text-gray-800 text-[0.88rem]">${u.name}</p>
+                        </div>
+                    </td>
+                    <td class="text-[0.82rem] text-gray-600">${u.email}</td>
+                    <td>${roleBadge(u.role)}</td>
+                    <td class="whitespace-nowrap text-[0.8rem]">${u.joined}</td>
+                    <td>${u.status === 'Active'
+                        ? '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Active</span>'
+                        : '<span class="badge badge-red"><i class="fa-solid fa-ban"></i> ' + u.status + '</span>'}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ---------- Stats + Activity ----------
+        function renderStats() {
+            const users = allUsers();
+            const ambassadors = requests.filter(r => r.status === 'Approved').length;
+            const pending = requests.filter(r => r.status === 'Pending').length;
+            const studentsCount = students.length;
+
+            document.getElementById('stat-users').textContent = users.length;
+            document.getElementById('stat-students').textContent = studentsCount;
+            document.getElementById('stat-ambassadors').textContent = ambassadors;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('tab-req-count').textContent = pending;
+            document.getElementById('tab-stu-count').textContent = studentsCount;
+        }
+
+        function renderActivity() {
+            const items = [];
+
+            requests.slice(0, 3).forEach(r => {
+                items.push({
+                    icon: r.status === 'Approved' ? 'fa-circle-check' : (r.status === 'Rejected' ? 'fa-circle-xmark' : 'fa-user-clock'),
+                    text: '<strong>' + r.name + '</strong>' + '\'s ambassador application ' +
+                        (r.status === 'Approved' ? 'was approved' : (r.status === 'Rejected' ? 'was rejected' : 'was submitted - approval pending')) + '.',
+                    time: r.date || ''
+                });
+            });
+
+            students.slice(0, 3).forEach(s => {
+                items.push({
+                    icon: s.active ? 'fa-graduation-cap' : 'fa-user-slash',
+                    text: '<strong>' + s.name + '</strong> - ' + s.course + ' (' + s.progress + '% complete).',
+                    time: s.joined
+                });
+            });
+
+            document.getElementById('activity-list').innerHTML = items.map(i => `
+                <div class="activity-item">
+                    <div class="activity-dot"><i class="fa-solid ${i.icon}"></i></div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-gray-700 leading-snug">${i.text}</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i>${i.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ---------- Init ----------
+        renderRequests();
+        renderStudents();
+        renderUsers();
+        renderStats();
+        renderActivity();
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Footer dropdown
+        function toggleClinicDropdown() {
+            const dropdown = document.getElementById('clinic-dropdown');
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('clinic-dropdown');
+            const button = e.target.closest('button');
+            if (dropdown && !button && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Fixed WhatsApp Floating Button -->
+    <a href="https://wa.link/lcqilt" target="_blank"
+        class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+        <span
+            class="absolute -top-10 right-0 bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+            Chat on WhatsApp
+        </span>
+    </a>
+
+</body>
+
+</html>
