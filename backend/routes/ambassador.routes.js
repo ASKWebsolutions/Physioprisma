@@ -4,7 +4,6 @@ const express = require('express');
 
 const User = require('../models/User.model');
 const Enrollment = require('../models/Enrollment.model');
-const { env } = require('../config/env');
 const { asyncHandler } = require('../middleware/error');
 const { protect, requireRole, requireActive } = require('../middleware/auth');
 
@@ -52,9 +51,11 @@ router.get(
     });
 
     const enrolledCount = referrals.filter((r) => r.status === 'Enrolled').length;
-    const rewardPerEnrollment = env.rewardPerEnrollment;
-    // Rewards are earned per enrollment, not per referred student.
-    const earned = enrollments.length * rewardPerEnrollment;
+    // Referred students who are learning right now (an enrollment still in progress).
+    const activeUsers = new Set();
+    for (const e of enrollments) {
+      if (e.status === 'active') activeUsers.add(String(e.user));
+    }
 
     res.json({
       ok: true,
@@ -68,13 +69,12 @@ router.get(
         joinedAt: req.user.joinedAt,
       },
       referralCode: code,
-      rewardPerEnrollment,
       stats: {
         total: referrals.length,
         enrolled: enrolledCount,
         pending: referrals.length - enrolledCount,
+        active: activeUsers.size,
         enrollments: enrollments.length,
-        earned,
       },
       referrals,
     });

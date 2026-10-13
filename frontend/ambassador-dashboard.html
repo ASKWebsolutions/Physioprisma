@@ -711,11 +711,11 @@
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon bg-blue-100 text-[var(--blue)]"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="stat-icon bg-blue-100 text-[var(--blue)]"><i class="fa-solid fa-book-open-reader"></i></div>
                     <div class="min-w-0">
-                        <div class="stat-value" id="stat-earned">0</div>
-                        <div class="stat-label">Rewards (PKR)</div>
-                        <div class="stat-note" id="stat-reward-note">500 per enrollment</div>
+                        <div class="stat-value" id="stat-active">0</div>
+                        <div class="stat-label">Active Students</div>
+                        <div class="stat-note">Currently learning</div>
                     </div>
                 </div>
             </section>
@@ -821,7 +821,7 @@
                         <div class="panel-body space-y-2.5 text-[0.85rem] text-gray-600">
                             <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Share your referral code with friends and classmates.</p>
                             <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Post it on your WhatsApp status and social media.</p>
-                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Earn Rewards (PKR) 500 for every enrollment through your code.</p>
+                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Follow each student from sign-up all the way to course completion.</p>
                             <a href="contact.html" class="btn-grad full mt-1">
                                 <i class="fa-solid fa-headset"></i> Contact Support
                             </a>
@@ -1005,13 +1005,11 @@
             `).join('');
         }
 
-        // Rewards (PKR) = 500 per enrollment, straight from the backend.
-        function renderStats(stats, rewardPerEnrollment) {
+        function renderStats(stats) {
             document.getElementById('stat-total').textContent = stats.total || 0;
             document.getElementById('stat-approved').textContent = stats.enrolled || 0;
             document.getElementById('stat-pending').textContent = stats.pending || 0;
-            document.getElementById('stat-earned').textContent = (stats.earned || 0).toLocaleString();
-            document.getElementById('stat-reward-note').textContent = rewardPerEnrollment + ' per enrollment';
+            document.getElementById('stat-active').textContent = stats.active || 0;
         }
 
         function setShareLink() {
@@ -1030,7 +1028,7 @@
                 code = data.referralCode || '--------';
                 renderProfile(data.user || {});
                 setShareLink();
-                renderStats(data.stats || {}, data.rewardPerEnrollment || 500);
+                renderStats(data.stats || {});
                 renderReferrals(data.referrals || []);
             }).catch(function (err) {
                 if (err && (err.status === 401 || err.status === 403)) {
