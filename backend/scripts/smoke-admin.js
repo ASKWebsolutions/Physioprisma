@@ -17,7 +17,7 @@ const { window } = dom;
 const doc = window.document;
 
 // --- structural checks -------------------------------------------------
-const sections = ['overview', 'requests', 'students', 'users', 'courses', 'blogs', 'gallery', 'settings'];
+const sections = ['overview', 'requests', 'students', 'users', 'messages', 'courses', 'blogs', 'gallery', 'settings'];
 ok('has sidebar', !!doc.getElementById('sidebar'));
 ok('has sidebar collapse btn', !!doc.getElementById('sb-collapse'));
 ok('has mobile toggle', !!doc.getElementById('sb-toggle'));
@@ -31,10 +31,10 @@ sections.forEach(s => {
 });
 
 const navLinks = doc.querySelectorAll('.sb-nav .side-link');
-ok('sidebar has 8 nav links', navLinks.length === 8, 'found ' + navLinks.length);
+ok('sidebar has 9 nav links', navLinks.length === 9, 'found ' + navLinks.length);
 
 // counts
-['nav-req-count', 'nav-stu-count', 'nav-course-count', 'nav-blog-count'].forEach(id =>
+['nav-req-count', 'nav-stu-count', 'nav-course-count', 'nav-blog-count', 'nav-msg-count'].forEach(id =>
   ok('badge ' + id, !!doc.getElementById(id)));
 
 // stat cards
@@ -42,7 +42,7 @@ ok('sidebar has 8 nav links', navLinks.length === 8, 'found ' + navLinks.length)
   .forEach(id => ok('stat ' + id, !!doc.getElementById(id)));
 
 // panels with mount points
-const mounts = ['activity-list','pending-list','approved-list','student-body','user-body','course-grid','blog-list','gallery-albums'];
+const mounts = ['activity-list','pending-list','approved-list','student-body','user-body','message-list','course-grid','blog-list','gallery-albums'];
 mounts.forEach(id => ok('mount #' + id, !!doc.getElementById(id)));
 
 // modal + toast
@@ -81,12 +81,16 @@ const fakePP = {
 let lastToast = '';
 
 function mockData(p) {
-  if (p.startsWith('/admin/stats')) return { ok: true, stats: { totalUsers: 4, students: 2, ambassadors: 1, pendingRequests: 1, courses: 2, publishedBlogs: 3, enrollments: 5 } };
+  if (p.startsWith('/admin/stats')) return { ok: true, stats: { totalUsers: 4, students: 2, ambassadors: 1, pendingRequests: 1, courses: 2, publishedBlogs: 3, enrollments: 5, messages: 2, newMessages: 1 } };
   if (p.startsWith('/admin/activity')) return { ok: true, items: [{ icon: 'fa-user-graduate', text: '<strong>Ali</strong> registered as a student', time: '2026-10-01' }] };
   if (p.startsWith('/admin/requests?status=pending')) return { ok: true, requests: [{ id: 'r1', name: 'Hina Aslam', email: 'h@x.com', phone: '0333', city: 'Lahore', status: 'pending', joined: '2026-10-01' }] };
   if (p.startsWith('/admin/requests?status=approved')) return { ok: true, requests: [{ id: 'r2', name: 'Faisal', email: 'f@x.com', status: 'active', referralCode: 'PPABC123' }] };
   if (p.startsWith('/admin/students')) return { ok: true, students: [{ id: 's1', name: 'Ali Raza', email: 'ali@t.com', course: 'Dry Needling', progress: 68, status: 'active', joined: '2026-10-01' }] };
   if (p.startsWith('/admin/users')) return { ok: true, users: [{ id: 'u1', name: 'Admin', email: 'a@b.c', role: 'admin', status: 'active', joined: '2026-01-01' }] };
+  if (p.startsWith('/admin/contacts')) return { ok: true, messages: [
+    { id: 'm1', name: 'Ayesha Khan', phone: '03001234567', email: 'ay@x.com', concern: 'Sports Injury', message: 'I have knee pain after cricket.', status: 'new', source: 'contact-form', createdAt: '2026-10-01' },
+    { id: 'm2', name: 'Bilal Ahmed', phone: '03111111111', email: '', concern: 'Back / Neck Pain', message: 'Please call me back.', status: 'replied', source: 'contact-form', createdAt: '2026-09-28' },
+  ], total: 2, unread: 1 };
   if (p.startsWith('/admin/courses/')) return { ok: true, course: { id: 'c1', title: 'T', lessons: [{ _id: 'l1', title: 'L1', duration: '5 min' }] } };
   if (p.startsWith('/admin/courses')) return { ok: true, courses: [{ id: 'c1', title: 'Dry Needling', description: 'Learn', lessons: 3, level: 'Basic', instructor: 'Dr Tuba', image: '', icon: 'fa-solid fa-syringe', accent: 'purple', published: true, details: ['d1'] }] };
   if (p.startsWith('/admin/blogs')) return { ok: true, blogs: [{ id: 'b1', title: 'Post One', category: 'Tips', author: 'Team', dateText: 'Oct 01, 2026', excerpt: 'ex', content: '<p>hello</p>', image: '', published: true, createdAt: '2026-10-01' }] };
@@ -149,6 +153,44 @@ const run = async () => {
   window.showSection('users');
   await new Promise(r => setTimeout(r, 120));
   ok('users rendered', doc.getElementById('user-body').innerHTML.includes('Admin'));
+
+  window.showSection('messages');
+  await new Promise(r => setTimeout(r, 120));
+  ok('messages loaded', calls.includes('GET /admin/contacts'));
+  ok('message rendered', doc.getElementById('message-list').innerHTML.includes('Ayesha Khan'));
+  ok('message shows the full text', doc.getElementById('message-list').innerHTML.includes('I have knee pain after cricket.'));
+  ok('message shows phone + concern', doc.getElementById('message-list').innerHTML.includes('03001234567') &&
+    doc.getElementById('message-list').innerHTML.includes('Sports Injury'));
+  ok('replied message rendered', doc.getElementById('message-list').innerHTML.includes('Bilal Ahmed'));
+  ok('unread badge', doc.getElementById('message-unread').textContent === '1 New',
+    doc.getElementById('message-unread').textContent);
+  ok('total badge', doc.getElementById('message-count').textContent === '2 Messages',
+    doc.getElementById('message-count').textContent);
+  ok('nav message badge', doc.getElementById('nav-msg-count').textContent === '1');
+  ok('message search filters', (function () {
+    const box = doc.getElementById('message-search');
+    box.value = 'Bilal';
+    window.renderMessages();
+    const html = doc.getElementById('message-list').innerHTML;
+    const okFiltered = html.includes('Bilal Ahmed') && !html.includes('Ayesha Khan');
+    box.value = '';
+    window.renderMessages();
+    return okFiltered;
+  })());
+
+  const msgDel = doc.querySelector('[data-msg-del]');
+  ok('message delete button exists', !!msgDel);
+  if (msgDel) {
+    msgDel.click();
+    await new Promise(r => setTimeout(r, 60));
+    ok('message delete asks for confirmation', doc.getElementById('confirm').classList.contains('show'));
+    ok('message delete waits for confirmation',
+      !calls.some(c => c.indexOf('DELETE /admin/contacts') === 0));
+    doc.getElementById('confirm-yes').click();
+    await new Promise(r => setTimeout(r, 200));
+    ok('message delete calls API', calls.some(c => c === 'DELETE /admin/contacts/m1'),
+      JSON.stringify(calls.filter(c => c.indexOf('DELETE') === 0)));
+  }
 
   window.showSection('settings');
   await new Promise(r => setTimeout(r, 120));

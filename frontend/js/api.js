@@ -160,6 +160,42 @@
   }
 
   /**
+   * Download a file from the API (with the auth header) and save it locally.
+   * Used for generated files such as course certificates - no JSON parsing.
+   */
+  function downloadFile(path, filename) {
+    var headers = {};
+    var token = getToken();
+    if (token) headers.Authorization = 'Bearer ' + token;
+
+    return global
+      .fetch(API_BASE + path, { headers: headers })
+      .then(function (res) {
+        if (!res.ok) {
+          if (res.status === 401) clearSession();
+          throw ApiError('Download failed (' + res.status + ')', res.status);
+        }
+        return res.blob();
+      })
+      .then(function (blob) {
+        var url = global.URL.createObjectURL(blob);
+        var link = global.document.createElement('a');
+        link.href = url;
+        link.download = filename || 'download';
+        global.document.body.appendChild(link);
+        link.click();
+        global.document.body.removeChild(link);
+        global.setTimeout(function () {
+          global.URL.revokeObjectURL(url);
+        }, 5000);
+      })
+      .catch(function (err) {
+        if (err && err.name === 'ApiError') throw err;
+        throw ApiError('Could not reach the server. Please try again.', 0);
+      });
+  }
+
+  /**
    * Guard for dashboard pages: returns the current user or redirects to the
    * right login page. Call as:  const user = await PP.requireRole('admin');
    */
@@ -263,6 +299,7 @@
     patch: patch,
     put: put,
     del: del,
+    downloadFile: downloadFile,
     getToken: getToken,
     getUser: getUser,
     setSession: setSession,

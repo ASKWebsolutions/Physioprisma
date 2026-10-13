@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate - Physioprisma</title>
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #eef1f6;
+            color: #1f2937;
+            padding: 1.5rem 1rem 3rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bar {
+            max-width: 1000px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bar h1 { font-size: 1.05rem; margin: 0; font-weight: 800; }
+
+        .bar-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: .85rem;
+            padding: .6rem 1.15rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+        }
+
+        .btn-primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; }
+        .btn-ghost { background: #fff; color: #374151; border: 1.5px solid #e5e7eb; }
+
+        .sheet {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, .14);
+            padding: 1.4rem;
+            position: relative;
+        }
+
+        .frame {
+            border: 3px solid var(--purple);
+            border-radius: .6rem;
+            padding: clamp(1.4rem, 5vw, 3.4rem);
+            text-align: center;
+            position: relative;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(107, 33, 168, .06), transparent 45%),
+                radial-gradient(circle at 100% 100%, rgba(14, 165, 233, .08), transparent 45%);
+        }
+
+        .frame:before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(14, 165, 233, .55);
+            border-radius: .35rem;
+            pointer-events: none;
+        }
+
+        .logo { height: 62px; width: 62px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+
+        .brand { font-size: .95rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--purple); margin-top: .6rem; }
+
+        .kicker { font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-top: 1.5rem; }
+
+        .title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+            font-weight: 700;
+            margin: .35rem 0 1.6rem;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .lead { font-size: .95rem; color: #6b7280; margin: 0 0 .4rem; }
+        .name { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; color: #111827; margin: 0 0 1rem; }
+        .name span { border-bottom: 2px solid rgba(107, 33, 168, .25); padding: 0 .3rem .25rem; }
+
+        .course { font-size: clamp(1.05rem, 2.6vw, 1.4rem); font-weight: 700; color: var(--purple); margin: .2rem 0 1.6rem; }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.6rem;
+            font-size: .78rem;
+            color: #6b7280;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .meta strong { display: block; color: #111827; font-size: .88rem; letter-spacing: 0; text-transform: none; margin-top: .2rem; }
+
+        .signs { display: flex; justify-content: center; gap: clamp(2rem, 10vw, 6rem); margin-top: 2.6rem; flex-wrap: wrap; }
+        .sign { min-width: 190px; }
+        .sign i { display: block; font-style: italic; font-family: Georgia, serif; font-size: 1.15rem; color: #374151; margin-bottom: .35rem; }
+        .sign b { display: block; border-top: 1px solid #d1d5db; padding-top: .45rem; font-size: .8rem; color: #374151; }
+        .sign small { color: #9ca3af; font-size: .72rem; }
+
+        .status { max-width: 640px; margin: 3rem auto; background: #fff; border-radius: 1rem; padding: 2.5rem 1.5rem; text-align: center; box-shadow: 0 16px 40px rgba(15, 23, 42, .1); }
+        .status h2 { margin: 0 0 .5rem; font-size: 1.3rem; }
+        .status p { color: #6b7280; margin: 0 0 1.4rem; }
+        .hidden { display: none !important; }
+
+        @page { size: A4 landscape; margin: 10mm; }
+
+        @media print {
+            body { background: #fff; padding: 0; }
+            .no-print { display: none !important; }
+            .sheet { box-shadow: none; border-radius: 0; padding: 0; max-width: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bar no-print">
+        <h1><i>&#127891;</i> Your Certificate</h1>
+        <div class="bar-actions">
+            <a class="btn btn-ghost" href="student-dashboard.html">&larr; Dashboard</a>
+            <button type="button" id="download-btn" class="btn btn-primary">&#8681; Download PDF</button>
+        </div>
+    </div>
+    <p id="dl-note" class="hidden no-print" style="max-width:1000px;margin:0 auto 1rem;color:#b91c1c;font-size:.85rem;font-weight:600;"></p>
+
+    <!-- Certificate -->
+    <div class="sheet hidden" id="sheet">
+        <div class="frame">
+            <img class="logo" alt="Physioprisma"
+                 src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg">
+            <div class="brand">Physioprisma Academy</div>
+
+            <p class="kicker">Certificate of Completion</p>
+            <h1 class="title">Certificate of Completion</h1>
+
+            <p class="lead">This is to certify that</p>
+            <p class="name"><span id="c-name">&nbsp;</span></p>
+
+            <p class="lead">has successfully completed the course</p>
+            <p class="course" id="c-course">&nbsp;</p>
+
+            <div class="meta">
+                <div>Completed On<strong id="c-date">-</strong></div>
+                <div>Instructor<strong id="c-instructor">-</strong></div>
+                <div>Lessons<strong id="c-lessons">-</strong></div>
+                <div>Certificate ID<strong id="c-id">-</strong></div>
+            </div>
+
+            <div class="signs">
+                <div class="sign">
+                    <i>Dr Tuba Sultan</i>
+                    <b>Dr Tuba Sultan (PT)</b>
+                    <small>Co-founder, Physioprisma Academy</small>
+                </div>
+                <div class="sign">
+                    <i>Dr Sultan Zaidi</i>
+                    <b>Dr. Sultan Zaidi (PT)</b>
+                    <small>Co-founder, Physioprisma Academy</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading / error states -->
+    <div class="status" id="status">
+        <h2 id="status-title">Loading your certificate...</h2>
+        <p id="status-text">Please wait a moment.</p>
+        <a class="btn btn-primary hidden" id="status-link" href="student-dashboard.html">Back to dashboard</a>
+    </div>
+
+    <script src="./js/api.js"></script>
+    <script>
+        'use strict';
+
+        function fmtDate(value) {
+            var d = value ? new Date(value) : null;
+            return d && !isNaN(d.getTime())
+                ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+                : '-';
+        }
+
+        function showStatus(title, text, withLink) {
+            document.getElementById('sheet').classList.add('hidden');
+            var box = document.getElementById('status');
+            box.classList.remove('hidden');
+            document.getElementById('status-title').textContent = title;
+            document.getElementById('status-text').textContent = text;
+            document.getElementById('status-link').classList.toggle('hidden', !withLink);
+        }
+
+        var currentCert = null;
+        var currentCourseId = '';
+
+        function render(cert) {
+            currentCert = cert;
+            document.getElementById('c-name').textContent = cert.studentName || '-';
+            document.getElementById('c-course').textContent = cert.courseTitle || '-';
+            document.getElementById('c-date').textContent = fmtDate(cert.completedAt || cert.issuedAt);
+            document.getElementById('c-instructor').textContent = cert.instructor || 'Physioprisma Academy';
+            document.getElementById('c-lessons').textContent = cert.lessons || '-';
+            document.getElementById('c-id').textContent = cert.id || '-';
+            document.title = 'Certificate - ' + (cert.courseTitle || 'Physioprisma');
+
+            document.getElementById('status').classList.add('hidden');
+            document.getElementById('sheet').classList.remove('hidden');
+        }
+
+        // Direct file download: the server returns a real PDF for this student.
+        function downloadPdf() {
+            if (!currentCert || !currentCourseId) return;
+
+            var btn = document.getElementById('download-btn');
+            var note = document.getElementById('dl-note');
+            var original = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = 'Preparing...';
+            if (note) { note.textContent = ''; note.classList.add('hidden'); }
+
+            var safeId = String(currentCert.id || 'certificate').replace(/[^A-Za-z0-9._-]/g, '');
+            var filename = 'Physioprisma-Certificate-' + safeId + '.pdf';
+
+            PP.downloadFile('/student/certificate/' + encodeURIComponent(currentCourseId) + '/pdf', filename)
+                .then(function () {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                })
+                .catch(function (err) {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                    if (note) {
+                        note.textContent = (err && err.message) || 'Could not download the certificate. Please try again.';
+                        note.classList.remove('hidden');
+                    }
+                });
+        }
+
+        document.getElementById('download-btn').addEventListener('click', downloadPdf);
+
+        // Only a signed-in, approved student can open their own certificate.
+        PP.requireRole('student').then(function (user) {
+            if (!user) return;
+
+            var id = new URLSearchParams(window.location.search).get('course');
+            currentCourseId = id || '';
+            if (!id) {
+                showStatus('No course selected', 'Open your dashboard and click the certificate for a completed course.', true);
+                return;
+            }
+
+            PP.get('/student/certificate/' + encodeURIComponent(id))
+                .then(function (data) {
+                    if (!data || !data.certificate) throw new Error('not ready');
+                    render(data.certificate);
+                })
+                .catch(function (err) {
+                    var msg = (err && err.message) || 'Your certificate is not available yet.';
+                    showStatus('Certificate not available', msg, true);
+                });
+        });
+    </script>
+</body>
+
+</html>

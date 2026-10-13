@@ -62,15 +62,19 @@ router.get(
   })
 );
 
-/* PATCH /api/admin/students/:id { status }                                  */
+/* PATCH /api/admin/students/:id { status } - approve / reject / suspend     */
 router.patch(
   '/:id',
-  validate({ status: { type: 'enum', values: ['active', 'suspended', 'pending'] } }),
+  validate({ status: { type: 'enum', values: ['active', 'suspended', 'pending', 'rejected'] } }),
   asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user || user.role !== 'student') throw ApiError.notFound('Student not found');
+
     user.status = req.body.status;
+    // Approving a registration opens the login gate for this student.
+    if (req.body.status === 'active' && !user.approvedAt) user.approvedAt = new Date();
     await user.save();
+
     res.json({ ok: true, student: publicUser(user) });
   })
 );

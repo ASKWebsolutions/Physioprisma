@@ -4,12 +4,19 @@ const mongoose = require('mongoose');
 
 const STATUSES = ['active', 'completed'];
 
+// Courses are text + images only. Reading this many seconds marks the course
+// complete (and unlocks the certificate).
+const REQUIRED_READING_SECONDS = 120; // ~2 minutes
+
 const enrollmentSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true, index: true },
 
     progress: { type: Number, default: 0, min: 0, max: 100 },
+    // Reading-time tracking (courses have no videos): seconds actually read.
+    readingSeconds: { type: Number, default: 0, min: 0 },
+    lastReadingAt: { type: Date, default: null },
     completedLectures: { type: [Number], default: [] },
     status: { type: String, enum: STATUSES, default: 'active', index: true },
 
@@ -24,6 +31,25 @@ const enrollmentSchema = new mongoose.Schema(
 
 // A user can only enroll in a course once
 enrollmentSchema.index({ user: 1, course: 1 }, { unique: true });
+
+/**
+ * Progress from reading time: REQUIRED_READING_SECONDS of reading = 100%.
+ * Hitting 100% marks the course completed and unlocks the certificate.
+ */
+enrollmentSchema.methods.recomputeReadingProgress = function recomputeReadingProgress() {
+  const seconds = Math.max(0, Math.min(this.readingSeconds || 0, REQUIRED_READING_SECONDS));
+  this.readingSeconds = seconds;
+  this.progress = Math.round((seconds / REQUIRED_READING_SECONDS) * 100);
+
+  if (this.progress >= 100) {
+    if (!this.completedAt) this.completedAt = new Date();
+    this.status = 'completed';
+  } else {
+    this.completedAt = null;
+    this.status = 'active';
+  }
+  return this.progress;
+};
 
 /** Recompute progress from completed lecture indexes. */
 enrollmentSchema.methods.recomputeProgress = function recomputeProgress(totalLessons) {
@@ -58,6 +84,8 @@ enrollmentSchema.methods.toDashboard = function toDashboard(course) {
     mentor: course ? course.instructor || 'Physioprisma Academy' : '',
     image: course && course.image ? course.image.url || '' : '',
     progress: this.progress,
+    readingSeconds: this.readingSeconds || 0,
+    requiredSeconds: REQUIRED_READING_SECONDS,
     lessons,
     done: this.completedLectures.length,
     status: this.status === 'completed' ? 'Completed' : 'In Progress',
@@ -68,3 +96,4 @@ enrollmentSchema.methods.toDashboard = function toDashboard(course) {
 
 module.exports = mongoose.model('Enrollment', enrollmentSchema);
 module.exports.STATUSES = STATUSES;
+module.exports.REQUIRED_READING_SECONDS = REQUIRED_READING_SECONDS;
