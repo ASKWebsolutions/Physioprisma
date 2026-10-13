@@ -519,6 +519,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="./js/api.js"></script>
     <script>
         // Mobile menu toggle
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -561,21 +562,38 @@
             }
         }
 
-        // Simple redirect (frontend only for now - API will be added here once backend is ready)
-        const REQ_KEY = 'pp_ambassador_request';
+        // Real auth: apply files a PENDING ambassador application (admin must
+        // approve it), login only works after approval (backend enforces both).
+        function setAuthMessage(text, type) {
+            const message = document.getElementById('auth-message');
+            message.textContent = text;
+            message.classList.remove('hidden');
+            if (type === 'error') {
+                message.style.background = '#fef2f2';
+                message.style.color = '#b91c1c';
+                message.style.border = '1px solid #fecaca';
+            } else {
+                message.style.background = '#ecfdf5';
+                message.style.color = '#047857';
+                message.style.border = '1px solid #a7f3d0';
+            }
+        }
 
-        function saveRequest(payload) {
-            try {
-                // List of all applications (the admin panel reads this)
-                const list = JSON.parse(localStorage.getItem('pp_amb_requests') || '[]');
-                const i = list.findIndex(r => (r.email || '').toLowerCase() === payload.email.toLowerCase());
-                if (i >= 0) list[i] = Object.assign({}, list[i], payload);
-                else list.push(payload);
-                localStorage.setItem('pp_amb_requests', JSON.stringify(list));
+        function setSubmitBusy(form, busy, label) {
+            const btn = form.querySelector('button[type="submit"]');
+            if (!btn) return;
+            if (busy) {
+                if (!btn.dataset.label) btn.dataset.label = btn.textContent.trim();
+                btn.textContent = label || 'Please wait...';
+            } else if (btn.dataset.label) {
+                btn.textContent = btn.dataset.label;
+            }
+            btn.disabled = busy;
+        }
 
-                // Latest application (used for the ambassador dashboard status)
-                localStorage.setItem(REQ_KEY, JSON.stringify(payload));
-            } catch (e) { /* ignore if storage is blocked */ }
+        function friendlyError(err, fallback) {
+            if (err && err.status === 0) return 'Could not reach the server. Is the backend running?';
+            return (err && err.message) || fallback || 'Something went wrong. Please try again.';
         }
 
         function handleAuth(event, mode) {
@@ -585,27 +603,48 @@
             const data = new FormData(form);
 
             if (mode === 'register') {
-                saveRequest({
+                setSubmitBusy(form, true, 'Submitting...');
+                PP.post('/auth/apply', {
                     name: (data.get('name') || '').toString().trim(),
                     email: (data.get('email') || '').toString().trim(),
                     phone: (data.get('phone') || '').toString().trim(),
                     city: (data.get('city') || '').toString().trim(),
-                    status: 'Pending',
-                    date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-                });
+                    password: (data.get('password') || '').toString(),
+                })
+                    .then(function () {
+                        form.reset();
+                        setAuthMessage(
+                            'Application submitted! You can log in with your email or phone and password once an admin approves your application.',
+                            'success'
+                        );
+                    })
+                    .catch(function (err) {
+                        setAuthMessage(friendlyError(err, 'Could not submit your application. Please try again.'), 'error');
+                    })
+                    .then(function () {
+                        setSubmitBusy(form, false);
+                    });
+                return false;
             }
 
-            const label = mode === 'register' ? 'Application submitted - it will be active after admin approval!' : 'Login successful!';
-            message.textContent = label + ' Redirecting to your dashboard...';
-            message.classList.remove('hidden');
-            message.style.background = '#ecfdf5';
-            message.style.color = '#047857';
-            message.style.border = '1px solid #a7f3d0';
-
-            form.reset();
-            setTimeout(() => {
-                window.location.href = 'ambassador-dashboard.html';
-            }, 800);
+            // Login - email OR phone + password (only after admin approval)
+            setSubmitBusy(form, true, 'Signing in...');
+            PP.post('/auth/login', {
+                identity: (data.get('identity') || '').toString().trim(),
+                password: (data.get('password') || '').toString(),
+                role: 'ambassador',
+            })
+                .then(function (res) {
+                    PP.setSession(res.token, res.user);
+                    setAuthMessage('Login successful! Redirecting to your dashboard...', 'success');
+                    setTimeout(function () {
+                        window.location.href = 'ambassador-dashboard.html';
+                    }, 600);
+                })
+                .catch(function (err) {
+                    setSubmitBusy(form, false);
+                    setAuthMessage(friendlyError(err, 'Unable to sign in right now.'), 'error');
+                });
             return false;
         }
 

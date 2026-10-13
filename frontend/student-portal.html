@@ -580,12 +580,15 @@
             const data = new FormData(form);
 
             if (mode === 'register') {
+                // Ambassador referral link (?ref=CODE) - credit the ambassador.
+                const refCode = new URLSearchParams(window.location.search).get('ref') || '';
                 setSubmitBusy(form, true, 'Submitting...');
                 PP.post('/auth/register', {
                     name: (data.get('name') || '').toString().trim(),
                     email: (data.get('email') || '').toString().trim(),
                     phone: (data.get('phone') || '').toString().trim(),
                     password: (data.get('password') || '').toString(),
+                    ref: refCode,
                 })
                     .then(function () {
                         form.reset();

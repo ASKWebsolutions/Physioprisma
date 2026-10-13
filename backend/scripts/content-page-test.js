@@ -98,7 +98,7 @@ async function main() {
       (doc.querySelector('#courses-api h3') || {}).textContent);
     report('course card shows a cover image', !!(doc.querySelector('#courses-api img')),
       (doc.querySelector('#courses-api img') || {}).getAttribute ? doc.querySelector('#courses-api img').getAttribute('src').slice(0, 60) : 'none');
-    report('course card has an Enroll link', !!doc.querySelector('#courses-api a[href="contact.html"]'));
+    report('course card has an Enroll button', !!doc.querySelector('#courses-api button[data-enroll]'));
     report('no script errors', dom.errors.length === 0, JSON.stringify(dom.errors.slice(0, 2)));
     dom.window.close();
 
@@ -127,9 +127,9 @@ async function main() {
       const cover = doc.getElementById('course-cover');
       report('course.html shows the course cover (no black player box)', !cover.classList.contains('hidden') && !!cover.getAttribute('src'),
         cover.getAttribute('src') || 'no src');
-      report('course.html shows an empty-player message', !doc.getElementById('player-empty').classList.contains('hidden'));
-      report('course.html hides the lesson title row', doc.getElementById('lesson-head').classList.contains('hidden'));
-      report('course.html hides the video element', doc.getElementById('player').classList.contains('hidden'));
+      report('course.html has no video player (reading course)', !doc.getElementById('player'));
+      report('course.html shows the reading progress panel', !!doc.getElementById('my-progress'));
+      report('course.html shows the enroll button', !!doc.getElementById('aside-enroll'));
     }
     report('course.html not-found panel stays hidden', doc.getElementById('course-missing').classList.contains('hidden'));
     report('no script errors', dom.errors.length === 0, JSON.stringify(dom.errors.slice(0, 2)));

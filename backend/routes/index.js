@@ -14,11 +14,12 @@ const router = express.Router();
  *   /api/courses public published course catalogue (+ detail with lessons)
  *   /api/blogs   public published posts (+ detail with full content)
  *   /api/contact public "Send Us a Message" form submissions
- *   Phase 4+:    /api/enrollments, /api/ambassador
+ *   /api/ambassador protected ambassador portal (own referrals + rewards)
  */
 router.use('/auth', require('./auth.routes'));
 router.use('/admin', require('./admin'));
 router.use('/student', require('./student.routes'));
+router.use('/ambassador', require('./ambassador.routes'));
 router.use('/gallery', require('./gallery.routes'));
 router.use('/courses', require('./courses.routes'));
 router.use('/blogs', require('./blogs.routes'));

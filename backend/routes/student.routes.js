@@ -137,7 +137,12 @@ router.post(
       });
     }
 
-    const enrollment = await Enrollment.create({ user: user._id, course: course._id });
+    const enrollment = await Enrollment.create({
+      user: user._id,
+      course: course._id,
+      // Keep the ambassador referral on the enrollment (drives Rewards PKR).
+      referredBy: user.referredBy || null,
+    });
     res.status(201).json({
       ok: true,
       message: `Enrolled in ${course.title}!`,

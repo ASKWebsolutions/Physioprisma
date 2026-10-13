@@ -657,7 +657,7 @@
                         <i class="fa-solid fa-handshake text-white text-[10px]"></i>
                         <span class="text-[10px] font-semibold tracking-[2px] text-white uppercase">Ambassador Portal</span>
                     </div>
-                    <h1 class="text-lg sm:text-2xl font-bold logo-font text-white truncate">Welcome, Ambassador!</h1>
+                    <h1 id="welcome-name" class="text-lg sm:text-2xl font-bold logo-font text-white truncate">Welcome, Ambassador!</h1>
                     <p class="text-white/90 text-xs sm:text-sm">Share your referrals and track them here.</p>
                 </div>
             </div>
@@ -715,7 +715,7 @@
                     <div class="min-w-0">
                         <div class="stat-value" id="stat-earned">0</div>
                         <div class="stat-label">Rewards (PKR)</div>
-                        <div class="stat-note">500 per enrollment</div>
+                        <div class="stat-note" id="stat-reward-note">500 per enrollment</div>
                     </div>
                 </div>
             </section>
@@ -821,7 +821,7 @@
                         <div class="panel-body space-y-2.5 text-[0.85rem] text-gray-600">
                             <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Share your referral code with friends and classmates.</p>
                             <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Post it on your WhatsApp status and social media.</p>
-                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Earn reward points for every enrollment.</p>
+                            <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Earn Rewards (PKR) 500 for every enrollment through your code.</p>
                             <a href="contact.html" class="btn-grad full mt-1">
                                 <i class="fa-solid fa-headset"></i> Contact Support
                             </a>
@@ -931,111 +931,123 @@
     <div id="toast" class="toast"></div>
 
     <!-- Scripts -->
+    <script src="./js/api.js"></script>
     <script>
-        // Frontend only for now - no login guard, the page opens directly
+        // Logout clears the session and returns to the ambassador login page.
         function logout() {
-            window.location.href = 'ambassador-portal.html';
+            PP.logout('ambassador');
         }
 
-        // Application status (saved when applied on the portal, approved by the admin)
-        const REQ_KEY = 'pp_ambassador_request';
+        // This ambassador's referral code + link (filled from the API).
+        let code = '--------';
+        let referralLink = '';
 
-        function readRequest() {
-            try {
-                return JSON.parse(localStorage.getItem(REQ_KEY));
-            } catch (e) {
-                return null;
-            }
+        function initialsOf(value) {
+            return (value || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
         }
 
-        const req = readRequest() || {};
-        const name = req.name || 'Ambassador';
-        const email = req.email || 'you@example.com';
-        const phone = req.phone || '03XX-XXXXXXX';
-        const city = req.city || 'Your City';
-        const status = req.status || 'Approved';
-        const joined = req.date || '01 Oct 2026';
-        const code = 'PPAMB1234';
-        const referralLink = location.origin + location.pathname.replace(/ambassador-dashboard\.html$/, 'student-portal.html') + '?ref=' + code;
-        const initials = name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        function fmtDate(value) {
+            const d = value ? new Date(value) : null;
+            return d && !isNaN(d.getTime())
+                ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+                : '-';
+        }
 
-        document.getElementById('nav-user').textContent = name;
-        document.getElementById('nav-user-mobile').textContent = name;
-        document.getElementById('avatar').textContent = initials;
-        document.getElementById('avatar-2').textContent = initials;
-        document.getElementById('profile-name').textContent = name;
-        document.getElementById('profile-email').textContent = email;
-        document.getElementById('profile-phone').textContent = phone;
-        document.getElementById('profile-city').textContent = city;
-        document.getElementById('profile-joined').textContent = joined;
-        document.getElementById('ref-code').textContent = code;
-        document.getElementById('ref-link').textContent = referralLink;
+        // Fill the profile area from the signed-in ambassador's own data.
+        function renderProfile(user) {
+            const name = (user && user.name) || 'Ambassador';
+            const initials = initialsOf(name);
+            document.getElementById('nav-user').textContent = name;
+            document.getElementById('nav-user-mobile').textContent = name;
+            document.getElementById('avatar').textContent = initials;
+            document.getElementById('avatar-2').textContent = initials;
+            document.getElementById('welcome-name').textContent = 'Welcome, ' + name.split(/\s+/)[0] + '!';
+            document.getElementById('profile-name').textContent = name;
+            document.getElementById('profile-email').textContent = (user && user.email) || '-';
+            document.getElementById('profile-phone').textContent = (user && user.phone) || '-';
+            document.getElementById('profile-city').textContent = (user && user.city) || '-';
+            document.getElementById('profile-joined').textContent = fmtDate(user && user.joinedAt);
 
-        const statusBadge = document.getElementById('status-badge');
-        const pendingNotice = document.getElementById('pending-notice');
-
-        if (status === 'Approved') {
+            // Only approved ambassadors reach this page (the backend blocks the rest).
+            const statusBadge = document.getElementById('status-badge');
             statusBadge.className = 'badge bg-white text-green-700 px-3.5 py-2 text-[11px]';
             statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Approved';
-            pendingNotice.classList.add('hidden');
-        } else if (status === 'Rejected') {
-            statusBadge.className = 'badge bg-white text-red-700 px-3.5 py-2 text-[11px]';
-            statusBadge.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Rejected';
-            pendingNotice.classList.remove('hidden');
-        } else {
-            statusBadge.className = 'badge bg-white text-amber-700 px-3.5 py-2 text-[11px]';
-            statusBadge.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Pending Approval';
-            pendingNotice.classList.remove('hidden');
+            document.getElementById('pending-notice').classList.add('hidden');
         }
-
-        document.getElementById('wa-share').href =
-            'https://wa.me/?text=' + encodeURIComponent(
-                'Check out Physioprisma Academy courses! Use my referral code: ' + code + '\n' + referralLink
-            );
-
-        // Demo referrals (will be replaced by backend data)
-        const referrals = [
-            { name: 'Ayesha Khan', course: 'Dry Needling - Basic to Advanced', date: '02 Oct 2026', status: 'Enrolled' },
-            { name: 'Hamza Ali', course: 'Dry Cupping Therapy - Level 1 & 2', date: '28 Sep 2026', status: 'Enrolled' },
-            { name: 'Sara Ahmed', course: 'K-Taping Certification', date: '25 Sep 2026', status: 'Pending' },
-            { name: 'Bilal Hussain', course: 'Manual Therapy Techniques', date: '19 Sep 2026', status: 'Enrolled' }
-        ];
 
         function refBadge(s) {
             if (s === 'Enrolled') return '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Enrolled</span>';
             return '<span class="badge badge-amber"><i class="fa-solid fa-hourglass-half"></i> Pending</span>';
         }
 
-        const refBody = document.getElementById('ref-body');
-        const refEmpty = document.getElementById('ref-empty');
+        function renderReferrals(referrals) {
+            const refBody = document.getElementById('ref-body');
+            const refEmpty = document.getElementById('ref-empty');
+            const tableWrap = document.querySelector('.table-wrap');
+            document.getElementById('ref-count').textContent = referrals.length + ' Referrals';
 
-        if (referrals.length === 0) {
-            refBody.innerHTML = '';
-            refEmpty.classList.remove('hidden');
-            document.querySelector('.table-wrap').classList.add('hidden');
-        } else {
+            if (!referrals.length) {
+                refBody.innerHTML = '';
+                refEmpty.classList.remove('hidden');
+                if (tableWrap) tableWrap.classList.add('hidden');
+                return;
+            }
+            refEmpty.classList.add('hidden');
+            if (tableWrap) tableWrap.classList.remove('hidden');
             refBody.innerHTML = referrals.map((r, i) => `
                 <tr>
                     <td class="font-bold text-gray-400">${i + 1}</td>
-                    <td class="font-semibold text-gray-800">${r.name}</td>
-                    <td>${r.course}</td>
-                    <td class="whitespace-nowrap">${r.date}</td>
+                    <td class="font-semibold text-gray-800">${PP.esc(r.name)}</td>
+                    <td>${PP.esc(r.course || 'Not enrolled yet')}</td>
+                    <td class="whitespace-nowrap">${PP.esc(fmtDate(r.date))}</td>
                     <td>${refBadge(r.status)}</td>
                 </tr>
             `).join('');
         }
 
-        // Stats
-        const total = referrals.length;
-        const enrolledCount = referrals.filter(r => r.status === 'Enrolled').length;
-        const pendingCount = referrals.filter(r => r.status === 'Pending').length;
-        const earned = enrolledCount * 500;
+        // Rewards (PKR) = 500 per enrollment, straight from the backend.
+        function renderStats(stats, rewardPerEnrollment) {
+            document.getElementById('stat-total').textContent = stats.total || 0;
+            document.getElementById('stat-approved').textContent = stats.enrolled || 0;
+            document.getElementById('stat-pending').textContent = stats.pending || 0;
+            document.getElementById('stat-earned').textContent = (stats.earned || 0).toLocaleString();
+            document.getElementById('stat-reward-note').textContent = rewardPerEnrollment + ' per enrollment';
+        }
 
-        document.getElementById('stat-total').textContent = total;
-        document.getElementById('stat-approved').textContent = enrolledCount;
-        document.getElementById('stat-pending').textContent = pendingCount;
-        document.getElementById('stat-earned').textContent = earned.toLocaleString();
-        document.getElementById('ref-count').textContent = total + ' Referrals';
+        function setShareLink() {
+            referralLink = location.origin + location.pathname.replace(/ambassador-dashboard\.html$/, 'student-portal.html') + '?ref=' + code;
+            document.getElementById('ref-code').textContent = code;
+            document.getElementById('ref-link').textContent = referralLink;
+            document.getElementById('wa-share').href =
+                'https://wa.me/?text=' + encodeURIComponent(
+                    'Check out Physioprisma Academy courses! Use my referral code: ' + code + '\n' + referralLink
+                );
+        }
+
+        // Pull this ambassador's own referrals + rewards from the API.
+        function loadDashboard() {
+            PP.get('/ambassador/dashboard').then(function (data) {
+                code = data.referralCode || '--------';
+                renderProfile(data.user || {});
+                setShareLink();
+                renderStats(data.stats || {}, data.rewardPerEnrollment || 500);
+                renderReferrals(data.referrals || []);
+            }).catch(function (err) {
+                if (err && (err.status === 401 || err.status === 403)) {
+                    PP.clearSession();
+                    window.location.replace('ambassador-portal.html');
+                    return;
+                }
+                PP.showError(err, 'Could not load your dashboard');
+            });
+        }
+
+        // Page guard: not a signed-in approved ambassador -> back to the portal.
+        PP.requireRole('ambassador').then(function (user) {
+            if (!user) return;
+            renderProfile(user);
+            loadDashboard();
+        });
 
         // Copy code
         function showToast(text) {
