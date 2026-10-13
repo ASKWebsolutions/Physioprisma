@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
     
     <style>
         :root {
@@ -118,7 +118,7 @@
 
             <!-- Logo -->
             <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
                      class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
                 <div>
                     <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
@@ -131,6 +131,7 @@
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-6 font-semibold">
                 <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
                 <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
                 <a href="shop.html" class="nav-link hover:text-[var(--purple)] transition">Shop</a>
                 <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
@@ -166,6 +167,7 @@
     <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
         <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+            <a href="courses.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
             <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
             <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
             <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Students</a>
@@ -208,7 +210,11 @@
 <!-- ==================== BLOG POSTS GRID ==================== -->
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Cards rendered from /api/blogs (admin panel driven). The hardcoded
+             cards below stay as a fallback when the API is unreachable. -->
+        <div id="blogs-api" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 hidden"></div>
+
+        <div id="blogs-static" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
             <!-- Blog: Proprioception: Your Body's Sixth Sense -->
             <div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100"
@@ -530,7 +536,7 @@
             <!-- LEFT -->
             <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                 <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg" alt="Physioprisma Logo"
                          class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                 </a>
                 <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
@@ -633,6 +639,71 @@
     <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
 </a>
 
+<script src="./js/api.js"></script>
+<script>
+    // Blog cards come from /api/blogs (admin panel driven). The hardcoded cards
+    // stay as a fallback when the API is unreachable or returns nothing.
+    var PAGE_SIZE = 9;
+    var apiBlogs = [];
+    var apiShown = 0;
+
+    function blogCard(b) {
+        var media = b.image
+            ? '<img src="' + PP.esc(b.image) + '" alt="' + PP.esc(b.title) + '" class="w-full h-56 object-cover">'
+            : '<div class="w-full h-56 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-6xl text-[var(--purple)]"><i class="fa-solid fa-newspaper"></i></div>';
+        var category = b.category
+            ? '<p class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] mb-2">' + PP.esc(b.category) + '</p>'
+            : '';
+        return '<div class="blog-card bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 cursor-pointer" ' +
+            'onclick="window.location.href=\'blog-post.html?id=' + encodeURIComponent(b.slug) + '\'">' +
+            media +
+            '<div class="p-6">' +
+                category +
+                '<h3 class="text-2xl font-bold text-[var(--purple)] mb-3">' + PP.esc(b.title) + '</h3>' +
+                '<p class="text-gray-600 line-clamp-3 mb-6">' + PP.esc(b.excerpt || '') + '</p>' +
+                '<div class="flex items-center justify-between">' +
+                    '<button class="text-[var(--blue)] font-semibold hover:text-[var(--purple)] transition">Read More</button>' +
+                    '<span class="text-gray-500 text-sm">by ' + PP.esc(b.author || 'Physioprisma Clinical Team') + '</span>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    }
+
+    function hideLoadMore() {
+        var btn = document.getElementById('load-more-btn');
+        if (btn) btn.style.display = 'none';
+    }
+
+    function renderMoreApiBlogs() {
+        var next = apiBlogs.slice(apiShown, apiShown + PAGE_SIZE);
+        if (!next.length) return;
+        apiShown += next.length;
+        document.getElementById('blogs-api').insertAdjacentHTML('beforeend', next.map(blogCard).join(''));
+        if (apiShown >= apiBlogs.length) hideLoadMore();
+    }
+
+    function loadBlogsFromApi() {
+        if (typeof PP === 'undefined') return;
+        PP.get('/blogs', { auth: false })
+            .then(function (data) {
+                var list = (data && data.blogs) || [];
+                if (!list.length) return;
+                apiBlogs = list;
+                apiShown = 0;
+                renderMoreApiBlogs();
+                document.getElementById('blogs-api').classList.remove('hidden');
+                document.getElementById('blogs-static').classList.add('hidden');
+                var btn = document.getElementById('load-more-btn');
+                if (btn) btn.onclick = renderMoreApiBlogs;
+                if (list.length <= PAGE_SIZE) hideLoadMore();
+            })
+            .catch(function () { /* keep the static fallback */ });
+    }
+
+    loadBlogsFromApi();
+</script>
+
+<script src="./js/navbar.js"></script>
 </body>
 </html>
 

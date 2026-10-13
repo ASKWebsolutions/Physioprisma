@@ -1,0 +1,78 @@
+'use strict';
+
+const express = require('express');
+
+const User = require('../../models/User.model');
+const Enrollment = require('../../models/Enrollment.model');
+const { asyncHandler, ApiError } = require('../../middleware/error');
+const { validate } = require('../../utils/validate');
+
+const router = express.Router();
+
+const publicUser = (u) => ({
+  id: u._id.toString(),
+  name: u.name,
+  email: u.email,
+  phone: u.phone,
+  city: u.city,
+  role: u.role,
+  status: u.status,
+  referralCode: u.referralCode || null,
+  joined: u.joinedAt,
+  lastLoginAt: u.lastLoginAt,
+});
+
+/* GET /api/admin/students?q=                                                */
+router.get(
+  '/',
+  validate({ q: { type: 'string', required: false, max: 100 } }),
+  asyncHandler(async (req, res) => {
+    const q = (req.query.q || '').trim();
+    const filter = { role: 'student' };
+    if (q) {
+      filter.$or = [
+        { name: { $regex: q, $options: 'i' } },
+        { email: { $regex: q, $options: 'i' } },
+      ];
+    }
+
+    const students = await User.find(filter).sort({ createdAt: -1 }).limit(500);
+
+    const enrollments = await Enrollment.find({ user: { $in: students.map((s) => s._id) } })
+      .populate('course', 'title')
+      .sort({ createdAt: -1 });
+
+    const byUser = new Map();
+    for (const e of enrollments) {
+      const key = String(e.user);
+      if (!byUser.has(key)) byUser.set(key, e);
+    }
+
+    res.json({
+      ok: true,
+      students: students.map((s) => {
+        const e = byUser.get(String(s._id));
+        return {
+          ...publicUser(s),
+          course: e && e.course ? e.course.title : '',
+          progress: e ? e.progress : 0,
+        };
+      }),
+    });
+  })
+);
+
+/* PATCH /api/admin/students/:id { status }                                  */
+router.patch(
+  '/:id',
+  validate({ status: { type: 'enum', values: ['active', 'suspended', 'pending'] } }),
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user || user.role !== 'student') throw ApiError.notFound('Student not found');
+    user.status = req.body.status;
+    await user.save();
+    res.json({ ok: true, student: publicUser(user) });
+  })
+);
+
+module.exports = router;

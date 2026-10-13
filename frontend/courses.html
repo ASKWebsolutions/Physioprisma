@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
     
     <style>
         :root {
@@ -125,7 +125,7 @@
 
             <!-- Logo -->
             <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
                      class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
                 <div>
                     <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
@@ -138,6 +138,7 @@
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-6 font-semibold">
                 <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
                 <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
                 <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
                 <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
@@ -173,6 +174,7 @@
     <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
         <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+            <a href="courses.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
             <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
             <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
             <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Students</a>
@@ -254,112 +256,161 @@
 <!-- ==================== COURSES GRID ==================== -->
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Cards rendered from /api/courses (admin panel driven). The hardcoded
+             cards below stay as a fallback so the page still reads correctly
+             when the API is unreachable. -->
+        <div id="courses-api" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 hidden"></div>
 
-            <!-- Course 1 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2531/2531156.png" alt="Cupping">
+        <div id="courses-static" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+            <!-- Course: dry-cupping-therapy-level-1-2 -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881803/physioprisma/site/img/dry_cupping_image_on_home.jpg" alt="Dry Cupping Therapy - Level 1 &amp; 2" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--purple)] shadow">Certification</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Dry Cupping Therapy - Level 1 & 2</h3>
-                <p class="text-gray-600 text-center mb-6">Learn safe & effective cupping techniques - static, dynamic, and combo methods for pain relief and recovery.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 2 days (16 hours)</li>
-                    <li>Format: In-person + hands-on practice</li>
-                    <li>Who it's for: Physiotherapists, massage therapists, sports coaches</li>
-                    <li>Certification provided</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Dry Cupping Therapy - Level 1 &amp; 2</h3>
+                    <p class="text-gray-600 text-center mb-6">A two-day, hands-on certification that takes you from the fundamentals of cupping through to advanced combination protocols, with supervised practice on real cases and clear guidance on contraindications, skin response and aftercare.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 2 days (16 hours) of supervised practical training</li>
+                        <li>Format: Live demonstrations, paired practice and case-based scenarios</li>
+                        <li>Core techniques: Static, sliding, flash and dynamic cupping</li>
+                        <li>Safety: Contraindications, skin assessment, hygiene and aftercare</li>
+                        <li>Who it's for: Physiotherapists, massage therapists and sports coaches</li>
+                        <li>Certification: Physioprisma Academy certificate awarded on completion</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=dry-cupping-therapy-level-1-2" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Dry cupping is one of the most widely used tools in modern musculoskeletal practice, and it works best when it is applied with clear reasoning rather than a fixed routine. This Level 1 and Level 2 certification begins with the fundamentals - cup selection, positioning, suction control and safe skin assessment - before moving into the techniques clinicians use most: static cupping for persistent muscle tension, sliding cupping for large muscle groups, flash cupping for acute sensitivity and dynamic combinations for more complex presentations.</p><p>Every module is taught through live demonstration followed by supervised paired practice, so you leave with hands-on confidence rather than theory alone. The second day focuses on clinical reasoning: where cupping fits inside a treatment plan, how to document the skin response, when to avoid treatment altogether and how to advise patients on aftercare and hydration.</p><p>On completion you receive a Physioprisma Academy certificate covering both levels, along with the protocols and documentation templates used in our own clinics.</p></template>
             </div>
 
-            <!-- Course 2 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <i class="fa-solid fa-syringe"></i>
+            <!-- Course: dry-needling-basic-to-advanced -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881804/physioprisma/site/img/dry_needling_blog_on_home.jpg" alt="Dry Needling - Basic to Advanced" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--blue)] shadow">Advanced</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Dry Needling - Basic to Advanced</h3>
-                <p class="text-gray-600 text-center mb-6">Master trigger point dry needling for myofascial pain, muscle tightness, and sports injuries.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 3 days (24 hours)</li>
-                    <li>Format: Theory + live practice on models</li>
-                    <li>Who it's for: Licensed physiotherapists & final-year DPT students</li>
-                    <li>Internationally recognized certificate</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Dry Needling - Basic to Advanced</h3>
+                    <p class="text-gray-600 text-center mb-6">A structured, safety-first pathway from dry needling fundamentals to advanced trigger point work. Across three days you build accurate palpation, muscle selection and needle handling skills, then apply them under direct supervision.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 3 days (24 hours) of theory and supervised needling practice</li>
+                        <li>Format: Classroom teaching with live practice on models and volunteers</li>
+                        <li>Core skills: Trigger point identification, depth, angle and needle handling</li>
+                        <li>Safety: Sterile technique, contraindications and adverse-event management</li>
+                        <li>Who it's for: Licensed physiotherapists and final-year DPT students</li>
+                        <li>Certification: Internationally recognized certificate on completion</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=dry-needling-basic-to-advanced" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Dry needling is a highly effective clinical skill, but it demands precision, respect for anatomy and disciplined technique. This three-day programme starts with the essentials - needle handling, sterile technique, patient positioning and the difference between trigger points and other tender points - before progressing to deeper and more complex muscle groups.</p><p>The first two days cover assessment and palpation, needling depth and angle by region, and the safety framework every practitioner needs: absolute and relative contraindications, adverse-event recognition and management, and clean needling protocol. From there the course advances to multi-muscle treatment strategies, needling for sports-related dysfunction, and combining dry needling with manual therapy and exercise prescription.</p><p>Practice is carried out on models and supervised volunteers with continuous instructor feedback. Graduates receive an internationally recognized certificate and leave with ready-to-use assessment and treatment templates.</p></template>
             </div>
 
-            <!-- Course 3 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <i class="fa-solid fa-tape"></i>
+            <!-- Course: k-taping-kinesiology-taping-certification -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881832/physioprisma/site/img/prism/7.jpg" alt="K-Taping / Kinesiology Taping Certification" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--purple)] shadow">Includes Kit</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">K-Taping / Kinesiology Taping Certification</h3>
-                <p class="text-gray-600 text-center mb-6">Learn therapeutic taping applications for pain relief, edema reduction, posture correction & sports performance.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 2 days (16 hours)</li>
-                    <li>Format: Hands-on workshop</li>
-                    <li>Who it's for: Physios, chiropractors, athletic trainers</li>
-                    <li>Includes taping kit</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">K-Taping / Kinesiology Taping Certification</h3>
+                    <p class="text-gray-600 text-center mb-6">A two-day, application-focused workshop that teaches you to tape with purpose rather than by pattern - correction, functional and lymphatic techniques for pain relief, oedema control, posture and sports performance.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 2 days (16 hours) of application-focused workshop training</li>
+                        <li>Format: Demonstration, guided practice and correction on real volunteers</li>
+                        <li>Core techniques: Muscle, joint, ligament and lymphatic taping</li>
+                        <li>Applications: Pain relief, oedema control, posture and sports performance</li>
+                        <li>Who it's for: Physiotherapists, chiropractors and athletic trainers</li>
+                        <li>Includes: Taping kit and Physioprisma Academy certification</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=k-taping-kinesiology-taping-certification" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Kinesiology tape is only as good as the reasoning behind it. This certification course treats every application as a decision: what are we supporting, what are we unloading, and how long should it stay on? You begin with the properties of the tape, skin preparation and cut shapes, then move into the core correction techniques used for muscle dysfunction, joint instability and ligament support.</p><p>The second half of the course is practical and case-driven. You will apply lymphatic techniques for swelling, functional tape for posture and movement control, and sport-specific configurations used on the field - all on real volunteers, with your tension, anchor points and direction of pull checked by the instructor.</p><p>Every participant receives a taping kit to take away and a Physioprisma Academy certification. The techniques taught are the ones used daily in our clinic and sports settings.</p></template>
             </div>
 
-            <!-- Course 4 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <i class="fa-solid fa-hands"></i>
+            <!-- Course: manual-therapy-techniques -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881831/physioprisma/site/img/prism/6.jpg" alt="Manual Therapy Techniques" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--blue)] shadow">CPD Points</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Manual Therapy Techniques</h3>
-                <p class="text-gray-600 text-center mb-6">Advanced joint mobilization, manipulation, soft tissue work & myofascial release for musculoskeletal conditions.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 3 days (24 hours)</li>
-                    <li>Format: Practical + theory</li>
-                    <li>Who it's for: Practicing physiotherapists</li>
-                    <li>CPD points awarded</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Manual Therapy Techniques</h3>
+                    <p class="text-gray-600 text-center mb-6">Three days of advanced hands-on training in joint mobilization, manipulation, soft tissue work and myofascial release, applied to real musculoskeletal cases across the cervical, thoracic, lumbar and extremity joints.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 3 days (24 hours) of practical and theory sessions</li>
+                        <li>Format: Lecture, demonstration and one-to-one skill assessment</li>
+                        <li>Core techniques: Mobilization, manipulation, soft tissue and myofascial release</li>
+                        <li>Focus: Cervical, thoracic, lumbar and extremity joints</li>
+                        <li>Who it's for: Practicing physiotherapists seeking advanced clinical skills</li>
+                        <li>Certification: CPD points awarded with an Academy certificate</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=manual-therapy-techniques" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Manual therapy rewards clinicians who reason as carefully as they treat. This three-day programme is built around a simple sequence: assess, select, dose and reassess. You begin with screening and grade selection - how to tell a hypomobile joint from a protective one, and how to choose a treatment grade that matches the irritability of the condition.</p><p>From there the course moves through cervical, thoracic and lumbar mobilization, high-velocity techniques where appropriate, and the soft tissue and myofascial release methods that support them. Each technique is demonstrated, practised in pairs and assessed individually, with attention to patient positioning, therapist ergonomics and safety screening.</p><p>The final day applies everything to clinical cases: building a treatment plan, deciding when to combine techniques and when to stop, and measuring whether the change you produced will last. CPD points are awarded and successful participants receive a Physioprisma Academy certificate.</p></template>
             </div>
 
-            <!-- Course 5 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--purple)]">
-                <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <i class="fa-solid fa-person-running"></i>
+            <!-- Course: sports-injury-management-taping -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--purple)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881830/physioprisma/site/img/prism/5.jpg" alt="Sports Injury Management &amp; Taping" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--purple)] shadow">Field Training</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Sports Injury Management & Taping</h3>
-                <p class="text-gray-600 text-center mb-6">Assessment, taping, rehab protocols & return-to-sport strategies for common athletic injuries.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 2 days (16 hours)</li>
-                    <li>Format: Sports-field practicals</li>
-                    <li>Who it's for: Sports physios & trainers</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--purple)]">Sports Injury Management &amp; Taping</h3>
+                    <p class="text-gray-600 text-center mb-6">Two days of field-based training covering the full return-to-sport pathway: assessment, acute management, taping, phased rehabilitation and testing - built for clinicians and trainers who make decisions on the sideline.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 2 days (16 hours) of field-based practical training</li>
+                        <li>Format: On-field assessment drills, taping labs and rehab planning</li>
+                        <li>Core skills: Assessment, acute management, taping and rehab progression</li>
+                        <li>Focus: Return-to-sport testing and load management strategies</li>
+                        <li>Who it's for: Sports physiotherapists, trainers and team support staff</li>
+                        <li>Certification: Physioprisma Academy certificate on completion</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=sports-injury-management-taping" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Sporting injuries rarely wait for convenient timing, and the first decisions often shape the whole recovery. This two-day course gives you a practical framework for the moments that matter: on-field assessment, immediate management, supportive taping and the design of a rehabilitation programme that progresses on criteria rather than on the calendar.</p><p>Day one focuses on assessment and acute care - recognising the injury, deciding what needs imaging or referral, controlling load in the first 48 to 72 hours, and applying taping that protects without restricting movement. Day two moves into rehabilitation: exercise selection, strength and control benchmarks, plyometric and agility progressions, and the return-to-sport tests that tell you when an athlete is genuinely ready.</p><p>Case work is drawn from common presentations such as ankle sprains, hamstring and quadriceps strains, groin pain, shoulder instability and patellofemoral pain. A Physioprisma Academy certificate is awarded on completion.</p></template>
             </div>
 
-            <!-- Course 6 -->
-            <div class="course-card bg-white rounded-3xl p-8 shadow-xl border-t-4 border-[var(--blue)]">
-                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-5xl mb-6">
-                    <i class="fa-solid fa-child"></i>
+            <!-- Course: pediatric-physiotherapy-essentials -->
+            <div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--blue)]">
+                <div class="relative">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881829/physioprisma/site/img/prism/3.jpg" alt="Pediatric Physiotherapy Essentials" loading="lazy" class="w-full h-52 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--blue)] shadow">Case Based</span>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Pediatric Physiotherapy Essentials</h3>
-                <p class="text-gray-600 text-center mb-6">Developmental assessment, neurodevelopmental treatment, and play-based therapy for children.</p>
-                <ul class="space-y-3 text-sm text-gray-700 mb-6">
-                    <li>Duration: 2 days (16 hours)</li>
-                    <li>Format: Interactive & case-based</li>
-                    <li>Who it's for: Pediatric physios & DPT students</li>
-                </ul>
-                <div class="text-center">
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">Enroll / Inquire Now</a>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[var(--blue)]">Pediatric Physiotherapy Essentials</h3>
+                    <p class="text-gray-600 text-center mb-6">Two days of interactive, case-based training in developmental assessment, neurodevelopmental treatment and play-based therapy, designed for pediatric physiotherapists and DPT students.</p>
+                    <ul class="space-y-3 text-sm text-gray-700 mb-6">
+                        <li>Duration: 2 days (16 hours) of interactive, case-based training</li>
+                        <li>Format: Small-group workshops with live demonstration and role play</li>
+                        <li>Core skills: Developmental assessment and standardized observation</li>
+                        <li>Techniques: Neurodevelopmental treatment and play-based therapy</li>
+                        <li>Who it's for: Pediatric physiotherapists and DPT students</li>
+                        <li>Certification: Physioprisma Academy certificate on completion</li>
+                    </ul>
+                    <div class="text-center space-y-3">
+                        <a href="course.html?id=pediatric-physiotherapy-essentials" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>
+                        <a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>
+                    </div>
                 </div>
+                <template class="course-about"><p>Treating children asks more of a clinician than adapting adult techniques. This two-day course builds a structured approach from the ground up: how to observe and assess a child at different stages, how to interpret developmental milestones, and how to turn that assessment into treatment a child will actually engage with.</p><p>The programme covers standardized developmental assessment, neurodevelopmental treatment principles, tone and reflex handling, and play-based interventions for the common presentations seen in pediatric practice - cerebral palsy, developmental delay, torticollis, gait abnormalities and neuromuscular conditions. Sessions are delivered in small groups so that handling skills can be demonstrated, practised and corrected individually.</p><p>A large part of the course is case-based. You will work through real scenarios covering goal setting, home programme design and communicating progress with families, finishing with a framework you can apply from your very next clinic session. A Physioprisma Academy certificate is awarded on completion.</p></template>
             </div>
 
         </div>
@@ -382,7 +433,7 @@
             <!-- LEFT -->
             <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                 <a href="home.html">
-                    <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg" alt="Physioprisma Logo"
                          class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                 </a>
                 <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
@@ -436,6 +487,7 @@
     </div>
 </footer>
 
+<script src="./js/api.js"></script>
 <script>
     // Mobile Menu Toggle
     const menuBtn = document.getElementById('mobile-menu-btn');
@@ -484,6 +536,59 @@
     <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
 </a>
 
+<script>
+    // Courses come from the admin panel (/api/courses). The hardcoded cards are
+    // only shown when the API cannot be reached or returns nothing.
+    function renderCourseCard(c) {
+        const accent = c.accent === 'blue' ? 'blue' : 'purple';
+        const cover = c.image
+            ? '<div class="relative"><img src="' + PP.esc(c.image) + '" alt="' + PP.esc(c.title) + '" loading="lazy" class="w-full h-52 object-cover">' +
+              '<span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--' + accent + ')] shadow">' +
+              PP.esc(c.level || 'Certification') + '</span></div>'
+            : '<div class="w-full h-52 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-5xl text-[var(--' + accent + ')]"><i class="' + PP.esc(c.icon || 'fa-solid fa-book-open') + '"></i></div>';
+        const details = (c.details || [])
+            .map((d) => '<li>' + PP.esc(d) + '</li>')
+            .join('');
+        const lessonLine = c.lessonCount
+            ? '<li>' + c.lessonCount + ' lesson' + (c.lessonCount === 1 ? '' : 's') + ' included</li>'
+            : '';
+
+        return (
+            '<div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--' + accent + ')]">' +
+                cover +
+                '<div class="p-8">' +
+                '<h3 class="text-2xl font-bold text-center mb-4 text-[var(--' + accent + ')]">' + PP.esc(c.title) + '</h3>' +
+                '<p class="text-gray-600 text-center mb-6">' + PP.esc(c.description || '') + '</p>' +
+                (details || lessonLine
+                    ? '<ul class="space-y-3 text-sm text-gray-700 mb-6">' + details + lessonLine + '</ul>'
+                    : '') +
+                '<div class="text-center space-y-3">' +
+                    '<a href="course.html?id=' + encodeURIComponent(c.slug) + '" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>' +
+                    '<a href="contact.html" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition">Enroll / Inquire Now</a>' +
+                '</div>' +
+                '</div>' +
+            '</div>'
+        );
+    }
+
+    function loadCoursesFromApi() {
+        if (typeof PP === 'undefined') return;
+        return PP.get('/courses', { auth: false })
+            .then(function (data) {
+                const list = (data && data.courses) || [];
+                if (!list.length) return;
+                const grid = document.getElementById('courses-api');
+                grid.innerHTML = list.map(renderCourseCard).join('');
+                grid.classList.remove('hidden');
+                document.getElementById('courses-static').classList.add('hidden');
+            })
+            .catch(function () { /* keep the static fallback */ });
+    }
+
+    loadCoursesFromApi();
+</script>
+
+<script src="./js/navbar.js"></script>
 </body>
 </html>
 

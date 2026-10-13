@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Login - Physioprisma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+            --light-purple: #f3e8ff;
+            --light-blue: #e0f2fe;
+            --text: #1f2937;
+            --muted: #52565f;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(107, 33, 168, 0.16), transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.16), transparent 45%),
+                #f8fafc;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .grid-dots {
+            background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+            background-size: 44px 44px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.9rem;
+            font-size: 0.95rem;
+            background: white;
+            transition: border 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(107, 33, 168, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: white;
+            border-radius: 999px;
+            box-shadow: 0 18px 35px rgba(99, 102, 241, 0.22);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.02);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .auth-message {
+            border-radius: 0.85rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 1.25rem;
+            display: none;
+        }
+
+        .auth-message.show {
+            display: block;
+        }
+
+        .auth-message.error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .auth-message.success {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.45);
+            border-top-color: #fff;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 0.7s linear infinite;
+            vertical-align: -2px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top bar -->
+    <header class="w-full bg-white/80 backdrop-blur border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="home.html" class="flex items-center gap-2 sm:gap-3">
+                <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
+                     class="h-9 w-9 rounded-full object-cover border-2 border-purple-100">
+                <div>
+                    <span
+                        class="text-base font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
+                        Physioprisma
+                    </span>
+                    <p class="text-[10px] text-gray-500 tracking-wider leading-tight">By Dr Tuba Sultan (PT) &amp;
+                        Dr. Sultan Zaidi (PT)</p>
+                </div>
+            </a>
+            <a href="home.html"
+               class="text-sm font-semibold text-[var(--purple)] hover:text-[var(--blue)] transition inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left text-xs"></i> Back to Site
+            </a>
+        </div>
+    </header>
+
+    <!-- Login card -->
+    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 py-10">
+        <div class="w-full max-w-md">
+
+            <div class="text-center mb-7">
+                <div
+                    class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] text-white flex items-center justify-center text-2xl shadow-xl mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-bold logo-font text-gray-900">Admin Panel</h1>
+                <p class="text-gray-500 text-sm mt-1.5">Sign in with the credentials provided by the administrator.</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -inset-1 rounded-3xl bg-gradient-to-br from-[var(--light-purple)] to-[var(--light-blue)] blur"></div>
+                <div class="relative bg-white rounded-3xl shadow-2xl p-6 sm:p-8">
+                    <form id="admin-form" class="space-y-4" autocomplete="on">
+                        <div>
+                            <label for="admin-email" class="block text-sm font-semibold text-gray-600 mb-1.5">Email</label>
+                            <input id="admin-email" type="email" name="email" class="auth-input"
+                                   placeholder="you@example.com" autocomplete="username" required>
+                        </div>
+                        <div>
+                            <label for="admin-password"
+                                   class="block text-sm font-semibold text-gray-600 mb-1.5">Password</label>
+                            <div class="relative">
+                                <input id="admin-password" type="password" name="password" class="auth-input pr-12"
+                                       placeholder="••••••••" autocomplete="current-password" required minlength="6">
+                                <button type="button" id="toggle-password" aria-label="Show password"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[var(--purple)] transition">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button id="submit-btn" type="submit" class="btn-primary w-full py-3.5 font-bold text-base">
+                            <span id="submit-label">Sign In</span>
+                        </button>
+                    </form>
+
+                    <div id="auth-message" class="auth-message" role="alert"></div>
+
+                    <p class="text-center text-xs text-gray-400 mt-6">
+                        <i class="fa-solid fa-lock mr-1"></i> Restricted area - all attempts are logged.
+                    </p>
+                </div>
+            </div>
+
+            <p class="text-center text-sm text-gray-500 mt-6">
+                Student or ambassador?
+                <a href="student-portal.html" class="text-[var(--purple)] font-semibold hover:underline">Student Portal</a>
+                &middot;
+                <a href="ambassador-portal.html" class="text-[var(--purple)] font-semibold hover:underline">Ambassador
+                    Portal</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="text-center text-xs text-gray-400 py-5">&copy; 2026 Physioprisma. All rights reserved.</footer>
+
+    <script src="./js/api.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var form = document.getElementById('admin-form');
+            var message = document.getElementById('auth-message');
+            var submitBtn = document.getElementById('submit-btn');
+            var submitLabel = document.getElementById('submit-label');
+            var passwordInput = document.getElementById('admin-password');
+
+            // Show/hide password
+            document.getElementById('toggle-password').addEventListener('click', function () {
+                var showing = passwordInput.type === 'text';
+                passwordInput.type = showing ? 'password' : 'text';
+                this.querySelector('i').className = showing ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+            });
+
+            function showMessage(text, type) {
+                message.textContent = text;
+                message.className = 'auth-message show ' + type;
+            }
+
+            function setBusy(busy) {
+                submitBtn.disabled = busy;
+                submitLabel.innerHTML = busy ? '<span class="spinner"></span> Signing in...' : 'Sign In';
+            }
+
+            // Already signed in as admin? Go straight to the dashboard.
+            if (PP.getToken()) {
+                PP.get('/auth/me')
+                    .then(function (data) {
+                        if (data && data.user && data.user.role === 'admin') {
+                            window.location.replace('admin-dashboard.html');
+                        }
+                    })
+                    .catch(function () {
+                        PP.clearSession();
+                    });
+            }
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var email = form.email.value.trim();
+                var password = form.password.value;
+
+                setBusy(true);
+                message.className = 'auth-message';
+
+                PP.post('/auth/login', { identity: email, password: password, role: 'admin' })
+                    .then(function (data) {
+                        PP.setSession(data.token, data.user);
+                        showMessage('Signed in! Redirecting to the dashboard...', 'success');
+                        setTimeout(function () {
+                            window.location.href = 'admin-dashboard.html';
+                        }, 400);
+                    })
+                    .catch(function (err) {
+                        setBusy(false);
+                        var text = err && err.message ? err.message : 'Unable to sign in right now.';
+                        if (err && err.status === 0) text = 'Could not reach the server. Is the backend running?';
+                        showMessage(text, 'error');
+                    });
+            });
+        })();
+    </script>
+</body>
+
+</html>

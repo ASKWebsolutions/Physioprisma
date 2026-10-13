@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
     <style>
         :root {
             --purple: #6b21a8;
@@ -205,7 +205,7 @@
 
                 <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
                          class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                     <div>
                         <span class="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent">
@@ -218,11 +218,11 @@
                 <!-- Desktop Menu - Hide from 768px and below -->
                 <div class="hidden lg:flex items-center gap-6 font-semibold">
                     <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
                     <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
                     <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
                     <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition text-[var(--purple)]">Students</a>
                     <a href="ambassador-portal.html" class="nav-link hover:text-[var(--purple)] transition">Ambassadors</a>
-                    <a href="admin-dashboard.html" class="nav-link hover:text-[var(--purple)] transition">Admin</a>
                     <div class="dropdown">
                         <button id="desktop-projects-btn" class="dropdown-trigger nav-link hover:text-[var(--purple)] transition" type="button" onclick="toggleDesktopProjects()">
                             Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
@@ -254,11 +254,11 @@
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
             <div class="px-5 py-4 space-y-1">
                 <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+                <a href="courses.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
                 <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
                 <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
                 <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-[var(--purple)] bg-[var(--light-purple)] rounded-xl transition">Students</a>
                 <a href="ambassador-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Ambassadors</a>
-                <a href="admin-dashboard.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Admin</a>
                 <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
                     <span>Projects</span>
                     <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
@@ -423,7 +423,7 @@
                 <!-- LEFT: Logo + Tagline -->
                 <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                     <a href="home.html">
-                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                        <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg" alt="Physioprisma Logo"
                              class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                     </a>
                     <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
@@ -598,6 +598,7 @@
         </span>
     </a>
 
+<script src="./js/navbar.js"></script>
 </body>
 
 </html>

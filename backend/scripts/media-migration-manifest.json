@@ -1,0 +1,371 @@
+{
+  "generatedAt": "2026-10-13T09:24:28.732Z",
+  "count": 73,
+  "map": [
+    {
+      "from": "img/basit.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881802/physioprisma/site/img/basit.jpg",
+      "publicId": "physioprisma/site/img/basit"
+    },
+    {
+      "from": "img/Clinic Equipment image.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881802/physioprisma/site/img/Clinic_Equipment_image.jpg",
+      "publicId": "physioprisma/site/img/Clinic_Equipment_image"
+    },
+    {
+      "from": "img/consumables image.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881802/physioprisma/site/img/consumables_image.jpg",
+      "publicId": "physioprisma/site/img/consumables_image"
+    },
+    {
+      "from": "img/Dr Sabahat Fatima.png",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881803/physioprisma/site/img/Dr_Sabahat_Fatima.png",
+      "publicId": "physioprisma/site/img/Dr_Sabahat_Fatima"
+    },
+    {
+      "from": "img/dr-tuba.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881804/physioprisma/site/img/dr-tuba.jpg",
+      "publicId": "physioprisma/site/img/dr-tuba"
+    },
+    {
+      "from": "img/dratif.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881803/physioprisma/site/img/dratif.jpg",
+      "publicId": "physioprisma/site/img/dratif"
+    },
+    {
+      "from": "img/dratif2.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881803/physioprisma/site/img/dratif2.jpg",
+      "publicId": "physioprisma/site/img/dratif2"
+    },
+    {
+      "from": "img/dry cupping image on home.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881803/physioprisma/site/img/dry_cupping_image_on_home.jpg",
+      "publicId": "physioprisma/site/img/dry_cupping_image_on_home"
+    },
+    {
+      "from": "img/dry needling blog on home.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881804/physioprisma/site/img/dry_needling_blog_on_home.jpg",
+      "publicId": "physioprisma/site/img/dry_needling_blog_on_home"
+    },
+    {
+      "from": "img/dry needling on home.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881805/physioprisma/site/img/dry_needling_on_home.jpg",
+      "publicId": "physioprisma/site/img/dry_needling_on_home"
+    },
+    {
+      "from": "img/etif.png",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881804/physioprisma/site/img/etif.png",
+      "publicId": "physioprisma/site/img/etif"
+    },
+    {
+      "from": "img/faiza.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881805/physioprisma/site/img/faiza.jpg",
+      "publicId": "physioprisma/site/img/faiza"
+    },
+    {
+      "from": "img/fatima maqsood.png",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/fatima_maqsood.png",
+      "publicId": "physioprisma/site/img/fatima_maqsood"
+    },
+    {
+      "from": "img/five-head.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/five-head.jpg",
+      "publicId": "physioprisma/site/img/five-head"
+    },
+    {
+      "from": "img/gallery image (1).jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881805/physioprisma/site/img/gallery_image_1.jpg",
+      "publicId": "physioprisma/site/img/gallery_image_1"
+    },
+    {
+      "from": "img/gallery image (2).jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/gallery_image_2.jpg",
+      "publicId": "physioprisma/site/img/gallery_image_2"
+    },
+    {
+      "from": "img/gallery image (3).jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/gallery_image_3.jpg",
+      "publicId": "physioprisma/site/img/gallery_image_3"
+    },
+    {
+      "from": "img/gallery image (4).jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/gallery_image_4.jpg",
+      "publicId": "physioprisma/site/img/gallery_image_4"
+    },
+    {
+      "from": "img/image.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/image.jpg",
+      "publicId": "physioprisma/site/img/image"
+    },
+    {
+      "from": "img/image.png",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/image-2.png",
+      "publicId": "physioprisma/site/img/image-2"
+    },
+    {
+      "from": "img/logo pic (2).jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg",
+      "publicId": "physioprisma/site/img/logo_pic_2"
+    },
+    {
+      "from": "img/logo pic(2).jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg",
+      "publicId": "physioprisma/site/img/logo_pic_2-2"
+    },
+    {
+      "from": "img/logo pic.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/logo_pic.jpg",
+      "publicId": "physioprisma/site/img/logo_pic"
+    },
+    {
+      "from": "img/prism/1.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/1.jpg",
+      "publicId": "physioprisma/site/img/prism/1"
+    },
+    {
+      "from": "img/prism/10.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/10.jpg",
+      "publicId": "physioprisma/site/img/prism/10"
+    },
+    {
+      "from": "img/prism/11.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/11.jpg",
+      "publicId": "physioprisma/site/img/prism/11"
+    },
+    {
+      "from": "img/prism/13.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881813/physioprisma/site/img/prism/13.mp4",
+      "publicId": "physioprisma/site/img/prism/13"
+    },
+    {
+      "from": "img/prism/14.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881809/physioprisma/site/img/prism/14.mp4",
+      "publicId": "physioprisma/site/img/prism/14"
+    },
+    {
+      "from": "img/prism/15.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881818/physioprisma/site/img/prism/15.mp4",
+      "publicId": "physioprisma/site/img/prism/15"
+    },
+    {
+      "from": "img/prism/16.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881821/physioprisma/site/img/prism/16.mp4",
+      "publicId": "physioprisma/site/img/prism/16"
+    },
+    {
+      "from": "img/prism/17.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881814/physioprisma/site/img/prism/17.mp4",
+      "publicId": "physioprisma/site/img/prism/17"
+    },
+    {
+      "from": "img/prism/18.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881822/physioprisma/site/img/prism/18.mp4",
+      "publicId": "physioprisma/site/img/prism/18"
+    },
+    {
+      "from": "img/prism/19.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881816/physioprisma/site/img/prism/19.mp4",
+      "publicId": "physioprisma/site/img/prism/19"
+    },
+    {
+      "from": "img/prism/2.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881818/physioprisma/site/img/prism/2.jpg",
+      "publicId": "physioprisma/site/img/prism/2"
+    },
+    {
+      "from": "img/prism/20.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881820/physioprisma/site/img/prism/20.mp4",
+      "publicId": "physioprisma/site/img/prism/20"
+    },
+    {
+      "from": "img/prism/21.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881828/physioprisma/site/img/prism/21.mp4",
+      "publicId": "physioprisma/site/img/prism/21"
+    },
+    {
+      "from": "img/prism/22.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881825/physioprisma/site/img/prism/22.mp4",
+      "publicId": "physioprisma/site/img/prism/22"
+    },
+    {
+      "from": "img/prism/23.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881827/physioprisma/site/img/prism/23.mp4",
+      "publicId": "physioprisma/site/img/prism/23"
+    },
+    {
+      "from": "img/prism/24.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881834/physioprisma/site/img/prism/24.mp4",
+      "publicId": "physioprisma/site/img/prism/24"
+    },
+    {
+      "from": "img/prism/25.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881834/physioprisma/site/img/prism/25.mp4",
+      "publicId": "physioprisma/site/img/prism/25"
+    },
+    {
+      "from": "img/prism/3.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881829/physioprisma/site/img/prism/3.jpg",
+      "publicId": "physioprisma/site/img/prism/3"
+    },
+    {
+      "from": "img/prism/4.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881829/physioprisma/site/img/prism/4.jpg",
+      "publicId": "physioprisma/site/img/prism/4"
+    },
+    {
+      "from": "img/prism/5.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881830/physioprisma/site/img/prism/5.jpg",
+      "publicId": "physioprisma/site/img/prism/5"
+    },
+    {
+      "from": "img/prism/6.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881831/physioprisma/site/img/prism/6.jpg",
+      "publicId": "physioprisma/site/img/prism/6"
+    },
+    {
+      "from": "img/prism/7.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881832/physioprisma/site/img/prism/7.jpg",
+      "publicId": "physioprisma/site/img/prism/7"
+    },
+    {
+      "from": "img/prism/8.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881832/physioprisma/site/img/prism/8.jpg",
+      "publicId": "physioprisma/site/img/prism/8"
+    },
+    {
+      "from": "img/prism/9.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881833/physioprisma/site/img/prism/9.jpg",
+      "publicId": "physioprisma/site/img/prism/9"
+    },
+    {
+      "from": "img/seven-head.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881833/physioprisma/site/img/seven-head.jpg",
+      "publicId": "physioprisma/site/img/seven-head"
+    },
+    {
+      "from": "img/single head.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881834/physioprisma/site/img/single_head.jpg",
+      "publicId": "physioprisma/site/img/single_head"
+    },
+    {
+      "from": "img/southcity/1.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881836/physioprisma/site/img/southcity/1.mp4",
+      "publicId": "physioprisma/site/img/southcity/1"
+    },
+    {
+      "from": "img/southcity/10.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881834/physioprisma/site/img/southcity/10.jpg",
+      "publicId": "physioprisma/site/img/southcity/10"
+    },
+    {
+      "from": "img/southcity/11.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881835/physioprisma/site/img/southcity/11.jpg",
+      "publicId": "physioprisma/site/img/southcity/11"
+    },
+    {
+      "from": "img/southcity/12.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881836/physioprisma/site/img/southcity/12.jpg",
+      "publicId": "physioprisma/site/img/southcity/12"
+    },
+    {
+      "from": "img/southcity/13.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881837/physioprisma/site/img/southcity/13.jpg",
+      "publicId": "physioprisma/site/img/southcity/13"
+    },
+    {
+      "from": "img/southcity/2.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881839/physioprisma/site/img/southcity/2.mp4",
+      "publicId": "physioprisma/site/img/southcity/2"
+    },
+    {
+      "from": "img/southcity/3.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881838/physioprisma/site/img/southcity/3.jpg",
+      "publicId": "physioprisma/site/img/southcity/3"
+    },
+    {
+      "from": "img/southcity/4.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881840/physioprisma/site/img/southcity/4.mp4",
+      "publicId": "physioprisma/site/img/southcity/4"
+    },
+    {
+      "from": "img/southcity/5.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881838/physioprisma/site/img/southcity/5.jpg",
+      "publicId": "physioprisma/site/img/southcity/5"
+    },
+    {
+      "from": "img/southcity/6.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881841/physioprisma/site/img/southcity/6.mp4",
+      "publicId": "physioprisma/site/img/southcity/6"
+    },
+    {
+      "from": "img/southcity/7.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881841/physioprisma/site/img/southcity/7.jpg",
+      "publicId": "physioprisma/site/img/southcity/7"
+    },
+    {
+      "from": "img/southcity/7.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881842/physioprisma/site/img/southcity/7-2.mp4",
+      "publicId": "physioprisma/site/img/southcity/7-2"
+    },
+    {
+      "from": "img/southcity/8.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881843/physioprisma/site/img/southcity/8.mp4",
+      "publicId": "physioprisma/site/img/southcity/8"
+    },
+    {
+      "from": "img/southcity/9.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881843/physioprisma/site/img/southcity/9.jpg",
+      "publicId": "physioprisma/site/img/southcity/9"
+    },
+    {
+      "from": "img/sultan img.png",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881844/physioprisma/site/img/sultan_img.png",
+      "publicId": "physioprisma/site/img/sultan_img"
+    },
+    {
+      "from": "img/Testing & Measurement image.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881844/physioprisma/site/img/Testing_Measurement_image.jpg",
+      "publicId": "physioprisma/site/img/Testing_Measurement_image"
+    },
+    {
+      "from": "img/three-head.jpeg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881844/physioprisma/site/img/three-head.jpg",
+      "publicId": "physioprisma/site/img/three-head"
+    },
+    {
+      "from": "videos/gallery videos (1).mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881857/physioprisma/site/videos/gallery_videos_1.mp4",
+      "publicId": "physioprisma/site/videos/gallery_videos_1"
+    },
+    {
+      "from": "videos/gallery videos (2).mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881867/physioprisma/site/videos/gallery_videos_2.mp4",
+      "publicId": "physioprisma/site/videos/gallery_videos_2"
+    },
+    {
+      "from": "videos/gallery videos (3).mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881880/physioprisma/site/videos/gallery_videos_3.mp4",
+      "publicId": "physioprisma/site/videos/gallery_videos_3"
+    },
+    {
+      "from": "videos/gallery videos (4).mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881885/physioprisma/site/videos/gallery_videos_4.mp4",
+      "publicId": "physioprisma/site/videos/gallery_videos_4"
+    },
+    {
+      "from": "uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479348248-muzsjrx5-518b94ab.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881859/physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479348248-muzsjrx5-518b94ab.jpg",
+      "publicId": "physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479348248-muzsjrx5-518b94ab"
+    },
+    {
+      "from": "uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479356696-muzsjyfs-03c6f8c7.jpg",
+      "to": "https://res.cloudinary.com/jzbx0aax/image/upload/v1791881860/physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479356696-muzsjyfs-03c6f8c7.jpg",
+      "publicId": "physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/photo-1791479356696-muzsjyfs-03c6f8c7"
+    },
+    {
+      "from": "uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/video-1791479372107-muzskabv-ece51d22.mp4",
+      "to": "https://res.cloudinary.com/jzbx0aax/video/upload/v1791881885/physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/video-1791479372107-muzskabv-ece51d22.mp4",
+      "publicId": "physioprisma/site/uploads/physioprisma/gallery/architecto-odio-at-irure-voluptatem-sed-amet-nostrud-explic/video-1791479372107-muzskabv-ece51d22"
+    }
+  ]
+}

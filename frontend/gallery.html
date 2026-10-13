@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="./img/logo pic (2).jpg">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
     <style>
         :root {
             --purple: #6b21a8;
@@ -145,7 +145,7 @@
 
                 <!-- Logo -->
                 <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <img src="./img/logo pic(2).jpeg" alt="Physioprisma Logo"
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
                         class="h-8 w-auto sm:h-10 md:h-12 rounded-full object-cover border-2 border-purple-100">
                     <div>
                         <span
@@ -160,6 +160,7 @@
                 <!-- Desktop Menu - Hide from 768px and below -->
                 <div class="hidden lg:flex items-center gap-6 font-semibold">
                     <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                    <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
                     <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
                     <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
                     <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
@@ -202,6 +203,8 @@
                 <a href="about.html"
                     class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About
                     Us</a>
+                <a href="courses.html"
+                    class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
                 <a href="gallery.html"
                     class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
                 <a href="contact.html"
@@ -250,7 +253,8 @@
     <!-- Tabs -->
     <div class="sticky top-0 bg-white shadow z-40">
         <div class="max-w-7xl mx-auto px-2 sm:px-6">
-            <div class="flex border-b overflow-x-auto scrollbar-hide">
+            <div class="flex border-b overflow-x-auto scrollbar-hide" id="gallery-tabs">
+                <!-- Fallback tabs: replaced by the API list below once /api/gallery answers -->
                 <button onclick="showTab(4)" id="tab-4"
                     class="tab-active flex-shrink-0 px-4 sm:px-8 py-3 sm:py-5 font-semibold text-sm sm:text-lg border-b-4 border-transparent whitespace-nowrap">
                     Dry Needling Workshop 1
@@ -263,21 +267,24 @@
         </div>
     </div>
 
+    <!-- API-rendered categories live here; the two static sections below stay as fallback -->
+    <div id="gallery-dynamic"></div>
+
     <!-- Photos Grid -->
     <!-- <section id="photos" class="py-8 sm:py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div class="gallery-img overflow-hidden rounded-3xl shadow">
-                    <img src="./img/gallery image (1).jpeg" class="w-full h-full object-cover" alt="Treatment">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881805/physioprisma/site/img/gallery_image_1.jpg" class="w-full h-full object-cover" alt="Treatment">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow">
-                    <img src="./img/gallery image (2).jpeg" class="w-full h-full object-cover" alt="Patient Recovery">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/gallery_image_2.jpg" class="w-full h-full object-cover" alt="Patient Recovery">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow">
-                    <img src="./img/gallery image (3).jpeg" class="w-full h-full object-cover" alt="Clinic Interior">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881806/physioprisma/site/img/gallery_image_3.jpg" class="w-full h-full object-cover" alt="Clinic Interior">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow">
-                    <img src="./img/gallery image (4).jpeg" class="w-full h-full object-cover" alt="Dry Needling">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/gallery_image_4.jpg" class="w-full h-full object-cover" alt="Dry Needling">
                 </div>
             </div>
         </div>
@@ -292,7 +299,7 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted>
-                            <source src="./videos/gallery videos (1).mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881857/physioprisma/site/videos/gallery_videos_1.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -301,7 +308,7 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted>
-                            <source src="./videos/gallery videos (2).mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881867/physioprisma/site/videos/gallery_videos_2.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -310,7 +317,7 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted>
-                            <source src="./videos/gallery videos (3).mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881880/physioprisma/site/videos/gallery_videos_3.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -319,7 +326,7 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted>
-                            <source src="./videos/gallery videos (4).mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881885/physioprisma/site/videos/gallery_videos_4.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -355,28 +362,28 @@
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/3.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881838/physioprisma/site/img/southcity/3.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/5.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881838/physioprisma/site/img/southcity/5.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/7.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881841/physioprisma/site/img/southcity/7.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/9.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881843/physioprisma/site/img/southcity/9.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/10.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881834/physioprisma/site/img/southcity/10.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/11.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881835/physioprisma/site/img/southcity/11.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/12.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881836/physioprisma/site/img/southcity/12.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/southcity/13.jpeg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881837/physioprisma/site/img/southcity/13.jpg" class="w-full h-60 object-cover" alt="South City Workshop Photo">
                 </div>
             </div>
 
@@ -391,35 +398,35 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/southcity/1.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881836/physioprisma/site/img/southcity/1.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/southcity/2.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881839/physioprisma/site/img/southcity/2.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/southcity/4.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881840/physioprisma/site/img/southcity/4.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/southcity/6.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881841/physioprisma/site/img/southcity/6.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/southcity/7.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881842/physioprisma/site/img/southcity/7-2.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
@@ -455,37 +462,37 @@
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/1.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/1.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/2.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881818/physioprisma/site/img/prism/2.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/3.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881829/physioprisma/site/img/prism/3.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/4.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881829/physioprisma/site/img/prism/4.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/5.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881830/physioprisma/site/img/prism/5.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/6.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881831/physioprisma/site/img/prism/6.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/7.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881832/physioprisma/site/img/prism/7.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/8.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881832/physioprisma/site/img/prism/8.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/9.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881833/physioprisma/site/img/prism/9.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/10.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/10.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">
-                    <img src="./img/prism/11.jpeg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881808/physioprisma/site/img/prism/11.jpg" class="w-full h-60 object-cover" alt="PRISM Workshop Photo">
                 </div>
             </div>
 
@@ -500,91 +507,91 @@
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/13.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881813/physioprisma/site/img/prism/13.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/14.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881809/physioprisma/site/img/prism/14.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/15.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881818/physioprisma/site/img/prism/15.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/16.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881821/physioprisma/site/img/prism/16.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/17.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881814/physioprisma/site/img/prism/17.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/18.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881822/physioprisma/site/img/prism/18.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/19.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881816/physioprisma/site/img/prism/19.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/20.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881820/physioprisma/site/img/prism/20.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/21.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881828/physioprisma/site/img/prism/21.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/22.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881825/physioprisma/site/img/prism/22.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/23.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881827/physioprisma/site/img/prism/23.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/24.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881834/physioprisma/site/img/prism/24.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
                     <div class="reel-video bg-black">
                         <video width="100%" height="100%" controls muted playsinline>
-                            <source src="./img/prism/25.mp4" type="video/mp4">
+                            <source src="https://res.cloudinary.com/jzbx0aax/video/upload/v1791881834/physioprisma/site/img/prism/25.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
@@ -604,7 +611,7 @@
                 <div
                     class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
                     <a href="home.html">
-                        <img src="./img/logo pic (2).jpg" alt="Physioprisma Logo"
+                        <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg" alt="Physioprisma Logo"
                             class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
                     </a>
                     <p
@@ -693,23 +700,122 @@
         <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
     </a>
 
+    <script src="./js/api.js"></script>
     <script>
-        // Tab Switching
-        function showTab(n) {
-            document.getElementById('southcity').classList.add('hidden');
-            document.getElementById('prism').classList.add('hidden');
+        // Tab Switching - accepts a category key (API list) or the legacy 3 / 4
+        // ids used by the hardcoded fallback tabs.
+        function showTab(target) {
+            const isKey = typeof target === 'string';
 
-            if (n === 3) document.getElementById('southcity').classList.remove('hidden');
-            else if (n === 4) document.getElementById('prism').classList.remove('hidden');
+            // hide every panel: API-rendered ones first, then the static fallback
+            document.querySelectorAll('[data-gallery-panel]').forEach((s) => s.classList.add('hidden'));
+            ['southcity', 'prism'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
 
-            [3, 4].forEach(i => {
-                const tab = document.getElementById('tab-' + i);
-                if (tab) {
-                    if (i === n) tab.classList.add('tab-active');
-                    else tab.classList.remove('tab-active');
-                }
+            const panelId = isKey ? 'gal-' + target : target === 3 ? 'southcity' : target === 4 ? 'prism' : null;
+            const panel = panelId ? document.getElementById(panelId) : null;
+            if (panel) panel.classList.remove('hidden');
+
+            const activeId = isKey ? 'gtab-' + target : 'tab-' + target;
+            document.querySelectorAll('#gallery-tabs button').forEach((b) => b.classList.remove('tab-active'));
+            const active = document.getElementById(activeId);
+            if (active) active.classList.add('tab-active');
+        }
+
+        /* ------------------------------------------------------------------
+         * API-driven gallery. The hardcoded sections above stay in the page
+         * as a fallback: if the request fails (or the list is empty) nothing
+         * changes and the original page keeps working.
+         * ---------------------------------------------------------------- */
+        function videoType(url) {
+            return /\.webm($|\?)/i.test(url) ? 'video/webm' : 'video/mp4';
+        }
+
+        function galleryHeader(a) {
+            const esc = (v) => (typeof PP !== 'undefined' ? PP.esc(v) : v);
+            return '<div class="text-center mb-10 sm:mb-14">' +
+                '<span class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-sm font-semibold px-5 py-2 rounded-full mb-4 tracking-wider uppercase">' +
+                esc(a.badge || 'Workshop Highlights') + '</span>' +
+                '<h2 class="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent mb-4">' +
+                esc(a.title) + '</h2>' +
+                (a.description ? '<p class="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">' + esc(a.description) + '</p>' : '') +
+                (a.location
+                    ? '<div class="mt-6 text-base sm:text-lg font-semibold text-gray-700"><span class="text-[var(--purple)]">Location:</span> ' + esc(a.location) + '</div>'
+                    : '') +
+                '</div>';
+        }
+
+        function galleryHeading(icon, label) {
+            return '<h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-3">' +
+                '<span class="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-sm">' +
+                '<i class="fa-solid ' + icon + '"></i></span>' + label + '</h3>';
+        }
+
+        function renderGalleryTabs(albums) {
+            const box = document.getElementById('gallery-tabs');
+            if (!box) return;
+            const esc = (v) => (typeof PP !== 'undefined' ? PP.esc(v) : v);
+            box.innerHTML = albums.map((a) =>
+                '<button onclick="showTab(\'' + esc(a.key) + '\')" id="gtab-' + esc(a.key) + '" ' +
+                'class="flex-shrink-0 px-4 sm:px-8 py-3 sm:py-5 font-semibold text-sm sm:text-lg border-b-4 border-transparent hover:text-[var(--purple)] whitespace-nowrap">' +
+                esc(a.title) + '</button>'
+            ).join('');
+        }
+
+        function renderGallerySections(albums) {
+            const box = document.getElementById('gallery-dynamic');
+            if (!box) return;
+            const esc = (v) => (typeof PP !== 'undefined' ? PP.esc(v) : v);
+
+            box.innerHTML = albums.map((a, idx) => {
+                const photos = a.photos || [];
+                const videos = a.videos || [];
+
+                const photoGrid = photos.length
+                    ? '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-14">' +
+                      photos.map((p) =>
+                          '<div class="gallery-img overflow-hidden rounded-3xl shadow-lg cursor-pointer">' +
+                          '<img src="' + esc(p.url) + '" class="w-full h-60 object-cover" loading="lazy" alt="' + esc(a.title) + '">' +
+                          '</div>'
+                      ).join('') + '</div>'
+                    : '<div class="text-center text-gray-400 py-8 mb-10 sm:mb-14"><i class="fa-solid fa-image text-3xl block mb-3"></i>No photos in this category yet.</div>';
+
+                const videoGrid = videos.length
+                    ? '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">' +
+                      videos.map((v) =>
+                          '<div class="bg-white rounded-3xl overflow-hidden shadow-lg">' +
+                          '<div class="reel-video bg-black">' +
+                          '<video width="100%" height="100%" controls muted playsinline preload="metadata">' +
+                          '<source src="' + esc(v.url) + '" type="' + videoType(v.url) + '">' +
+                          '</video></div></div>'
+                      ).join('') + '</div>'
+                    : '<div class="text-center text-gray-400 py-8"><i class="fa-solid fa-video text-3xl block mb-3"></i>No videos in this category yet.</div>';
+
+                return '<section id="gal-' + esc(a.key) + '" data-gallery-panel class="py-8 sm:py-16 ' +
+                    (idx % 2 ? 'bg-gray-50 ' : '') + 'hidden">' +
+                    '<div class="max-w-7xl mx-auto px-4 sm:px-6">' +
+                    galleryHeader(a) +
+                    galleryHeading('fa-image', 'Photos') + photoGrid +
+                    galleryHeading('fa-video', 'Videos') + videoGrid +
+                    '</div></section>';
+            }).join('');
+        }
+
+        function loadGalleryFromApi() {
+            if (typeof PP === 'undefined') return;
+            PP.get('/gallery', { auth: false }).then((d) => {
+                const albums = ((d && d.albums) || []).filter((a) => a && a.key && a.title);
+                if (!albums.length) return; // keep the hardcoded page
+                renderGalleryTabs(albums);
+                renderGallerySections(albums);
+                showTab(albums[0].key);
+            }).catch(() => {
+                // API unreachable - the original static gallery stays visible
             });
         }
+        loadGalleryFromApi();
 
         // Mobile Menu
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -765,6 +871,7 @@
             }
         });
     </script>
+<script src="./js/navbar.js"></script>
 </body>
 
 </html>

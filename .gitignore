@@ -22,3 +22,7 @@ Thumbs.db
 # Build output
 dist/
 build/
+
+# Files uploaded through the admin panel (stored locally until Cloudinary is on)
+uploads/
+backend/uploads/

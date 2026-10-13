@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course - Physioprisma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg">
+    
+    <style>
+        :root {
+            --purple: #6b21a8;
+            --blue: #0ea5e9;
+            --light-purple: #f3e8ff;
+            --light-blue: #e0f2fe;
+        }
+
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, var(--purple), var(--blue));
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            color: #374151;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-trigger i {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+            padding: 0.75rem 0;
+            display: none;
+            z-index: 50;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light-purple);
+            color: var(--purple);
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(107, 33, 168, 0.92), rgba(14, 165, 233, 0.92)), 
+                        url('https://source.unsplash.com/random/1600x900/?physiotherapy-training') center/cover no-repeat;
+        }
+
+        .course-card {
+            transition: all 0.4s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(107,33,168,0.25);
+        }
+
+        .info-box {
+            transition: all 0.3s ease;
+        }
+        .info-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -12px rgba(107,33,168,0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="bg-white shadow-md sticky top-0 z-50 w-full backdrop-blur-sm bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 md:h-20">
+
+            <!-- Logo -->
+            <a href="home.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881807/physioprisma/site/img/logo_pic_2-2.jpg" alt="Physioprisma Logo"
+                     class="h-10 w-auto sm:h-12 md:h-14 rounded-full object-cover border-2 border-purple-100">
+                <div>
+                    <span class="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] bg-clip-text text-transparent logo-font">
+                        Physioprisma 
+                    </span>
+                    <p class="text-[10px] sm:text-xs text-gray-500 tracking-wider">By Dr Tuba Sultan (PT) & Dr. Sultan Zaidi (PT)</p>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-6 font-semibold">
+                <a href="about.html" class="nav-link hover:text-[var(--purple)] transition">About Us</a>
+                <a href="courses.html" class="nav-link hover:text-[var(--purple)] transition">Courses</a>
+                <a href="gallery.html" class="nav-link hover:text-[var(--purple)] transition">Gallery</a>
+                <a href="contact.html" class="nav-link hover:text-[var(--purple)] transition">Contact</a>
+                <a href="student-portal.html" class="nav-link hover:text-[var(--purple)] transition">Students</a>
+                <a href="ambassador-portal.html" class="nav-link hover:text-[var(--purple)] transition">Ambassadors</a>
+                <div class="dropdown">
+                    <button id="desktop-projects-btn" class="dropdown-trigger" type="button" onclick="toggleDesktopProjects()">
+                        Projects <i class="fa-solid fa-chevron-down text-[0.85rem]"></i>
+                    </button>
+                    <div id="desktop-projects-dropdown" class="dropdown-menu hidden">
+                        <a href="dr.sultan.html">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                        <a href="clinic.html">Physioprisma Online Clinic</a>
+                        <a href="courses.html">Physioprisma Academy</a>
+                        <a href="shop.html">Physioprisma Shop</a>
+                        <a href="blog.html">Healthcare Blogs</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Button -->
+            <a href="shop.html" 
+               class="hidden lg:block bg-gradient-to-r from-violet-600 to-blue-500 hover:from-violet-700 hover:to-blue-600 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition-all text-sm">
+                Shop Now
+            </a>
+
+            <!-- Hamburger -->
+            <button id="mobile-menu-btn" class="lg:hidden text-[var(--purple)] text-3xl p-2 rounded-full hover:bg-gray-100 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-lg w-full absolute left-0 top-full z-40">
+        <div class="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <a href="about.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">About Us</a>
+            <a href="courses.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Courses</a>
+            <a href="gallery.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Gallery</a>
+            <a href="contact.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Contact</a>
+            <a href="student-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Students</a>
+            <a href="ambassador-portal.html" class="block px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Ambassadors</a>
+            <button id="mobile-projects-btn" onclick="toggleProjectsDropdown()" class="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition focus:outline-none">
+                <span>Projects</span>
+                <i id="mobile-projects-arrow" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+            </button>
+            <div id="mobile-projects-dropdown" class="hidden mt-2 space-y-1 px-2">
+                <a href="dr.sultan.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                <a href="clinic.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Online Clinic</a>
+                <a href="courses.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Academy</a>
+                <a href="shop.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Physioprisma Shop</a>
+                <a href="blog.html" class="block px-4 py-3 text-base font-semibold text-gray-800 hover:bg-[var(--light-purple)] hover:text-[var(--purple)] rounded-xl transition">Healthcare Blogs</a>
+            </div>
+            <a href="shop.html" 
+               class="block mx-4 mt-6 bg-gradient-to-r from-violet-600 to-blue-500 text-white text-center py-3.5 rounded-2xl font-semibold text-base">
+                Shop Now
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== COURSE HEADER ==================== -->
+<section class="bg-gradient-to-br from-[rgba(107,70,193,0.9)] to-[rgba(59,130,246,0.9)] py-14">
+    <div class="max-w-7xl mx-auto px-6">
+        <a href="courses.html" class="inline-flex items-center gap-2 text-white/90 hover:text-white text-sm font-semibold mb-5">
+            <i class="fa-solid fa-arrow-left"></i> All Courses
+        </a>
+        <div class="max-w-3xl">
+            <div id="course-loading" class="text-white/80 text-xs font-bold tracking-[2px] uppercase mb-3">Loading course...</div>
+            <h1 id="course-title" class="text-3xl md:text-5xl font-bold logo-font text-white mb-3"></h1>
+            <p id="course-desc" class="text-lg text-white/95"></p>
+            <div id="course-meta" class="flex flex-wrap gap-3 mt-5"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== NOT FOUND ==================== -->
+<section id="course-missing" class="py-24 bg-white hidden">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+        <div class="w-20 h-20 mx-auto bg-purple-100 rounded-full flex items-center justify-center text-4xl mb-6">
+            <i class="fa-solid fa-graduation-cap text-[var(--purple)]"></i>
+        </div>
+        <h2 class="text-3xl font-bold mb-4">Course not found</h2>
+        <p class="text-gray-600 mb-8">This course may have been unpublished, or the link is wrong.</p>
+        <a href="courses.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold">Browse all courses</a>
+    </div>
+</section>
+
+<!-- ==================== COURSE BODY ==================== -->
+<section id="course-body" class="py-16 bg-white hidden">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+        <div class="lg:col-span-2">
+            <div class="relative w-full rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-gray-900 to-gray-800" style="aspect-ratio:16/9;">
+                <img id="course-cover" class="w-full h-full object-cover hidden" alt="">
+                <video id="player" class="w-full h-full hidden" controls playsinline preload="metadata"></video>
+                <div id="player-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center px-6 bg-gradient-to-t from-black/90 via-black/55 to-black/30">
+                    <i class="fa-solid fa-circle-play text-5xl text-white/85 mb-4"></i>
+                    <p id="player-empty-text" class="text-white text-base font-semibold max-w-md">Video lessons for this course are published by the instructor.</p>
+                    <p class="text-white/75 text-sm max-w-md mt-2">Contact us for the current batch schedule, fees and enrolment dates.</p>
+                </div>
+            </div>
+
+            <div id="lesson-head" class="hidden items-start justify-between gap-4 mb-6">
+                <div>
+                    <p id="lesson-kicker" class="text-xs font-bold tracking-[2px] uppercase text-[var(--blue)] mb-1"></p>
+                    <h2 id="lesson-title" class="text-2xl font-bold text-[var(--purple)]"></h2>
+                </div>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button id="prev-lesson" type="button" disabled
+                        class="w-11 h-11 rounded-full border border-gray-300 text-gray-500 flex items-center justify-center hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        aria-label="Previous lesson"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button id="next-lesson" type="button" disabled
+                        class="w-11 h-11 rounded-full border border-gray-300 text-gray-500 flex items-center justify-center hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        aria-label="Next lesson"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-100 pt-6">
+                <h3 class="text-lg font-bold text-[var(--purple)] mb-3">About this course</h3>
+                <div id="course-about" class="text-gray-600 leading-relaxed space-y-4 mb-6"></div>
+                <h3 class="text-lg font-bold text-[var(--purple)] mb-3">What you'll learn</h3>
+                <ul id="course-points" class="grid sm:grid-cols-2 gap-2.5 text-sm text-gray-700"></ul>
+            </div>
+        </div>
+
+        <aside>
+            <div class="bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
+                <div class="px-6 py-5 bg-white border-b border-gray-200">
+                    <h3 class="font-bold text-lg">Lessons</h3>
+                    <p id="lesson-count" class="text-sm text-gray-500"></p>
+                </div>
+                <ul id="lesson-list" class="max-h-[430px] overflow-y-auto divide-y divide-gray-100"></ul>
+                <div id="lesson-empty" class="hidden px-6 py-8 text-center text-sm text-gray-500">
+                    No lessons published yet. Contact us for upcoming batch dates.
+                </div>
+            </div>
+
+            <div class="mt-6 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] rounded-2xl p-6 text-white">
+                <p class="text-xs uppercase tracking-[2px] font-bold mb-1">Ready to join?</p>
+                <p class="text-sm text-white/90 mb-4">Limited seats - early registration recommended.</p>
+                <a href="contact.html" class="block text-center bg-white text-[var(--purple)] px-6 py-3 rounded-full font-bold hover:shadow-lg transition">Register Now</a>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+
+        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-12 md:gap-6">
+
+            <!-- LEFT -->
+            <div class="flex flex-col items-center md:items-start text-center md:text-left max-w-xs mx-auto md:mx-0">
+                <a href="home.html">
+                    <img src="https://res.cloudinary.com/jzbx0aax/image/upload/v1791881809/physioprisma/site/img/logo_pic_2.jpg" alt="Physioprisma Logo"
+                         class="h-16 w-16 rounded-full object-cover border-2 border-purple-400 mb-4">
+                </a>
+                <p class="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 logo-font">
+                    Physioprisma
+                </p>
+                <p class="text-gray-400 text-sm leading-relaxed">By Dr Tuba Sultan and Dr Syed Sultan Ahmed Zaidi</p>
+            </div>
+
+            <!-- CENTER -->
+            <div class="flex flex-col items-center text-center">
+                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Explore</h4>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+                    <li>
+                        <button onclick="toggleClinicDropdown()" class="flex items-center gap-2 hover:text-white transition focus:outline-none mx-auto">
+                            Our Clinic
+                            <i id="clinic-arrow" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                        </button>
+                        <div id="clinic-dropdown" class="hidden mt-2 space-y-2 text-xs text-gray-500">
+                            <a href="dr.sultan.html" class="block py-1 hover:text-white transition">Dr. Sultan Zaidi's Physiotherapy Clinic</a>
+                            <a href="clinic.html" class="block py-1 hover:text-white transition">Physioprisma Online Clinic</a>
+                        </div>
+                    </li>
+                    <li><a href="courses.html" class="hover:text-white transition">Physioprisma Academy</a></li>
+                    <li><a href="blog.html" class="hover:text-white transition">Blogs</a></li>
+                    <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                    <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="flex flex-col items-center md:items-end text-center md:text-right max-w-xs mx-auto md:mx-0">
+                <h4 class="font-bold text-base uppercase tracking-widest text-white mb-5">Follow Us</h4>
+                <div class="flex gap-4 text-2xl mb-6">
+                    <a href="https://wa.link/lcqilt" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/physio_prisma?igsh=bG8wbm41aHNrbnly" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/Physioprisma?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/company/Physioprisma/about/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+                <p class="text-sm text-gray-400 mb-3">Have questions? We're here for you.</p>
+                <a href="contact.html" class="inline-block bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-7 py-3 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition text-sm">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-14 pt-6">
+        <p class="text-center text-gray-500 text-sm">&copy; 2026 Physioprisma. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="./js/api.js"></script>
+<script>
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
+
+    // Clinic Dropdown
+    function toggleClinicDropdown() {
+        const dropdown = document.getElementById('clinic-dropdown');
+        if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    function toggleProjectsDropdown() {
+        const dropdown = document.getElementById('mobile-projects-dropdown');
+        const arrow = document.getElementById('mobile-projects-arrow');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function toggleDesktopProjects() {
+        const dropdown = document.getElementById('desktop-projects-dropdown');
+        const arrow = document.querySelector('#desktop-projects-btn i');
+        if (dropdown) dropdown.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    document.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('clinic-dropdown');
+        if (!dropdown) return;
+        const button = e.target.closest('button');
+        if (!button && !dropdown.classList.contains('hidden')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
+
+<!-- Fixed WhatsApp Floating Button -->
+<a href="https://wa.link/lcqilt" target="_blank"
+   class="fixed bottom-6 right-6 z-[100] flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group">
+    <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+</a>
+
+<script>
+    // Course detail + lesson player. Reads /api/courses/:id (or :slug).
+    var course = null;
+    var currentLesson = -1;
+
+    function show(which) {
+        document.getElementById('course-missing').classList.toggle('hidden', which !== 'missing');
+        document.getElementById('course-body').classList.toggle('hidden', which !== 'body');
+    }
+
+    function pill(label, icon) {
+        return '<span class="inline-flex items-center gap-2 bg-white/20 border border-white/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm text-white">' +
+            '<i class="fa-solid ' + icon + '"></i>' + PP.esc(label) + '</span>';
+    }
+
+    function firstDetail(list, re) {
+        for (var i = 0; i < list.length; i++) if (re.test(list[i])) return list[i];
+        return '';
+    }
+
+    function renderHeader() {
+        var details = course.details || [];
+        document.title = course.title + ' - Physioprisma';
+        document.getElementById('course-loading').classList.add('hidden');
+        document.getElementById('course-title').textContent = course.title;
+        document.getElementById('course-desc').textContent = course.description || '';
+
+        var duration = firstDetail(details, /^duration/i) || details[0] || '';
+        var cert = firstDetail(details, /^(certification|includes)/i);
+        var meta = [];
+        if (duration) meta.push(pill(duration, 'fa-clock'));
+        if (course.instructor) meta.push(pill(course.instructor, 'fa-chalkboard-user'));
+        if (course.level) meta.push(pill(course.level, 'fa-award'));
+        if (cert) meta.push(pill(cert, 'fa-certificate'));
+        if (course.lessonCount) meta.push(pill(course.lessonCount + ' lesson' + (course.lessonCount === 1 ? '' : 's'), 'fa-circle-play'));
+        document.getElementById('course-meta').innerHTML = meta.join('');
+
+        var about = String(course.about || '').split(/\n+/).filter(Boolean);
+        if (!about.length) about = [course.description || 'Contact us for the full syllabus and upcoming batch dates.'];
+        document.getElementById('course-about').innerHTML = about
+            .map(function (p) { return '<p>' + PP.esc(p) + '</p>'; })
+            .join('');
+
+        document.getElementById('course-points').innerHTML = details.map(function (d) {
+            return '<li class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-[var(--blue)] mt-1"></i><span>' + PP.esc(d) + '</span></li>';
+        }).join('');
+
+        // Media block: a real cover image when there are no lessons yet
+        var cover = document.getElementById('course-cover');
+        var player = document.getElementById('player');
+        var empty = document.getElementById('player-empty');
+        var hasLessons = (course.lessons || []).length > 0;
+
+        document.getElementById('lesson-head').classList.toggle('hidden', !hasLessons);
+        document.getElementById('lesson-head').classList.toggle('flex', hasLessons);
+
+        if (hasLessons) {
+            cover.classList.add('hidden');
+            player.classList.remove('hidden');
+            empty.classList.add('hidden');
+        } else {
+            player.classList.add('hidden');
+            if (course.image) {
+                cover.src = course.image;
+                cover.alt = course.title;
+                cover.classList.remove('hidden');
+            } else {
+                cover.classList.add('hidden');
+            }
+            document.getElementById('player-empty-text').textContent =
+                'Video lessons for this course are published by the instructor.';
+            empty.classList.remove('hidden');
+        }
+    }
+
+    function renderLessonList() {
+        var lessons = course.lessons || [];
+        document.getElementById('lesson-count').textContent =
+            lessons.length ? lessons.length + ' lesson' + (lessons.length === 1 ? '' : 's') + ' in this course' : 'Not published yet';
+        document.getElementById('lesson-empty').classList.toggle('hidden', lessons.length > 0);
+
+        document.getElementById('lesson-list').innerHTML = lessons.map(function (l, i) {
+            return '<li>' +
+                '<button type="button" data-lesson="' + i + '" class="lesson-row w-full text-left px-6 py-4 flex items-center gap-3 hover:bg-white transition">' +
+                    '<span class="w-8 h-8 rounded-full bg-purple-100 text-[var(--purple)] text-sm font-bold flex items-center justify-center flex-shrink-0">' + (i + 1) + '</span>' +
+                    '<span class="flex-1 min-w-0">' +
+                        '<span class="block font-semibold text-sm truncate">' + PP.esc(l.title) + '</span>' +
+                        (l.duration ? '<span class="block text-xs text-gray-500">' + PP.esc(l.duration) + '</span>' : '') +
+                    '</span>' +
+                    '<i class="fa-solid fa-play text-gray-300"></i>' +
+                '</button>' +
+            '</li>';
+        }).join('');
+    }
+
+    function playLesson(index) {
+        var lessons = course.lessons || [];
+        if (index < 0 || index >= lessons.length) return;
+        currentLesson = index;
+        var lesson = lessons[index];
+        var video = document.getElementById('player');
+        var empty = document.getElementById('player-empty');
+        var cover = document.getElementById('course-cover');
+
+        document.getElementById('lesson-head').classList.remove('hidden');
+        document.getElementById('lesson-head').classList.add('flex');
+        cover.classList.add('hidden');
+
+        if (lesson.videoUrl) {
+            empty.classList.add('hidden');
+            video.classList.remove('hidden');
+            if (video.getAttribute('src') !== lesson.videoUrl) {
+                video.src = lesson.videoUrl;
+                video.load();
+            }
+        } else {
+            video.classList.add('hidden');
+            video.removeAttribute('src');
+            document.getElementById('player-empty-text').textContent = 'This lesson has no video yet.';
+            empty.classList.remove('hidden');
+        }
+
+        document.getElementById('lesson-kicker').textContent = 'Lesson ' + (index + 1) + ' of ' + lessons.length;
+        document.getElementById('lesson-title').textContent = lesson.title;
+
+        var rows = document.querySelectorAll('#lesson-list [data-lesson]');
+        for (var i = 0; i < rows.length; i++) {
+            var on = Number(rows[i].getAttribute('data-lesson')) === index;
+            rows[i].classList.toggle('bg-white', on);
+            rows[i].classList.toggle('text-[var(--purple)]', on);
+            var badge = rows[i].querySelector('span');
+            badge.classList.toggle('bg-[var(--purple)]', on);
+            badge.classList.toggle('text-white', on);
+            badge.classList.toggle('bg-purple-100', !on);
+        }
+
+        document.getElementById('prev-lesson').disabled = index === 0;
+        document.getElementById('next-lesson').disabled = index >= lessons.length - 1;
+    }
+
+    function loadCourse() {
+        if (typeof PP === 'undefined') { show('missing'); return; }
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get('id') || params.get('slug');
+        if (!id) {
+            document.getElementById('course-loading').classList.add('hidden');
+            show('missing');
+            return;
+        }
+
+        PP.get('/courses/' + encodeURIComponent(id), { auth: false })
+            .then(function (data) {
+                if (!data || !data.course) throw new Error('missing');
+                course = data.course;
+                renderHeader();
+                renderLessonList();
+                show('body');
+                if ((course.lessons || []).length) playLesson(0);
+            })
+            .catch(function () {
+                document.getElementById('course-loading').classList.add('hidden');
+                show('missing');
+            });
+    }
+
+    document.getElementById('lesson-list').addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-lesson]');
+        if (btn) playLesson(Number(btn.getAttribute('data-lesson')));
+    });
+    document.getElementById('prev-lesson').addEventListener('click', function () { playLesson(currentLesson - 1); });
+    document.getElementById('next-lesson').addEventListener('click', function () { playLesson(currentLesson + 1); });
+
+    loadCourse();
+</script>
+
+<script src="./js/navbar.js"></script>
+</body>
+</html>
+
