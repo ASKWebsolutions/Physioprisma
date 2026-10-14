@@ -17,6 +17,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 
 const { connectDB, disconnectDB } = require('./config/db');
+const mongoose = require('mongoose');
 const { seedAdmin } = require('./seed/seedAdmin');
 const User = require('./models/User.model');
 const { backfillRollNumbers } = require('./utils/rollNo');
@@ -25,6 +26,16 @@ const { notFound, errorHandler } = require('./middleware/error');
 const { ensureRoot, UPLOADS_ROOT } = require('./storage/local');
 
 const app = express();
+
+/* ------------------------------ Vercel -------------------------------- */
+// Vercel rewrites /api/* to this function, which changes req.url to the
+// function path (e.g. /api/index). Restore the original path so the Express
+// router mounted at /api still matches.
+app.use((req, res, next) => {
+  const original = req.headers['x-invoke-path'];
+  if (typeof original === 'string' && original.startsWith('/api')) req.url = original;
+  next();
+});
 
 /* ------------------------------ Security ------------------------------ */
 app.set('trust proxy', 1); // accurate client IPs behind Render/nginx
@@ -80,9 +91,33 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
+/* ------------------------------ Database ------------------------------ */
+// Locally start() connects before listening. On Vercel (or any serverless
+// host) the very first request has to connect itself, and warm instances
+// reuse the same connection.
+let bootPromise = null;
+function ensureDB() {
+  if (mongoose.connection.readyState === 1) return Promise.resolve();
+  if (!bootPromise) {
+    bootPromise = (async () => {
+      await connectDB();
+      await seedAdmin();
+      // Accounts created before roll numbers existed still need one.
+      const backfilled = await backfillRollNumbers(User);
+      if (backfilled) console.log(`[boot] Assigned roll numbers to ${backfilled} account(s).`);
+    })().catch((err) => {
+      bootPromise = null; // allow the next request to retry
+      throw err;
+    });
+  }
+  return bootPromise;
+}
+app.use('/api', (req, res, next) => {
+  ensureDB().then(() => next()).catch(next);
+});
+
 /* ------------------------------- API ---------------------------------- */
 app.get('/api/health', (req, res) => {
-  const mongoose = require('mongoose');
   res.json({
     ok: true,
     name: 'physioprisma-api',

@@ -5,7 +5,7 @@ const express = require('express');
 const Blog = require('../../models/Blog.model');
 const { asyncHandler, ApiError } = require('../../middleware/error');
 const { validate } = require('../../utils/validate');
-const { upload, assertImageSize } = require('../../middleware/upload');
+const { upload, assertImageSize, directAsset } = require('../../middleware/upload');
 const { uploadBuffer, destroyAsset } = require('../../config/cloudinary');
 
 const router = express.Router();
@@ -137,14 +137,16 @@ router.post(
   asyncHandler(async (req, res) => {
     const blog = await Blog.findById(req.params.id);
     if (!blog) throw ApiError.notFound('Blog not found');
-    if (!req.file) throw ApiError.badRequest('No image file received (field name must be "cover")');
-    assertImageSize(req.file);
 
-    const uploaded = await uploadBuffer(req.file.buffer, {
+    const direct = directAsset(req);
+    if (!direct && !req.file) throw ApiError.badRequest('No image file received (field name must be "cover")');
+    if (req.file) assertImageSize(req.file);
+
+    const uploaded = direct || (await uploadBuffer(req.file.buffer, {
       folder: 'physioprisma/blogs',
       resourceType: 'image',
       filename: `blog-${blog._id}`,
-    });
+    }));
 
     const prevId = coverPublicId(blog);
     const prevUrl = blog.coverImage ? blog.coverImage.url || '' : '';

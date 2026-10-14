@@ -6,7 +6,7 @@ const Course = require('../../models/Course.model');
 const Enrollment = require('../../models/Enrollment.model');
 const { asyncHandler, ApiError } = require('../../middleware/error');
 const { validate } = require('../../utils/validate');
-const { upload, assertImageSize } = require('../../middleware/upload');
+const { upload, assertImageSize, directAsset } = require('../../middleware/upload');
 const { uploadBuffer, destroyAsset } = require('../../config/cloudinary');
 
 const router = express.Router();
@@ -119,14 +119,17 @@ router.post(
   asyncHandler(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) throw ApiError.notFound('Course not found');
-    if (!req.file) throw ApiError.badRequest('No image file received (field name must be "image")');
-    assertImageSize(req.file);
 
-    const uploaded = await uploadBuffer(req.file.buffer, {
+    // Either a file, or an asset the browser already pushed to Cloudinary.
+    const direct = directAsset(req);
+    if (!direct && !req.file) throw ApiError.badRequest('No image file received (field name must be "image")');
+    if (req.file) assertImageSize(req.file);
+
+    const uploaded = direct || (await uploadBuffer(req.file.buffer, {
       folder: 'physioprisma/courses',
       resourceType: 'image',
       filename: `course-${course._id}`,
-    });
+    }));
 
     // Replace the old asset (removeLocal ignores ./img/... legacy paths)
     if (course.image && (course.image.publicId || course.image.url)) {
@@ -150,13 +153,15 @@ router.post(
   asyncHandler(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) throw ApiError.notFound('Course not found');
-    if (!req.file) throw ApiError.badRequest('No video file received (field name must be "video")');
 
-    const uploaded = await uploadBuffer(req.file.buffer, {
+    const direct = directAsset(req);
+    if (!direct && !req.file) throw ApiError.badRequest('No video file received (field name must be "video")');
+
+    const uploaded = direct || (await uploadBuffer(req.file.buffer, {
       folder: 'physioprisma/courses/lessons',
       resourceType: 'video',
       filename: `lesson-${course._id}-${Date.now()}`,
-    });
+    }));
 
     course.lessons.push({
       title: req.body.title,

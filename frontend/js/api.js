@@ -237,6 +237,84 @@
     return post('/auth/logout', null, { auth: true }).then(go, go);
   }
 
+  /* ------------------------------ uploads ---------------------------- */
+
+  /**
+   * Push a file straight to Cloudinary with a signature from the API.
+   * The file never touches our server, which matters on hosts that cap
+   * request bodies (Vercel: 4.5 MB) - videos up to 100 MB still work.
+   */
+  function directToCloudinary(sig, file) {
+    var fd = new FormData();
+    fd.append('file', file);
+    fd.append('api_key', sig.apiKey);
+    fd.append('timestamp', String(sig.timestamp));
+    fd.append('signature', sig.signature);
+    fd.append('public_id', sig.publicId);
+    return fetch(sig.uploadUrl, { method: 'POST', body: fd }).then(function (res) {
+      return res
+        .json()
+        .catch(function () {
+          return null;
+        })
+        .then(function (data) {
+          if (!res.ok || !data || !data.secure_url) {
+            throw new Error((data && data.error && data.error.message) || 'Direct upload failed');
+          }
+          return { url: data.secure_url, publicId: data.public_id, bytes: data.bytes, format: data.format };
+        });
+    });
+  }
+
+  /**
+   * Upload a file to one of the admin endpoints.
+   *
+   * Tries a signed direct upload to Cloudinary first; if that is not possible
+   * (no Cloudinary keys, signature refused, offline) it falls back to sending
+   * the file as multipart/form-data exactly like before.
+   *
+   *   PP.upload('/admin/courses/123/image', 'image', file, { folder: 'physioprisma/courses' })
+   *
+   * @param {string} path   API path (POST)
+   * @param {string} field  multipart field name used by the fallback
+   * @param {File}   file
+   * @param {{folder?:string, resourceType?:string, extra?:Object}} options
+   * @returns {Promise<Object>} the endpoint's JSON response
+   */
+  function upload(path, field, file, options) {
+    options = options || {};
+    var extra = options.extra || {};
+    var resourceType =
+      options.resourceType || (file && /^video\//i.test(file.type || '') ? 'video' : 'image');
+    var folder = options.folder || 'physioprisma';
+
+    var direct = post('/admin/uploads/sign', { folder: folder, resourceType: resourceType })
+      .then(function (sig) {
+        return directToCloudinary(sig, file);
+      })
+      .catch(function () {
+        return null; // fall back to the multipart endpoint
+      });
+
+    return direct.then(function (asset) {
+      if (asset) {
+        var payload = {};
+        Object.keys(extra).forEach(function (k) {
+          payload[k] = extra[k];
+        });
+        payload.url = asset.url;
+        payload.publicId = asset.publicId;
+        return post(path, payload);
+      }
+      var fd = new FormData();
+      fd.append(field, file);
+      Object.keys(extra).forEach(function (k) {
+        fd.append(k, extra[k]);
+      });
+      return post(path, fd);
+    });
+  }
+
   /* ------------------------------ helpers ---------------------------- */
 
   /** Escape untrusted text before inserting into innerHTML. */
@@ -299,6 +377,7 @@
     patch: patch,
     put: put,
     del: del,
+    upload: upload,
     downloadFile: downloadFile,
     getToken: getToken,
     getUser: getUser,

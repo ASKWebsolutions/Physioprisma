@@ -35,4 +35,28 @@ function assertImageSize(file) {
   }
 }
 
-module.exports = { upload, assertImageSize, MAX_IMAGE_BYTES, MAX_VIDEO_BYTES };
+/**
+ * An asset the browser already uploaded straight to Cloudinary (used on
+ * Vercel, where request bodies over 4.5 MB are rejected - see
+ * routes/admin/uploads.routes.js and PP.upload in frontend/js/api.js).
+ *
+ * Accepts the same endpoints as the multipart upload: send JSON
+ * { url, publicId } instead of a file. Returns null when no direct asset
+ * was sent so the caller can fall back to the uploaded file.
+ */
+function directAsset(req) {
+  const body = req.body || {};
+  const url = body.url ? String(body.url).trim() : '';
+  const publicId = body.publicId ? String(body.publicId).trim() : '';
+  // A direct upload always sends both. A bare {url} without a publicId is the
+  // older "use an existing asset" mode (e.g. ./img/prism/01.jpg) and is left
+  // to the caller.
+  if (!url || !publicId) return null;
+  if (!/^https:\/\//i.test(url)) {
+    throw ApiError.badRequest('Direct upload URL must start with https://');
+  }
+  if (publicId.length > 300) throw ApiError.badRequest('publicId is too long');
+  return { url, publicId };
+}
+
+module.exports = { upload, assertImageSize, directAsset, MAX_IMAGE_BYTES, MAX_VIDEO_BYTES };

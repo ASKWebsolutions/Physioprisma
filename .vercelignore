@@ -1,0 +1,11 @@
+# Keeps the deployment bundle small - only what the serverless function needs.
+node_modules
+backend/node_modules
+backend/uploads
+backend/.env
+.vercel
+.git
+.github
+**/*.map
+backend/scripts
+*.log

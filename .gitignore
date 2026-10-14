@@ -26,3 +26,6 @@ build/
 # Files uploaded through the admin panel (stored locally until Cloudinary is on)
 uploads/
 backend/uploads/
+
+.vercel
+.env*

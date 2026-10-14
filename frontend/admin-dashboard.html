@@ -2604,9 +2604,7 @@
         });
 
         function uploadCourseImage(courseId, file) {
-            const fd = new FormData();
-            fd.append('image', file);
-            PP.post('/admin/courses/' + courseId + '/image', fd).then(function () {
+            PP.upload('/admin/courses/' + courseId + '/image', 'image', file, { folder: 'physioprisma/courses' }).then(function () {
                 toast('Course image updated.');
                 loadCourses();
             }).catch(function (err) { showError(err, 'Image upload failed'); });
@@ -2754,9 +2752,7 @@
         });
 
         function uploadBlogCover(blogId, file) {
-            const fd = new FormData();
-            fd.append('cover', file);
-            PP.post('/admin/blogs/' + blogId + '/cover', fd).then(function () {
+            PP.upload('/admin/blogs/' + blogId + '/cover', 'cover', file, { folder: 'physioprisma/blogs' }).then(function () {
                 toast('Cover image updated.');
                 loadBlogs();
             }).catch(function (err) { showError(err, 'Cover upload failed'); });
@@ -3187,16 +3183,16 @@
                     zone.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading ' +
                         esc(file.name) + ' (' + (file.size / 1048576).toFixed(1) + ' MB)...';
 
-                    const fd = new FormData();
-                    fd.append('file', file);
-                    fd.append('type', isPhoto ? 'photo' : 'video');
-
                     const done = function () {
                         zone.classList.remove('busy');
                         zone.innerHTML = idleHTML;
                     };
 
-                    PP.post('/admin/gallery/' + openAlbumKey + '/items', fd)
+                    PP.upload('/admin/gallery/' + openAlbumKey + '/items', 'file', file, {
+                        folder: 'physioprisma/gallery/' + openAlbumKey,
+                        resourceType: isPhoto ? 'image' : 'video',
+                        extra: { type: isPhoto ? 'photo' : 'video' }
+                    })
                         .then(function (r) { done(); updateAlbum(r.album); toast((isPhoto ? 'Photo' : 'Video') + ' uploaded.'); })
                         .catch(function (err) { done(); showError(err, 'Upload failed'); });
                 });

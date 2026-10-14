@@ -5,7 +5,7 @@ const express = require('express');
 const GalleryAlbum = require('../../models/GalleryAlbum.model');
 const { asyncHandler, ApiError } = require('../../middleware/error');
 const { validate } = require('../../utils/validate');
-const { upload, assertImageSize } = require('../../middleware/upload');
+const { upload, assertImageSize, directAsset } = require('../../middleware/upload');
 const { uploadBuffer, destroyAsset } = require('../../config/cloudinary');
 const { slugify } = require('../../utils/slug');
 
@@ -155,14 +155,15 @@ router.post(
     const bucket = type === 'video' ? 'videos' : 'photos';
 
     let item;
-    if (req.file) {
-      if (type === 'photo') assertImageSize(req.file);
+    const direct = directAsset(req);
+    if (req.file || direct) {
+      if (type === 'photo' && req.file) assertImageSize(req.file);
 
-      const uploaded = await uploadBuffer(req.file.buffer, {
+      const uploaded = direct || (await uploadBuffer(req.file.buffer, {
         folder: `physioprisma/gallery/${album.key}`,
         resourceType: type === 'video' ? 'video' : 'image',
         filename: `${type}-${Date.now()}`,
-      });
+      }));
 
       item = {
         type,

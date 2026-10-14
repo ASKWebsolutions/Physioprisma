@@ -17,5 +17,6 @@ router.use('/courses', require('./courses.routes'));
 router.use('/blogs', require('./blogs.routes'));
 router.use('/gallery', require('./gallery.routes'));
 router.use('/contacts', require('./contacts.routes'));
+router.use('/uploads', require('./uploads.routes'));
 
 module.exports = router;
