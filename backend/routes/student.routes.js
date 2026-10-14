@@ -90,6 +90,7 @@ router.get(
       user: {
         id: req.user._id.toString(),
         name: req.user.name,
+        rollNo: req.user.rollNo || '',
         email: req.user.email,
         phone: req.user.phone,
         role: req.user.role,

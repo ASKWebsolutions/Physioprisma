@@ -273,6 +273,79 @@ async function main() {
     dom.window.close();
   }
 
+  /* ------------------------------------------------------ student portal */
+  {
+    const trackAnswer = {
+      ok: true,
+      student: { rollNo: 'PP-0004', name: 'hamza', status: 'active', joinedAt: '2026-10-14T04:26:09.181Z' },
+      courses: [
+        {
+          title: courses[0].title,
+          slug: courses[0].slug,
+          image: '',
+          progress: 45,
+          status: 'in_progress',
+          enrolledAt: '2026-10-01T10:00:00.000Z',
+        },
+      ],
+      summary: { courses: 1, completed: 0, inProgress: 1, averageProgress: 45 },
+    };
+    const dom = boot(
+      pageHtml('student-portal.html', '<script src="./js/api.js"></script>'),
+      BASE + '/student-portal.html',
+      { '/api/track/PP-0004': trackAnswer }
+    );
+    await settle(300);
+    const doc = dom.window.document;
+
+    report('portal has a track form',
+      !!doc.getElementById('track-form') && !!doc.getElementById('track-roll') && !!doc.getElementById('track-btn'));
+    report('track section sits on the portal page', !!doc.getElementById('track-result') && !!doc.getElementById('track-message'));
+
+    doc.getElementById('track-roll').value = 'PP-0004';
+    doc.getElementById('track-form').dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+    await settle(400);
+
+    const result = doc.getElementById('track-result');
+    report('track record renders', !result.classList.contains('hidden') && result.innerHTML.indexOf('PP-0004') > -1);
+    report('track record shows the student name', result.innerHTML.indexOf('hamza') > -1);
+    report('track record lists the enrolled course',
+      result.innerHTML.indexOf(courses[0].title.replace(/&/g, '&amp;')) > -1);
+    report('track record shows progress', result.innerHTML.indexOf('45%') > -1);
+    report('lookup button re-enabled', doc.getElementById('track-btn').disabled === false);
+    report('no script errors', dom.errors.length === 0, JSON.stringify(dom.errors.slice(0, 2)));
+    dom.window.close();
+  }
+
+  /* ---------------------------------------------------- student dashboard */
+  {
+    const dashAnswer = {
+      ok: true,
+      user: { id: '1', name: 'Roll Tester', rollNo: 'PP-0004', email: 'rt@example.com', phone: '03001234567', role: 'student', status: 'active', joinedAt: '2026-10-01T00:00:00.000Z' },
+      stats: { enrolled: 1, inProgress: 1, completed: 0, certificates: 0 },
+      courses: [],
+    };
+    const dom = boot(
+      pageHtml('student-dashboard.html', '<script src="./js/api.js"></script>'),
+      BASE + '/student-dashboard.html',
+      { '/api/student/dashboard': dashAnswer, '/api/courses': coursesData, '/api/auth/me': { ok: true, user: dashAnswer.user } },
+      (window) => {
+        window.localStorage.setItem('pp_token', 'test-token');
+        window.localStorage.setItem('pp_user', JSON.stringify({ id: '1', name: 'Roll Tester', rollNo: 'PP-0004', role: 'student', status: 'active' }));
+      }
+    );
+    await settle(500);
+    const doc = dom.window.document;
+
+    report('dashboard shows the roll no under the welcome header',
+      doc.getElementById('welcome-roll').textContent === 'PP-0004', doc.getElementById('welcome-roll').textContent);
+    report('dashboard profile panel shows the roll no',
+      doc.getElementById('profile-roll').textContent === 'PP-0004', doc.getElementById('profile-roll').textContent);
+    report('profile keeps the email row', doc.getElementById('profile-email').textContent === 'rt@example.com');
+    report('no script errors', dom.errors.length === 0, JSON.stringify(dom.errors.slice(0, 2)));
+    dom.window.close();
+  }
+
   console.log(`\n==== CONTENT PAGE RESULT: ${pass} passed, ${fail} failed ====`);
   process.exit(fail === 0 ? 0 : 1);
 }

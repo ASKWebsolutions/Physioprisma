@@ -18,6 +18,8 @@ const rateLimit = require('express-rate-limit');
 
 const { connectDB, disconnectDB } = require('./config/db');
 const { seedAdmin } = require('./seed/seedAdmin');
+const User = require('./models/User.model');
+const { backfillRollNumbers } = require('./utils/rollNo');
 const apiRoutes = require('./routes');
 const { notFound, errorHandler } = require('./middleware/error');
 const { ensureRoot, UPLOADS_ROOT } = require('./storage/local');
@@ -130,6 +132,9 @@ async function start() {
   try {
     await connectDB();
     await seedAdmin();
+    // Accounts created before roll numbers existed still need one.
+    const backfilled = await backfillRollNumbers(User);
+    if (backfilled) console.log(`[boot] Assigned roll numbers to ${backfilled} account(s).`);
   } catch (err) {
     console.error(`[boot] Failed to start: ${err.message}`);
     process.exit(1);

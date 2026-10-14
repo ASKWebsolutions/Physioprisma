@@ -2,12 +2,17 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { nextRollNo } = require('../utils/rollNo');
 
 const ROLES = ['student', 'ambassador', 'admin'];
 const STATUSES = ['pending', 'active', 'suspended', 'rejected'];
 
 const userSchema = new mongoose.Schema(
   {
+    // Permanent account id, e.g. PP-0007 - shown in the admin panel and used
+    // to open a person's track record.
+    rollNo: { type: String, trim: true, uppercase: true, unique: true, sparse: true, index: true },
+
     name: { type: String, required: [true, 'Name is required'], trim: true, maxlength: 120 },
     email: {
       type: String,
@@ -47,6 +52,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+/** Assign a roll number the first time an account is saved. */
+userSchema.pre('save', async function assignRollNo(next) {
+  if (this.rollNo) return next();
+  this.rollNo = await nextRollNo(this.constructor);
+  return next();
+});
+
 /** Hash the password whenever it changed (not on every save). */
 userSchema.pre('save', async function hashPassword(next) {
   if (!this.isModified('password')) return next();
@@ -63,6 +75,7 @@ userSchema.methods.comparePassword = function comparePassword(candidate) {
 userSchema.methods.toPublic = function toPublic() {
   return {
     id: this._id.toString(),
+    rollNo: this.rollNo || '',
     name: this.name,
     email: this.email,
     phone: this.phone,

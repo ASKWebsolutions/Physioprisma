@@ -413,6 +413,33 @@
         </div>
     </section>
 
+    <!-- ==================== TRACK RECORD ==================== -->
+    <section class="py-14 sm:py-16 md:py-20 bg-gradient-to-br from-[var(--light-purple)] to-[var(--light-blue)]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur px-4 py-2 rounded-full mb-4">
+                    <i class="fa-solid fa-fingerprint text-[var(--purple)] text-sm"></i>
+                    <span class="text-[10px] sm:text-xs font-semibold tracking-[2px] text-[var(--purple)] uppercase">Roll Number</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold logo-font text-gray-800 mb-3">Track Your Record</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Enter the roll number you were given (for example
+                    <strong>PP-0004</strong>) to see your enrolled courses and progress - no login needed.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-5 sm:p-7">
+                <form id="track-form" class="flex flex-col sm:flex-row gap-3" onsubmit="return trackLookup(event)">
+                    <input id="track-roll" class="auth-input flex-1" placeholder="e.g. PP-0004"
+                           autocomplete="off" maxlength="20" required>
+                    <button type="submit" id="track-btn" class="btn-primary px-8 py-3.5 font-bold whitespace-nowrap">
+                        <i class="fa-solid fa-magnifying-glass mr-2"></i>Track
+                    </button>
+                </form>
+                <div id="track-message" class="hidden mt-4 text-sm font-semibold rounded-2xl px-4 py-3" role="status" aria-live="polite"></div>
+                <div id="track-result" class="hidden mt-6"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- ==================== FOOTER ==================== -->
     <footer class="bg-gray-900 text-white pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-6 sm:px-8">
@@ -627,7 +654,127 @@
             return false;
         }
 
-        // Dropdowns
+        // ------------------------------------------------------------------
+        // Track record (roll number lookup) - public, no login required
+        // ------------------------------------------------------------------
+        function trackEsc(v) {
+            if (v === null || v === undefined) return '';
+            return String(v)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function trackDate(v) {
+            if (!v) return '';
+            const d = new Date(v);
+            if (isNaN(d.getTime())) return '';
+            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function setTrackMessage(text, type) {
+            const box = document.getElementById('track-message');
+            if (!box) return;
+            box.textContent = text;
+            box.className = 'mt-4 text-sm font-semibold rounded-2xl px-4 py-3 ' +
+                (type === 'error'
+                    ? 'bg-red-50 text-red-700 border border-red-200'
+                    : 'bg-green-50 text-green-700 border border-green-200');
+        }
+
+        function trackRecordHTML(data) {
+            const s = data.student || {};
+            const sum = data.summary || {};
+            const courses = data.courses || [];
+
+            const chips = [
+                ['fa-book-open', (sum.courses || 0) + ' Course' + (sum.courses === 1 ? '' : 's')],
+                ['fa-award', (sum.completed || 0) + ' Completed'],
+                ['fa-spinner', (sum.inProgress || 0) + ' In Progress'],
+                ['fa-chart-line', (sum.averageProgress || 0) + '% Average progress'],
+            ].map(function (c) {
+                return '<span class="inline-flex items-center gap-1.5 bg-[var(--light-purple)] text-[var(--purple)] ' +
+                    'px-3 py-1.5 rounded-full text-xs font-bold">' +
+                    '<i class="fa-solid ' + c[0] + '"></i> ' + trackEsc(c[1]) + '</span>';
+            }).join('');
+
+            const rows = courses.length === 0
+                ? '<div class="text-center text-sm text-gray-500 py-6">' +
+                  '<i class="fa-solid fa-book-open text-2xl text-gray-300 mb-2 block"></i>' +
+                  'No enrolled courses yet. <a href="courses.html" class="text-[var(--purple)] font-semibold hover:underline">Browse courses</a>' +
+                  '</div>'
+                : courses.map(function (c) {
+                    const pct = Math.max(0, Math.min(100, c.progress || 0));
+                    const done = c.status === 'completed';
+                    return '<div class="border border-gray-100 rounded-2xl p-4 mb-3">' +
+                        '<div class="flex flex-wrap items-center gap-2 mb-2">' +
+                        '<p class="font-bold text-gray-800 text-sm flex-1 min-w-0">' + trackEsc(c.title) + '</p>' +
+                        '<span class="text-[11px] font-bold px-2.5 py-1 rounded-full ' +
+                        (done ? 'bg-green-50 text-green-700' : 'bg-amber-50 text-amber-700') + '">' +
+                        (done ? 'Completed' : 'In progress') + '</span>' +
+                        '</div>' +
+                        '<div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-2">' +
+                        '<div class="h-full rounded-full ' + (done ? 'bg-green-500' : 'bg-gradient-to-r from-[var(--purple)] to-[var(--blue)]') +
+                        '" style="width:' + pct + '%"></div></div>' +
+                        '<div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-500">' +
+                        '<span><i class="fa-solid fa-calendar-plus mr-1 text-gray-400"></i>Enrolled ' + trackEsc(trackDate(c.enrolledAt)) + '</span>' +
+                        (c.completedAt ? '<span><i class="fa-solid fa-trophy mr-1 text-gray-400"></i>Completed ' + trackEsc(trackDate(c.completedAt)) + '</span>' : '') +
+                        '<span class="font-bold text-[var(--purple)]">' + pct + '%</span>' +
+                        '</div></div>';
+                }).join('');
+
+            return '<div class="border border-gray-100 rounded-2xl p-4 mb-4 flex flex-wrap items-center gap-3">' +
+                '<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] ' +
+                'text-white flex items-center justify-center font-bold text-lg flex-shrink-0">' +
+                trackEsc(String(s.name || '?').trim().charAt(0).toUpperCase()) + '</div>' +
+                '<div class="min-w-0">' +
+                '<p class="font-bold text-gray-800">' + trackEsc(s.name) + '</p>' +
+                '<p class="text-xs text-gray-500">Roll No <span class="font-bold text-[var(--purple)]">' + trackEsc(s.rollNo) + '</span>' +
+                (s.joinedAt ? ' &middot; Joined ' + trackEsc(trackDate(s.joinedAt)) : '') + '</p>' +
+                '</div></div>' +
+                '<div class="flex flex-wrap gap-2 mb-4">' + chips + '</div>' +
+                rows;
+        }
+
+        function trackLookup(event) {
+            if (event) event.preventDefault();
+            const input = document.getElementById('track-roll');
+            const btn = document.getElementById('track-btn');
+            const result = document.getElementById('track-result');
+            const value = input ? input.value.trim().toUpperCase() : '';
+            if (!value) {
+                setTrackMessage('Please enter your roll number.', 'error');
+                return false;
+            }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Searching...'; }
+            if (result) { result.classList.add('hidden'); result.innerHTML = ''; }
+
+            PP.get('/track/' + encodeURIComponent(value))
+                .then(function (data) {
+                    setTrackMessage('Record found for ' + data.student.name + '.', 'ok');
+                    result.innerHTML = trackRecordHTML(data);
+                    result.classList.remove('hidden');
+                })
+                .catch(function (err) {
+                    const msg = (err && err.message) || '';
+                    setTrackMessage(
+                        /No record found/i.test(msg) ? msg : 'Could not look up that roll number. Please try again.',
+                        'error'
+                    );
+                })
+                .finally(function () {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-2"></i>Track';
+                    }
+                });
+            return false;
+        }
+
+        // Dropdown
         function toggleClinicDropdown() {
             const dropdown = document.getElementById('clinic-dropdown');
             if (dropdown) dropdown.classList.toggle('hidden');

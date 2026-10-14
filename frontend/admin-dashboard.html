@@ -1280,8 +1280,11 @@
                         <h2 class="panel-title"><i class="fa-solid fa-user-graduate"></i> Student Management</h2>
                         <div class="flex items-center gap-2.5 flex-wrap">
                             <span class="badge badge-blue" id="student-count">0 Students</span>
-                            <input id="student-search" class="search-input" type="text" placeholder="Search by name or email..."
+                            <input id="student-search" class="search-input" type="text" placeholder="Search by name, email or roll no..."
                                    oninput="renderStudents()">
+                            <button class="btn-outline" onclick="openTrackLookup()">
+                                <i class="fa-solid fa-route"></i> Track
+                            </button>
                             <button class="btn-grad" onclick="openStudentModal()">
                                 <i class="fa-solid fa-user-plus"></i> New Student
                             </button>
@@ -1292,6 +1295,7 @@
                             <thead>
                                 <tr>
                                     <th>Student</th>
+                                    <th>Roll No</th>
                                     <th>Contact</th>
                                     <th>Course</th>
                                     <th>Progress</th>
@@ -1301,7 +1305,7 @@
                                 </tr>
                             </thead>
                             <tbody id="student-body">
-                                <tr><td colspan="7" class="loading-row"><span class="spinner dark"></span> Loading students...</td></tr>
+                                <tr><td colspan="8" class="loading-row"><span class="spinner dark"></span> Loading students...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1948,26 +1952,29 @@
                 renderStudents();
             }).catch(function (err) {
                 showError(err, 'Could not load students');
-                $('student-body').innerHTML = '<tr><td colspan="7" class="empty-state">Could not load students.</td></tr>';
+                $('student-body').innerHTML = '<tr><td colspan="8" class="empty-state">Could not load students.</td></tr>';
             });
         }
 
         // Pending registrations get Approve / Reject; approved students can be
-        // suspended or reactivated.
+        // suspended or reactivated. Every row can also open the track record.
         function studentActions(s) {
             const id = esc(s.id);
+            let buttons = '';
             if (s.status === 'pending') {
-                return '<div class="flex items-center gap-1.5">' +
-                    '<button class="btn-mini" data-stu="' + id + '" data-next="active"><i class="fa-solid fa-check"></i> Approve</button>' +
-                    '<button class="btn-mini danger" data-stu="' + id + '" data-next="rejected"><i class="fa-solid fa-xmark"></i> Reject</button>' +
-                    '</div>';
+                buttons = '<button class="btn-mini" data-stu="' + id + '" data-next="active"><i class="fa-solid fa-check"></i> Approve</button>' +
+                    '<button class="btn-mini danger" data-stu="' + id + '" data-next="rejected"><i class="fa-solid fa-xmark"></i> Reject</button>';
+            } else if (s.status === 'rejected') {
+                buttons = '<button class="btn-mini" data-stu="' + id + '" data-next="active"><i class="fa-solid fa-check"></i> Approve</button>';
+            } else {
+                buttons = '<button class="btn-mini" data-stu="' + id + '" data-next="' +
+                    (s.status === 'active' ? 'suspended' : 'active') + '">' +
+                    (s.status === 'active' ? 'Suspend' : 'Activate') + '</button>';
             }
-            if (s.status === 'rejected') {
-                return '<button class="btn-mini" data-stu="' + id + '" data-next="active"><i class="fa-solid fa-check"></i> Approve</button>';
-            }
-            return '<button class="btn-mini" data-stu="' + id + '" data-next="' +
-                (s.status === 'active' ? 'suspended' : 'active') + '">' +
-                (s.status === 'active' ? 'Suspend' : 'Activate') + '</button>';
+            const track = s.rollNo
+                ? '<button class="btn-mini" data-track="' + esc(s.rollNo) + '"><i class="fa-solid fa-route"></i> Track</button>'
+                : '';
+            return '<div class="flex flex-wrap items-center gap-1.5">' + track + buttons + '</div>';
         }
 
         function renderStudents() {
@@ -1975,6 +1982,7 @@
             const list = students.filter(s =>
                 (s.name || '').toLowerCase().includes(q) ||
                 (s.email || '').toLowerCase().includes(q) ||
+                (s.rollNo || '').toLowerCase().includes(q) ||
                 (s.course || '').toLowerCase().includes(q)
             );
 
@@ -1988,6 +1996,12 @@
                     '<div class="avatar sm">' + esc(initialsOf(s.name)) + '</div>' +
                     '<div class="min-w-0"><p class="font-bold text-gray-800 text-[0.88rem] leading-tight">' + esc(s.name) + '</p>' +
                     '<p class="text-[11px] text-gray-500">' + esc(s.email) + '</p></div></div></td>' +
+                    '<td class="whitespace-nowrap">' +
+                    (s.rollNo
+                        ? '<button class="btn-mini" data-track="' + esc(s.rollNo) + '" title="Open track record" style="font-variant-numeric:tabular-nums">' +
+                          '<i class="fa-solid fa-fingerprint"></i> ' + esc(s.rollNo) + '</button>'
+                        : '<span class="text-gray-400">-</span>') +
+                    '</td>' +
                     '<td class="text-[0.82rem]">' +
                     (s.phone ? '<div class="flex items-center gap-1.5 text-gray-700"><i class="fa-solid fa-phone text-[11px] text-gray-400"></i>' + esc(s.phone) + '</div>' : '') +
                     (s.city ? '<div class="text-[11px] text-gray-500">' + esc(s.city) + '</div>' : '') +
@@ -2003,6 +2017,171 @@
                     '</tr>';
             }).join('');
         }
+
+        /* --------------------------------------------------------- track record */
+        // Top bar: type a roll number and jump straight to that person's record.
+        function openTrackLookup() {
+            openModal(
+                'Track a Student',
+                '<div class="field"><label>Roll Number</label>' +
+                '<input class="input" id="track-roll" placeholder="e.g. PP-0004" autocomplete="off" ' +
+                'onkeydown="if(event.key===\'Enter\'){event.preventDefault();startTrackLookup();}"></div>' +
+                '<p class="text-[12px] text-gray-500 mt-2"><i class="fa-solid fa-circle-info mr-1"></i> ' +
+                'Every account has a permanent roll number, e.g. <strong>PP-0004</strong>.</p>',
+                '<button class="btn-outline" onclick="closeModal()">Cancel</button>' +
+                '<button class="btn-grad" onclick="startTrackLookup()"><i class="fa-solid fa-magnifying-glass"></i> Open Record</button>'
+            );
+            const input = $('track-roll');
+            if (input) setTimeout(function () { input.focus(); }, 40);
+        }
+
+        function startTrackLookup() {
+            const input = $('track-roll');
+            const value = input ? input.value.trim().toUpperCase() : '';
+            if (!value) return toast('Please enter a roll number', 'error');
+            openTrackModal(value);
+        }
+
+        function openTrackModal(rollNo) {
+            openModal(
+                'Track Record - ' + rollNo,
+                '<div class="loading-row"><span class="spinner dark"></span> Loading track record...</div>',
+                '<button class="btn-outline" onclick="closeModal()">Close</button>'
+            );
+            loadTrack(rollNo);
+        }
+
+        function loadTrack(rollNo) {
+            PP.get('/admin/students/track/' + encodeURIComponent(rollNo)).then(function (data) {
+                $('modal-title').textContent = 'Track Record - ' + ((data.student && data.student.rollNo) || rollNo);
+                $('modal-body').innerHTML = trackHTML(data);
+                $('modal-foot').innerHTML =
+                    '<button class="btn-outline" onclick="closeModal()">Close</button>' +
+                    '<button class="btn-grad" data-track="' + esc((data.student && data.student.rollNo) || rollNo) + '">' +
+                    '<i class="fa-solid fa-rotate"></i> Refresh</button>';
+            }).catch(function (err) {
+                $('modal-body').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>' +
+                    esc(showError(err, 'Could not load the track record')) + '</div>';
+            });
+        }
+
+        function trackDate(v) {
+            if (!v) return '';
+            const d = new Date(v);
+            if (isNaN(d.getTime())) return '';
+            return d.toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function trackHTML(data) {
+            const s = data.student || {};
+            const sum = data.summary || {};
+            const courses = data.enrollments || [];
+            const messages = data.messages || [];
+            const timeline = data.timeline || [];
+
+            const chips = [
+                ['fa-book-open', (sum.courses || 0) + ' Course' + (sum.courses === 1 ? '' : 's'), 'badge-blue'],
+                ['fa-award', (sum.completed || 0) + ' Completed', 'badge-green'],
+                ['fa-spinner', (sum.inProgress || 0) + ' In Progress', 'badge-amber'],
+                ['fa-chart-line', (sum.averageProgress || 0) + '% Avg progress', 'badge-purple'],
+                ['fa-envelope', (sum.messages || 0) + ' Message' + (sum.messages === 1 ? '' : 's'), 'badge-gray'],
+            ].map(function (c) {
+                return '<span class="badge ' + c[2] + '"><i class="fa-solid ' + c[0] + '"></i> ' + esc(c[1]) + '</span>';
+            }).join('');
+
+            const meta = [
+                ['fa-envelope', s.email || '-'],
+                ['fa-phone', s.phone || '-'],
+                ['fa-city', s.city || '-'],
+                ['fa-calendar', 'Joined ' + fmtDate(s.joined)],
+                ['fa-right-to-bracket', 'Last login: ' + (trackDate(s.lastLoginAt) || 'never')],
+            ].map(function (m) {
+                return '<span><i class="fa-solid ' + m[0] + '"></i>' + esc(m[1]) + '</span>';
+            }).join('');
+
+            const courseRows = courses.length === 0
+                ? '<div class="empty-state"><i class="fa-solid fa-book-open"></i> No courses yet.</div>'
+                : courses.map(function (c) {
+                    return '<div class="lesson-row">' +
+                        '<div class="flex-1 min-w-0">' +
+                        '<div class="flex items-center gap-2 flex-wrap">' +
+                        '<p class="font-bold text-gray-800 text-[0.9rem] truncate">' + esc(c.title) + '</p>' +
+                        (c.status === 'completed'
+                            ? '<span class="badge badge-green"><i class="fa-solid fa-check"></i> Completed</span>'
+                            : '<span class="badge badge-amber"><i class="fa-solid fa-spinner"></i> In progress</span>') +
+                        '</div>' +
+                        '<div class="content-meta mt-1">' +
+                        '<span><i class="fa-solid fa-calendar-plus"></i>' + esc(fmtDate(c.enrolledAt)) + '</span>' +
+                        (c.lastAccessedAt ? '<span><i class="fa-solid fa-clock"></i>' + esc(fmtDate(c.lastAccessedAt)) + '</span>' : '') +
+                        (c.completedAt ? '<span><i class="fa-solid fa-trophy"></i>' + esc(fmtDate(c.completedAt)) + '</span>' : '') +
+                        (c.referredBy ? '<span><i class="fa-solid fa-handshake"></i>' + esc(c.referredBy) + '</span>' : '') +
+                        '</div>' +
+                        '<div class="flex items-center gap-2 mt-1.5">' +
+                        '<div class="progress-track" style="flex:1"><div class="progress-fill" style="width:' + (c.progress || 0) + '%"></div></div>' +
+                        '<span class="text-[11px] font-bold text-[var(--purple)] whitespace-nowrap">' + (c.progress || 0) + '%</span>' +
+                        '</div></div></div>';
+                }).join('');
+
+            const messageRows = messages.length === 0
+                ? '<div class="empty-state"><i class="fa-solid fa-envelope"></i> No contact messages.</div>'
+                : messages.map(function (m) {
+                    return '<div class="lesson-row" style="align-items:flex-start">' +
+                        '<div class="flex-1 min-w-0">' +
+                        '<div class="flex items-center gap-2 flex-wrap">' +
+                        '<p class="font-bold text-gray-800 text-[0.88rem]">' + esc(m.concern || 'General') + '</p>' +
+                        messageStatusBadge(m.status) +
+                        '<span class="text-[11px] text-gray-400">' + esc(fmtDate(m.createdAt)) + '</span>' +
+                        '</div>' +
+                        '<p class="mt-1 text-gray-700 text-sm leading-relaxed whitespace-pre-line break-words">' + esc(m.message) + '</p>' +
+                        '</div></div>';
+                }).join('');
+
+            const timelineRows = timeline.length === 0
+                ? '<div class="empty-state"><i class="fa-solid fa-clock-rotate-left"></i> No activity yet.</div>'
+                : timeline.map(function (t) {
+                    return '<div class="activity-item">' +
+                        '<div class="activity-dot"><i class="fa-solid ' + esc(t.icon) + '"></i></div>' +
+                        '<div class="flex-1 min-w-0">' +
+                        '<p class="text-gray-700 leading-snug">' + esc(t.label) + '</p>' +
+                        '<p class="text-[11px] text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i>' + esc(trackDate(t.at)) + '</p>' +
+                        '</div></div>';
+                }).join('');
+
+            return '<div class="req-card">' +
+                '<div class="flex items-start gap-3">' +
+                '<div class="avatar">' + esc(initialsOf(s.name)) + '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                '<div class="flex items-center gap-2 flex-wrap">' +
+                '<p class="font-bold text-gray-800">' + esc(s.name || '-') + '</p>' +
+                '<span class="badge badge-purple"><i class="fa-solid fa-fingerprint"></i> ' + esc(s.rollNo || '-') + '</span>' +
+                statusBadge(s.status) +
+                (s.role ? '<span class="badge badge-gray"><i class="fa-solid fa-graduation-cap"></i> ' + esc(s.role) + '</span>' : '') +
+                '</div>' +
+                '<div class="req-meta mt-1">' + meta + '</div>' +
+                '</div></div>' +
+                '<div class="flex flex-wrap gap-2">' + chips + '</div>' +
+                '</div>' +
+
+                '<div class="panel" style="margin-top:1rem">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-book-open"></i> Courses</h3></div>' +
+                '<div class="panel-body space-y-3">' + courseRows + '</div>' +
+                '</div>' +
+
+                '<div class="panel" style="margin-top:1rem">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-envelope"></i> Contact Messages</h3></div>' +
+                '<div class="panel-body space-y-3">' + messageRows + '</div>' +
+                '</div>' +
+
+                '<div class="panel" style="margin-top:1rem">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Activity Timeline</h3></div>' +
+                '<div class="panel-body space-y-3">' + timelineRows + '</div>' +
+                '</div>';
+        }
+
+        document.addEventListener('click', function (e) {
+            const t = e.target.closest('[data-track]');
+            if (t) return openTrackModal(t.dataset.track);
+        });
 
         document.addEventListener('click', function (e) {
             const b = e.target.closest('[data-stu]');

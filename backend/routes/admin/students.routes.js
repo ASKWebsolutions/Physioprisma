@@ -4,6 +4,7 @@ const express = require('express');
 
 const User = require('../../models/User.model');
 const Enrollment = require('../../models/Enrollment.model');
+const ContactMessage = require('../../models/ContactMessage.model');
 const { asyncHandler, ApiError } = require('../../middleware/error');
 const { validate } = require('../../utils/validate');
 
@@ -11,6 +12,7 @@ const router = express.Router();
 
 const publicUser = (u) => ({
   id: u._id.toString(),
+  rollNo: u.rollNo || '',
   name: u.name,
   email: u.email,
   phone: u.phone,
@@ -33,6 +35,7 @@ router.get(
       filter.$or = [
         { name: { $regex: q, $options: 'i' } },
         { email: { $regex: q, $options: 'i' } },
+        { rollNo: { $regex: q, $options: 'i' } },
       ];
     }
 
@@ -100,6 +103,81 @@ router.post(
       student: publicUser(user),
       // Shown once so the admin can hand the login details to the student.
       credentials: { name: user.name, email: user.email, phone: user.phone, password },
+    });
+  })
+);
+
+/* GET /api/admin/students/track/:rollNo - one person's full track record     */
+router.get(
+  '/track/:rollNo',
+  asyncHandler(async (req, res) => {
+    const rollNo = String(req.params.rollNo || '').trim().toUpperCase();
+    const student = await User.findOne({ rollNo, role: 'student' });
+    if (!student) throw ApiError.notFound('No student found with roll number ' + rollNo);
+
+    const contactFilter = { $or: [{ email: student.email }] };
+    if (student.phone) contactFilter.$or.push({ phone: student.phone });
+
+    const [enrollments, messages] = await Promise.all([
+      Enrollment.find({ user: student._id }).populate('course', 'title slug image').sort({ createdAt: -1 }),
+      ContactMessage.find(contactFilter).sort({ createdAt: -1 }).limit(50),
+    ]);
+
+    const courses = enrollments.map((e) => ({
+      id: e._id.toString(),
+      title: e.course ? e.course.title : 'Course',
+      slug: e.course ? e.course.slug : '',
+      image: e.course && e.course.image ? e.course.image.url || '' : '',
+      progress: e.progress || 0,
+      status: e.status,
+      readingSeconds: e.readingSeconds || 0,
+      referredBy: e.referredBy || null,
+      enrolledAt: e.createdAt,
+      lastAccessedAt: e.lastAccessedAt,
+      completedAt: e.completedAt,
+    }));
+
+    const completed = courses.filter((c) => c.status === 'completed').length;
+    const timeline = [
+      { icon: 'fa-user-plus', label: 'Account created', at: student.joinedAt },
+      ...(student.approvedAt ? [{ icon: 'fa-circle-check', label: 'Account activated', at: student.approvedAt }] : []),
+      ...(student.lastLoginAt ? [{ icon: 'fa-right-to-bracket', label: 'Last login', at: student.lastLoginAt }] : []),
+      ...courses.map((c) => ({
+        icon: 'fa-book-open',
+        label: 'Enrolled in ' + c.title,
+        at: c.enrolledAt,
+      })),
+      ...courses
+        .filter((c) => c.completedAt)
+        .map((c) => ({ icon: 'fa-award', label: 'Completed ' + c.title, at: c.completedAt })),
+      ...messages.map((m) => ({
+        icon: 'fa-envelope',
+        label: 'Sent a contact message' + (m.concern ? ' about ' + m.concern : ''),
+        at: m.createdAt,
+      })),
+    ]
+      .filter((item) => item.at)
+      .sort((a, b) => new Date(b.at) - new Date(a.at));
+
+    const lastActivity = timeline.length ? timeline[0].at : student.lastLoginAt || student.joinedAt;
+
+    res.json({
+      ok: true,
+      student: publicUser(student),
+      enrollments: courses,
+      messages: messages.map((m) => m.toPublic()),
+      timeline,
+      summary: {
+        courses: courses.length,
+        completed,
+        inProgress: courses.length - completed,
+        averageProgress: courses.length
+          ? Math.round(courses.reduce((sum, c) => sum + (c.progress || 0), 0) / courses.length)
+          : 0,
+        messages: messages.length,
+        lastLoginAt: student.lastLoginAt,
+        lastActivityAt: lastActivity,
+      },
     });
   })
 );

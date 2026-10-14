@@ -159,6 +159,8 @@ async function main() {
     report('credentials handed back', !!creds && creds.email === email && creds.password === password, JSON.stringify(creds));
     report('created student is active', !!(created.data && created.data.student && created.data.student.status === 'active'),
       created.data && created.data.student && created.data.student.status);
+    const rollNo = (created.data && created.data.student && created.data.student.rollNo) || '';
+    report('created student gets a roll no', /^PP-\d{4,}$/.test(rollNo), rollNo);
 
     if (creds) {
       const byEmail = await call('POST', '/api/auth/login', { body: { identity: creds.email, password, role: 'student' } });
@@ -166,7 +168,43 @@ async function main() {
 
       const byPhone = await call('POST', '/api/auth/login', { body: { identity: creds.phone, password, role: 'student' } });
       report('created student logs in with phone', byPhone.status === 200 && !!(byPhone.data && byPhone.data.token), `status=${byPhone.status}`);
+
+      const dash = await call('GET', '/api/student/dashboard', { token: byEmail.data && byEmail.data.token });
+      report('own dashboard shows the roll no', dash.status === 200 && !!(dash.data && dash.data.user && dash.data.user.rollNo === rollNo),
+        `status=${dash.status} rollNo=${dash.data && dash.data.user && dash.data.user.rollNo}`);
     }
+
+    if (rollNo) {
+      const found = await call('GET', `/api/admin/students?q=${rollNo}`, { token: adminToken });
+      report('students search by roll no', found.status === 200 && (found.data.students || []).some((s) => s.rollNo === rollNo),
+        `status=${found.status}`);
+
+      const track = await call('GET', `/api/admin/students/track/${rollNo}`, { token: adminToken });
+      report('track record loads by roll no', track.status === 200 && track.data.student && track.data.student.email === email,
+        `status=${track.status}`);
+      report('track record has an activity timeline', Array.isArray(track.data.timeline) && track.data.timeline.length > 0,
+        `${(track.data.timeline || []).length} event(s)`);
+      report('track record counts the account creation',
+        !!(track.data.summary && track.data.summary.courses === 0) && (track.data.timeline || []).some((t) => /Account created/.test(t.label)));
+
+      // Public "Track Your Record" lookup on the student portal (no token).
+      const publicTrack = await call('GET', `/api/track/${rollNo}`);
+      report('public track lookup needs no login', publicTrack.status === 200 && !!(publicTrack.data && publicTrack.data.student),
+        `status=${publicTrack.status}`);
+      report('public track keeps contact details private',
+        !JSON.stringify(publicTrack.data || {}).includes(email) &&
+          !JSON.stringify(publicTrack.data || {}).includes(phone),
+        JSON.stringify(publicTrack.data && publicTrack.data.student));
+      report('public track lists enrolled courses',
+        Array.isArray(publicTrack.data && publicTrack.data.courses) &&
+          typeof (publicTrack.data && publicTrack.data.summary) === 'object');
+    }
+
+    const publicUnknown = await call('GET', '/api/track/PP-9999');
+    report('public track unknown roll no -> 404', publicUnknown.status === 404, `status=${publicUnknown.status}`);
+
+    const unknown = await call('GET', '/api/admin/students/track/PP-9999', { token: adminToken });
+    report('unknown roll no -> 404', unknown.status === 404, `status=${unknown.status}`);
 
     const dup = await call('POST', '/api/admin/students', {
       token: adminToken,

@@ -12,6 +12,7 @@ const router = express.Router();
 
 const publicUser = (u) => ({
   id: u._id.toString(),
+  rollNo: u.rollNo || '',
   name: u.name,
   email: u.email,
   phone: u.phone,

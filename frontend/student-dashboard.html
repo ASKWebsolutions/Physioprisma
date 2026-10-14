@@ -541,7 +541,9 @@
                         <span class="text-[10px] font-semibold tracking-[2px] text-white uppercase">Student Portal</span>
                     </div>
                     <h1 id="welcome-name" class="text-lg sm:text-2xl font-bold logo-font text-white truncate">Welcome, Student!</h1>
-                    <p class="text-white/90 text-xs sm:text-sm">Manage your courses and progress here.</p>
+                    <p class="text-white/90 text-xs sm:text-sm">Manage your courses and progress here.
+                        Roll No <span id="welcome-roll" class="font-bold tracking-wide text-white">-</span>
+                    </p>
                 </div>
             </div>
 
@@ -630,6 +632,10 @@
                                     <p id="profile-name" class="font-bold text-gray-800 text-[0.95rem] truncate">Student</p>
                                     <span class="badge badge-purple"><i class="fa-solid fa-graduation-cap"></i> Student Account</span>
                                 </div>
+                            </div>
+                            <div class="profile-line">
+                                <i class="fa-solid fa-fingerprint"></i>
+                                <div><span>Roll No</span><br><strong id="profile-roll">-</strong></div>
                             </div>
                             <div class="profile-line">
                                 <i class="fa-solid fa-envelope"></i>
@@ -789,6 +795,9 @@
             document.getElementById('avatar-2').textContent = initials;
             document.getElementById('welcome-name').textContent = 'Welcome, ' + name.split(/\s+/)[0] + '!';
             document.getElementById('profile-name').textContent = name;
+            var rollNo = (user && user.rollNo) || '-';
+            document.getElementById('welcome-roll').textContent = rollNo;
+            document.getElementById('profile-roll').textContent = rollNo;
             document.getElementById('profile-email').textContent = (user && user.email) || '-';
             document.getElementById('profile-phone').textContent = (user && user.phone) || '-';
             document.getElementById('profile-joined').textContent = fmtDate(user && user.joinedAt);

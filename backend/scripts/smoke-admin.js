@@ -98,7 +98,22 @@ function mockData(p) {
   if (p.startsWith('/admin/activity')) return { ok: true, items: [{ icon: 'fa-user-graduate', text: '<strong>Ali</strong> registered as a student', time: '2026-10-01' }] };
   if (p.startsWith('/admin/requests?status=pending')) return { ok: true, requests: [{ id: 'r1', name: 'Hina Aslam', email: 'h@x.com', phone: '0333', city: 'Lahore', status: 'pending', joined: '2026-10-01' }] };
   if (p.startsWith('/admin/requests?status=approved')) return { ok: true, requests: [{ id: 'r2', name: 'Faisal', email: 'f@x.com', status: 'active', referralCode: 'PPABC123' }] };
-  if (p.startsWith('/admin/students')) return { ok: true, students: [{ id: 's1', name: 'Ali Raza', email: 'ali@t.com', course: 'Dry Needling', progress: 68, status: 'active', joined: '2026-10-01' }] };
+  if (p.startsWith('/admin/students/track/')) {
+    const roll = decodeURIComponent(p.split('/').pop());
+    return {
+      ok: true,
+      student: { id: 's1', rollNo: roll, name: 'Ali Raza', email: 'ali@t.com', phone: '03001112222', city: 'Lahore', role: 'student', status: 'active', joined: '2026-10-01', lastLoginAt: '2026-10-02' },
+      enrollments: [{ id: 'e1', title: 'Dry Needling', slug: 'dry-needling', image: '', progress: 68, status: 'active', readingSeconds: 80, referredBy: null, enrolledAt: '2026-10-01', lastAccessedAt: '2026-10-03', completedAt: null }],
+      messages: [{ id: 'm9', name: 'Ali Raza', phone: '03001112222', email: 'ali@t.com', concern: 'Sports Injury', message: 'Need help with my shoulder', status: 'new', source: 'contact-form', createdAt: '2026-10-02' }],
+      timeline: [
+        { icon: 'fa-user-plus', label: 'Account created', at: '2026-10-01' },
+        { icon: 'fa-book-open', label: 'Enrolled in Dry Needling', at: '2026-10-01' },
+        { icon: 'fa-envelope', label: 'Sent a contact message about Sports Injury', at: '2026-10-02' },
+      ],
+      summary: { courses: 1, completed: 0, inProgress: 1, averageProgress: 68, messages: 1, lastLoginAt: '2026-10-02', lastActivityAt: '2026-10-02' },
+    };
+  }
+  if (p.startsWith('/admin/students')) return { ok: true, students: [{ id: 's1', rollNo: 'PP-0007', name: 'Ali Raza', email: 'ali@t.com', course: 'Dry Needling', progress: 68, status: 'active', joined: '2026-10-01' }] };
   if (p.startsWith('/admin/users')) return { ok: true, users: [{ id: 'u1', name: 'Admin', email: 'a@b.c', role: 'admin', status: 'active', joined: '2026-01-01' }] };
   if (p.startsWith('/admin/contacts')) return { ok: true, messages: [
     { id: 'm1', name: 'Ayesha Khan', phone: '03001234567', email: 'ay@x.com', concern: 'Sports Injury', message: 'I have knee pain after cricket.', status: 'new', source: 'contact-form', createdAt: '2026-10-01' },
@@ -162,6 +177,43 @@ const run = async () => {
   window.showSection('students');
   await new Promise(r => setTimeout(r, 120));
   ok('students rendered', doc.getElementById('student-body').innerHTML.includes('Ali Raza'));
+  ok('student table has a roll no column',
+    !!doc.querySelector('#sec-students thead') && /Roll No/.test(doc.querySelector('#sec-students thead').textContent));
+  ok('roll number rendered', doc.getElementById('student-body').innerHTML.includes('PP-0007'));
+
+  // roll number opens the student's track record
+  const trackBtn = doc.querySelector('#student-body [data-track]');
+  ok('track button rendered', !!trackBtn);
+  if (trackBtn) {
+    trackBtn.click();
+    await new Promise(r => setTimeout(r, 150));
+    ok('track modal opens', doc.getElementById('modal').classList.contains('show'));
+    ok('track api called', calls.includes('GET /admin/students/track/PP-0007'), JSON.stringify(calls.filter(c => c.indexOf('/students/track') > -1)));
+    ok('track title shows the roll no', doc.getElementById('modal-title').textContent.indexOf('PP-0007') > -1,
+      doc.getElementById('modal-title').textContent);
+    const trackBody = doc.getElementById('modal-body').innerHTML;
+    ok('track shows the student', trackBody.includes('Ali Raza'));
+    ok('track shows the course', trackBody.includes('Dry Needling'));
+    ok('track shows the progress', trackBody.includes('68%'));
+    ok('track shows the contact message', trackBody.includes('Need help with my shoulder'));
+    ok('track shows the activity timeline', trackBody.includes('Account created') && trackBody.includes('Enrolled in Dry Needling'));
+    ok('track shows summary chips', trackBody.includes('In Progress'));
+    window.closeModal();
+  }
+
+  // top bar Track button: type a roll number and jump to the record
+  ok('top bar has a Track button', !!doc.querySelector('#sec-students .panel-head .btn-outline'));
+  window.openTrackLookup();
+  await new Promise(r => setTimeout(r, 60));
+  ok('track lookup modal opens', doc.getElementById('modal').classList.contains('show'));
+  ok('track lookup has a roll no field', !!doc.getElementById('track-roll'));
+  doc.getElementById('track-roll').value = 'pp-0007';
+  window.startTrackLookup();
+  await new Promise(r => setTimeout(r, 150));
+  ok('lookup opens the record', doc.getElementById('modal-body').innerHTML.includes('Ali Raza'));
+  ok('lookup normalises the roll no', doc.getElementById('modal-title').textContent === 'Track Record - PP-0007',
+    doc.getElementById('modal-title').textContent);
+  window.closeModal();
 
   // admin creates a student straight from the Students section
   ok('new student button present', !!doc.querySelector('#sec-students .btn-grad'));

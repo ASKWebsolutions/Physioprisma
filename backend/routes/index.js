@@ -24,5 +24,6 @@ router.use('/gallery', require('./gallery.routes'));
 router.use('/courses', require('./courses.routes'));
 router.use('/blogs', require('./blogs.routes'));
 router.use('/contact', require('./contact.routes'));
+router.use('/track', require('./track.routes'));
 
 module.exports = router;
