@@ -64,12 +64,25 @@ const script = doc.querySelectorAll('script')[doc.querySelectorAll('script').len
 const scriptText = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 const calls = [];
+const posts = [];
 const fakePP = {
   getToken: () => 'tok',
   getUser: () => null,
   requireRole: () => Promise.resolve({ id: '1', name: 'Admin', email: 'a@b.c', role: 'admin', status: 'active' }),
   get: (p) => { calls.push('GET ' + p); return Promise.resolve(mockData(p)); },
-  post: (p) => { calls.push('POST ' + p); return Promise.resolve({ ok: true }); },
+  post: (p, body) => {
+    calls.push('POST ' + p);
+    posts.push({ path: p, body: body });
+    if (p === '/admin/students') {
+      return Promise.resolve({
+        ok: true,
+        message: 'Student created',
+        student: { id: 's9', name: body.name, email: body.email, phone: body.phone, status: 'active' },
+        credentials: { name: body.name, email: body.email, phone: body.phone, password: body.password },
+      });
+    }
+    return Promise.resolve({ ok: true });
+  },
   patch: (p) => { calls.push('PATCH ' + p); return Promise.resolve({ ok: true }); },
   del: (p) => { calls.push('DELETE ' + p); return Promise.resolve({ ok: true }); },
   logout: () => {},
@@ -149,6 +162,37 @@ const run = async () => {
   window.showSection('students');
   await new Promise(r => setTimeout(r, 120));
   ok('students rendered', doc.getElementById('student-body').innerHTML.includes('Ali Raza'));
+
+  // admin creates a student straight from the Students section
+  ok('new student button present', !!doc.querySelector('#sec-students .btn-grad'));
+  window.openStudentModal();
+  await new Promise(r => setTimeout(r, 60));
+  ok('student modal opens', doc.getElementById('modal').classList.contains('show'));
+  ['s-name', 's-email', 's-phone', 's-city', 's-password'].forEach(id =>
+    ok('student field ' + id, !!doc.getElementById(id)));
+  doc.getElementById('s-gen').click();
+  ok('generate fills a password', doc.getElementById('s-password').value.length >= 6);
+  doc.getElementById('s-name').value = 'Hira Noor';
+  doc.getElementById('s-email').value = 'hira@example.com';
+  doc.getElementById('s-phone').value = '03451234567';
+  doc.getElementById('s-city').value = 'Karachi';
+  doc.getElementById('s-password').value = 'secret123';
+  window.saveStudent();
+  await new Promise(r => setTimeout(r, 200));
+  const created = posts.find(x => x.path === '/admin/students');
+  ok('create student API called', !!created);
+  if (created) {
+    ok('create payload name', created.body.name === 'Hira Noor');
+    ok('create payload email', created.body.email === 'hira@example.com');
+    ok('create payload phone', created.body.phone === '03451234567');
+    ok('create payload password', created.body.password === 'secret123');
+    ok('create payload city', created.body.city === 'Karachi');
+  }
+  ok('credentials screen shows password', doc.getElementById('modal-body').innerHTML.includes('secret123'));
+  ok('credentials screen shows email', doc.getElementById('modal-body').innerHTML.includes('hira@example.com'));
+  ok('credentials screen shows the login page', doc.getElementById('modal-body').innerHTML.includes('student-portal.html'));
+  window.closeModal();
+  ok('student modal closes', !doc.getElementById('modal').classList.contains('show'));
 
   window.showSection('users');
   await new Promise(r => setTimeout(r, 120));

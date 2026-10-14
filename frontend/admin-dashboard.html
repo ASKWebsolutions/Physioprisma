@@ -1282,6 +1282,9 @@
                             <span class="badge badge-blue" id="student-count">0 Students</span>
                             <input id="student-search" class="search-input" type="text" placeholder="Search by name or email..."
                                    oninput="renderStudents()">
+                            <button class="btn-grad" onclick="openStudentModal()">
+                                <i class="fa-solid fa-user-plus"></i> New Student
+                            </button>
                         </div>
                     </div>
                     <div class="table-wrap">
@@ -2013,6 +2016,149 @@
                 loadStats();
             }).catch(function (err) { showError(err, 'Could not update the student'); b.disabled = false; });
         });
+
+        /* ================================================================== */
+        /* Create student (admin)                                              */
+        /* ================================================================== */
+        function randomPassword() {
+            const letters = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+            const digits = '23456789';
+            const symbols = '!@#$%&*?';
+            const all = letters + digits + symbols;
+            const pick = (set, n) => {
+                let out = '';
+                for (let i = 0; i < n; i++) out += set.charAt(Math.floor(Math.random() * set.length));
+                return out;
+            };
+            let pass = pick(letters, 6) + pick(digits, 3) + pick(symbols, 2);
+            // shuffle so the pattern is not obvious
+            pass = pass.split('').sort(function () { return Math.random() - 0.5; }).join('');
+            return pass;
+        }
+
+        function studentFormHTML() {
+            return '<div class="form-grid">' +
+                '<div class="field span-2"><label>Full Name *</label>' +
+                '<input class="input" id="s-name" placeholder="e.g. Ali Raza" autocomplete="off"></div>' +
+                '<div class="field"><label>Email Address *</label>' +
+                '<input class="input" id="s-email" type="email" placeholder="student@example.com" autocomplete="off"></div>' +
+                '<div class="field"><label>Phone / WhatsApp Number *</label>' +
+                '<input class="input" id="s-phone" type="tel" placeholder="03XX-XXXXXXX" autocomplete="off"></div>' +
+                '<div class="field"><label>City</label>' +
+                '<input class="input" id="s-city" placeholder="e.g. Lahore" autocomplete="off"></div>' +
+                '<div class="field"><label>Password * (min 6 characters)</label>' +
+                '<div style="display:flex;gap:0.45rem;align-items:center">' +
+                '<input class="input" id="s-password" type="text" placeholder="At least 6 characters" autocomplete="new-password">' +
+                '<button type="button" class="btn-mini" id="s-gen" title="Generate a strong password">' +
+                '<i class="fa-solid fa-dice"></i> Generate</button></div></div>' +
+                '<div class="field span-2"><label>Login Page</label>' +
+                '<input class="input" id="s-login-page" value="student-portal.html" readonly></div>' +
+                '</div>' +
+                '<div class="panel-note" style="border-radius:0.7rem;margin-top:0.9rem;border-top:none">' +
+                '<i class="fa-solid fa-circle-info mr-1"></i> The account is created as <strong>Active</strong> - the student can log in ' +
+                'immediately with this email or phone plus the password.</div>';
+        }
+
+        function openStudentModal() {
+            openModal(
+                'New Student',
+                studentFormHTML(),
+                '<button class="btn-outline" onclick="closeModal()">Cancel</button>' +
+                '<button class="btn-grad" id="s-save" onclick="saveStudent()"><i class="fa-solid fa-user-plus"></i> Create Student</button>'
+            );
+            const gen = $('s-gen');
+            if (gen) gen.addEventListener('click', function () {
+                $('s-password').value = randomPassword();
+            });
+            const nameField = $('s-name');
+            if (nameField) setTimeout(function () { nameField.focus(); }, 40);
+        }
+
+        function copyText(text, done) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+                return;
+            }
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                done(ok);
+            } catch (e) { done(false); }
+        }
+
+        function credentialsText(c) {
+            return 'Physioprisma student login\n' +
+                'Name: ' + c.name + '\n' +
+                'Email: ' + c.email + '\n' +
+                'Phone: ' + (c.phone || '-') + '\n' +
+                'Password: ' + c.password + '\n' +
+                'Login page: student-portal.html';
+        }
+
+        function studentCredentialsHTML(c) {
+            const rows = [
+                ['fa-user', 'Name', c.name],
+                ['fa-envelope', 'Email', c.email],
+                ['fa-phone', 'Phone / WhatsApp', c.phone || '-'],
+                ['fa-key', 'Password', c.password],
+                ['fa-right-to-bracket', 'Login page', 'student-portal.html'],
+            ];
+            return '<div class="panel-note" style="border-radius:0.7rem;border-top:none;margin-bottom:0.9rem">' +
+                '<i class="fa-solid fa-circle-check mr-1"></i> <strong>' + esc(c.name) + '</strong> can log in right now. ' +
+                'Share these details with the student.</div>' +
+                '<div class="form-grid">' +
+                rows.map(function (r) {
+                    return '<div class="field' + (r[1] === 'Name' || r[1] === 'Login page' ? ' span-2' : '') + '">' +
+                        '<label><i class="fa-solid ' + r[0] + '"></i> ' + r[1] + '</label>' +
+                        '<input class="input" readonly value="' + esc(r[2]) + '"></div>';
+                }).join('') +
+                '</div>';
+        }
+
+        function saveStudent() {
+            const name = $('s-name').value.trim();
+            const email = $('s-email').value.trim();
+            const phone = $('s-phone').value.trim();
+            const password = $('s-password').value;
+            const city = $('s-city').value.trim();
+
+            if (name.length < 2) return toast('Please enter the student name', 'error');
+            if (!email) return toast('Please enter an email address', 'error');
+            if (!phone) return toast('Please enter a phone number', 'error');
+            if (password.length < 6) return toast('Password must be at least 6 characters', 'error');
+
+            const payload = { name: name, email: email, phone: phone, password: password, city: city };
+            const btn = $('s-save');
+            btn.disabled = true;
+
+            PP.post('/admin/students', payload).then(function (res) {
+                const creds = (res && res.credentials) || payload;
+                openModal(
+                    'Student created',
+                    studentCredentialsHTML(creds),
+                    '<button class="btn-outline" id="s-copy"><i class="fa-solid fa-copy"></i> Copy details</button>' +
+                    '<button class="btn-grad" onclick="closeModal()">Done</button>'
+                );
+                const copy = $('s-copy');
+                if (copy) copy.addEventListener('click', function () {
+                    copyText(credentialsText(creds), function (ok) {
+                        toast(ok ? 'Login details copied.' : 'Could not copy - select the fields manually.', ok ? undefined : 'error');
+                    });
+                });
+                toast('Student created - login details are on screen.');
+                loadStudents();
+                loadStats();
+            }).catch(function (err) {
+                showError(err, 'Could not create the student');
+                btn.disabled = false;
+            });
+        }
 
         /* ================================================================== */
         /* Users                                                               */

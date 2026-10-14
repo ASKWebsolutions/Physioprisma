@@ -235,6 +235,44 @@ async function main() {
 
   }
 
+  /* --------------------------------------------------------------- contact */
+  {
+    const dom = boot(
+      pageHtml('contact.html', '<script src="./js/api.js"></script>'),
+      BASE + '/contact.html',
+      { '/api/contact': { ok: true, message: "Thanks! Your message has been received - we'll get back to you shortly." } }
+    );
+    await settle(300);
+    const doc = dom.window.document;
+
+    report('contact form present', !!doc.getElementById('contact-form'));
+    report('contact fields present',
+      ['cf-name', 'cf-phone', 'cf-email', 'cf-concern', 'cf-message'].every(id => !!doc.getElementById(id)));
+    report('name/phone/concern/message are required',
+      doc.getElementById('cf-name').hasAttribute('required') &&
+      doc.getElementById('cf-phone').hasAttribute('required') &&
+      doc.getElementById('cf-concern').hasAttribute('required') &&
+      doc.getElementById('cf-message').hasAttribute('required'));
+    report('email stays optional', !doc.getElementById('cf-email').hasAttribute('required'));
+    report('web3forms fallback kept',
+      (doc.getElementById('contact-form').getAttribute('action') || '').indexOf('web3forms') > -1);
+
+    doc.getElementById('cf-name').value = 'Test Person';
+    doc.getElementById('cf-phone').value = '03001234567';
+    doc.getElementById('cf-email').value = 'tp@example.com';
+    doc.getElementById('cf-concern').value = 'Sports Injury';
+    doc.getElementById('cf-message').value = 'Please call me back about my knee.';
+    doc.getElementById('contact-form').dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+    await settle(300);
+
+    const status = doc.getElementById('cf-status');
+    report('contact form posts to the API', status.textContent.indexOf('received') > -1, status.textContent.slice(0, 90));
+    report('form clears after send', doc.getElementById('cf-name').value === '');
+    report('send button re-enabled', doc.getElementById('cf-submit').disabled === false);
+    report('no script errors', dom.errors.length === 0, JSON.stringify(dom.errors.slice(0, 2)));
+    dom.window.close();
+  }
+
   console.log(`\n==== CONTENT PAGE RESULT: ${pass} passed, ${fail} failed ====`);
   process.exit(fail === 0 ? 0 : 1);
 }

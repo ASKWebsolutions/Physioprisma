@@ -13,9 +13,12 @@ const router = express.Router();
 /* ------------------------------------------------------------------ */
 /* Rate limiting - brute force protection on credential endpoints      */
 /* ------------------------------------------------------------------ */
+// Shared by login + password change. 60 attempts / 15 min per IP is still a
+// hard stop for brute forcing, but leaves room for a family of devices (and
+// for the smoke suite, which logs in several times per run).
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 15,
+  max: Number(process.env.AUTH_RATE_LIMIT_MAX) || 60,
   standardHeaders: true,
   legacyHeaders: false,
   message: { ok: false, error: 'Too many attempts. Please wait 15 minutes and try again.' },

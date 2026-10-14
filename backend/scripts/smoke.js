@@ -144,7 +144,46 @@ async function main() {
     report('site 404 is html', res.status === 404 && html.includes('404'), `status=${res.status}`);
   }
 
-  // 15. Cleanup - remove this run's test student AND any leftovers from older
+  // 15. Admin creates a student who can log in straight away
+  {
+    const email = `created${stamp}@test.com`;
+    const phone = '03009876543';
+    const password = 'created123';
+
+    const created = await call('POST', '/api/admin/students', {
+      token: adminToken,
+      body: { name: 'Created Student', email, phone, password, city: 'Lahore' },
+    });
+    const creds = (created.data && created.data.credentials) || null;
+    report('admin creates student', created.status === 201 && created.data && created.data.ok === true, `status=${created.status}`);
+    report('credentials handed back', !!creds && creds.email === email && creds.password === password, JSON.stringify(creds));
+    report('created student is active', !!(created.data && created.data.student && created.data.student.status === 'active'),
+      created.data && created.data.student && created.data.student.status);
+
+    if (creds) {
+      const byEmail = await call('POST', '/api/auth/login', { body: { identity: creds.email, password, role: 'student' } });
+      report('created student logs in with email', byEmail.status === 200 && !!(byEmail.data && byEmail.data.token), `status=${byEmail.status}`);
+
+      const byPhone = await call('POST', '/api/auth/login', { body: { identity: creds.phone, password, role: 'student' } });
+      report('created student logs in with phone', byPhone.status === 200 && !!(byPhone.data && byPhone.data.token), `status=${byPhone.status}`);
+    }
+
+    const dup = await call('POST', '/api/admin/students', {
+      token: adminToken,
+      body: { name: 'Again', email, phone: '03001112222', password },
+    });
+    report('duplicate student email rejected', dup.status === 409, `status=${dup.status}`);
+  }
+
+  // 16. Creating a student is admin-only
+  {
+    const { status } = await call('POST', '/api/admin/students', {
+      body: { name: 'No Token', email: `notoken${stamp}@test.com`, phone: '03001112223', password: 'created123' },
+    });
+    report('create student requires admin token', status === 401, `status=${status}`);
+  }
+
+  // 17. Cleanup - remove this run's test student AND any leftovers from older
   // runs so the admin panel never shows fake accounts in Students / Users.
   {
     const { data } = await call('GET', '/api/admin/users', { token: adminToken });

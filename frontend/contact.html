@@ -613,12 +613,14 @@
         const slides = document.querySelectorAll('.hero-slide');
 
         function showSlide(n) {
+            if (!slides.length || !slides[n]) return;
             slides.forEach(slide => slide.classList.remove('active'));
             slides[n].classList.add('active');
             currentSlide = n;
         }
 
         function nextSlide() {
+            if (!slides.length) return;
             currentSlide = (currentSlide + 1) % slides.length;
             showSlide(currentSlide);
         }

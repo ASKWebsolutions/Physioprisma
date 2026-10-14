@@ -62,6 +62,48 @@ router.get(
   })
 );
 
+/* POST /api/admin/students - admin creates a ready-to-login student          */
+router.post(
+  '/',
+  validate({
+    name: { type: 'string', min: 2, max: 120 },
+    email: { type: 'email', max: 254 },
+    phone: { type: 'phone', max: 30 },
+    password: { type: 'password' },
+    city: { type: 'string', required: false, max: 80 },
+  }),
+  asyncHandler(async (req, res) => {
+    const { name, email, phone, password } = req.body;
+    const city = (req.body.city || '').trim();
+
+    const existing = await User.findOne({ email: email.toLowerCase() }).select('_id');
+    if (existing) throw ApiError.conflict('An account with this email already exists');
+
+    // Created straight as active so the student can sign in with these
+    // credentials - no approval step needed.
+    const user = new User({
+      name,
+      email,
+      phone,
+      city,
+      password,
+      role: 'student',
+      status: 'active',
+      approvedAt: new Date(),
+      joinedAt: new Date(),
+    });
+    await user.save();
+
+    res.status(201).json({
+      ok: true,
+      message: 'Student created',
+      student: publicUser(user),
+      // Shown once so the admin can hand the login details to the student.
+      credentials: { name: user.name, email: user.email, phone: user.phone, password },
+    });
+  })
+);
+
 /* PATCH /api/admin/students/:id { status } - approve / reject / suspend     */
 router.patch(
   '/:id',
