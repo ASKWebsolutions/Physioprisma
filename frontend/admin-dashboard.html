@@ -1380,7 +1380,7 @@
                             No courses yet. Create your first course.
                         </div>
                     </div>
-                    <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Use <strong>Edit</strong> for details and lessons. Upload images/videos requires Cloudinary keys in backend/.env.</div>
+                    <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Add the cover image while creating the course or later with <strong>Edit</strong>.</div>
                 </div>
             </section>
 
@@ -2431,7 +2431,6 @@
                     '<div class="content-body">' +
                     '<p class="content-title">' + esc(c.title) + '</p>' +
                     '<div class="content-meta">' +
-                    '<span><i class="fa-solid fa-list"></i>' + (c.lessons || 0) + ' lessons</span>' +
                     '<span><i class="fa-solid fa-signal"></i>' + esc(c.level || 'All levels') + '</span>' +
                     '<span><i class="fa-solid fa-user"></i>' + esc(c.instructor || '') + '</span>' +
                     '</div>' +
@@ -2464,26 +2463,40 @@
                 '<div class="field"><label>Status</label><select class="select" id="c-published">' +
                 '<option value="1"' + (!c || c.published ? ' selected' : '') + '>Published</option>' +
                 '<option value="0"' + (c && !c.published ? ' selected' : '') + '>Draft</option></select></div>' +
+                '<div class="field span-2"><label>Card Image</label>' +
+                '<div class="flex items-center gap-3 flex-wrap">' +
+                '<img id="c-image-preview" alt="" class="w-24 h-16 object-cover rounded-xl border border-gray-200 bg-gray-50 hidden">' +
+                '<button type="button" class="btn-outline" id="c-image-btn"><i class="fa-solid fa-upload"></i> Choose image</button>' +
+                '<span class="text-[11px] text-gray-400">Shown on the course card (jpg / png / webp)</span>' +
+                '</div></div>' +
                 '</div>';
         }
 
+        let pendingCourseImage = null;
+
         function openCourseModal(id) {
             const c = id ? courses.find(x => x.id === id) : null;
+            pendingCourseImage = null;
             openModal(
                 c ? 'Edit Course' : 'New Course',
                 courseFormHTML(c),
                 '<button class="btn-outline" onclick="closeModal()">Cancel</button>' +
                 '<button class="btn-grad" id="c-save" onclick="saveCourse(\'' + (c ? c.id : '') + '\')"><i class="fa-solid fa-check"></i> Save Course</button>'
             );
-            if (c) {
-                $('modal-body').insertAdjacentHTML('beforeend',
-                    '<div class="field"><label>Lessons (' + (c.lessons || 0) + ')</label>' +
-                    '<button class="btn-outline" onclick="openLessons(\'' + c.id + '\')"><i class="fa-solid fa-play"></i> Manage Lessons</button></div>' +
-                    '<div class="field"><label>Card Image</label>' +
-                    '<button class="btn-outline" data-course-img="' + esc(c.id) + '"><i class="fa-solid fa-upload"></i> Upload Image</button>' +
-                    (c.image ? '<span class="text-[11px] text-gray-400 mt-1">Current: ' + esc(c.image.slice(0, 60)) + '...</span>' : '') +
-                    '</div>');
-            }
+            const preview = $('c-image-preview');
+            if (c && c.image) { preview.src = c.image; preview.classList.remove('hidden'); }
+            $('c-image-btn').addEventListener('click', function () { pickCourseImage(c ? c.id : ''); });
+        }
+
+        // Card image: uploads straight away on an existing course, or waits for
+        // "Save Course" when the course is still being created.
+        function pickCourseImage(id) {
+            pickFile('image', function (file) {
+                const preview = $('c-image-preview');
+                if (preview) { preview.src = URL.createObjectURL(file); preview.classList.remove('hidden'); }
+                if (!id) { pendingCourseImage = file; return; }
+                uploadCourseImage(id, file);
+            });
         }
 
         function saveCourse(id) {
@@ -2505,69 +2518,30 @@
             const btn = $('c-save');
             btn.disabled = true;
 
-            const req = id ? PP.patch('/admin/courses/' + id, payload) : PP.post('/admin/courses', payload);
-            req.then(function () {
-                toast(id ? 'Course updated.' : 'Course created.');
+            const finish = function (message) {
                 closeModal();
                 loadCourses();
                 loadStats();
+                if (message) toast(message);
+            };
+
+            const req = id ? PP.patch('/admin/courses/' + id, payload) : PP.post('/admin/courses', payload);
+            req.then(function (saved) {
+                const courseId = id || (saved && saved.course && saved.course.id) || '';
+                const file = pendingCourseImage;
+                pendingCourseImage = null;
+                if (!file || !courseId) return finish(id ? 'Course updated.' : 'Course created.');
+
+                PP.upload('/admin/courses/' + courseId + '/image', 'image', file, { folder: 'physioprisma/courses' })
+                    .then(function () { finish('Course saved with its image.'); })
+                    .catch(function (err) {
+                        finish();
+                        showError(err, 'Course saved, but the image could not be uploaded. Use Edit to add it.');
+                    });
             }).catch(function (err) { showError(err, 'Could not save the course'); btn.disabled = false; });
         }
 
-        function openLessons(id) {
-            const c = courses.find(x => x.id === id);
-            if (!c) return;
-            const lessonHTML = (c.lessonList && c.lessonList.length)
-                ? ''
-                : '<div class="empty-state"><i class="fa-solid fa-film"></i> Lessons load when you open Manage Lessons.</div>';
-
-            openModal('Lessons - ' + c.title,
-                '<div id="lesson-list" class="space-y-2">' + lessonHTML + '</div>' +
-                '<div class="field"><label>Add a video lesson</label>' +
-                '<input class="input" id="lesson-title" placeholder="Lesson title (required)"></div>' +
-                '<div class="drop-zone" id="lesson-drop"><i class="fa-solid fa-cloud-arrow-up"></i>Click to pick a video (mp4 / webm, up to ' + MAX_VIDEO_MB + ' MB)</div>' +
-                '<p class="text-[11px] text-gray-400">Video uploads need Cloudinary credentials in backend/.env.</p>',
-                '<button class="btn-outline" onclick="closeModal()">Close</button>',
-                'wide');
-            loadLessons(id);
-        }
-
-        function loadLessons(courseId) {
-            PP.get('/admin/courses/' + courseId).then(function (d) {
-                const lessons = d.course.lessons || [];
-                const box = $('lesson-list');
-                if (!lessons.length) {
-                    box.innerHTML = '<div class="empty-state"><i class="fa-solid fa-film"></i>No lessons yet.</div>';
-                    return;
-                }
-                box.innerHTML = lessons.map(function (l, i) {
-                    return '<div class="lesson-row">' +
-                        '<span class="idx">' + (i + 1) + '</span>' +
-                        '<span class="flex-1 min-w-0 truncate font-semibold">' + esc(l.title) + '</span>' +
-                        '<span class="text-[11px] text-gray-400">' + esc(l.duration || '') + '</span>' +
-                        '<button class="btn-mini danger" data-lesson-del="' + esc(l._id) + '" data-course="' + esc(courseId) + '"><i class="fa-solid fa-trash"></i></button>' +
-                        '</div>';
-                }).join('');
-            }).catch(function (err) { showError(err, 'Could not load lessons'); });
-        }
-
         document.addEventListener('click', function (e) {
-            const del = e.target.closest('[data-lesson-del]');
-            if (del) {
-                confirmDialog({
-                    title: 'Remove this lesson?',
-                    message: 'The video will be taken out of this course and everyone\'s progress will be recalculated.',
-                    confirmLabel: 'Remove lesson'
-                }).then(function (ok) {
-                    if (!ok) return;
-                    del.disabled = true;
-                    PP.del('/admin/courses/' + del.dataset.course + '/lessons/' + del.dataset.lessonDel)
-                        .then(function () { toast('Lesson removed.'); loadLessons(del.dataset.course); loadCourses(); })
-                        .catch(function (err) { showError(err, 'Could not remove the lesson'); del.disabled = false; });
-                });
-                return;
-            }
-
             const edit = e.target.closest('[data-course-edit]');
             if (edit) return openCourseModal(edit.dataset.courseEdit);
 
@@ -2604,7 +2578,7 @@
         });
 
         function uploadCourseImage(courseId, file) {
-            PP.upload('/admin/courses/' + courseId + '/image', 'image', file, { folder: 'physioprisma/courses' }).then(function () {
+            return PP.upload('/admin/courses/' + courseId + '/image', 'image', file, { folder: 'physioprisma/courses' }).then(function () {
                 toast('Course image updated.');
                 loadCourses();
             }).catch(function (err) { showError(err, 'Image upload failed'); });
@@ -3169,10 +3143,7 @@
             }
 
             const zone = e.target.closest('.drop-zone');
-            if (zone && (zone.id === 'photo-drop' || zone.id === 'video-drop' || zone.id === 'lesson-drop')) {
-                if (zone.id === 'lesson-drop') {
-                    return toast('Add the lesson title first, then pick the video.', 'error');
-                }
+            if (zone && (zone.id === 'photo-drop' || zone.id === 'video-drop')) {
                 const isPhoto = zone.id === 'photo-drop';
                 pickFile(isPhoto ? 'image' : 'video', function (file) {
                     if (file.size > MAX_VIDEO_MB * 1024 * 1024) {

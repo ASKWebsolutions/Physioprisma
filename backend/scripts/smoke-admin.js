@@ -307,6 +307,10 @@ const run = async () => {
   await new Promise(r => setTimeout(r, 60));
   ok('course modal opens', doc.getElementById('modal').classList.contains('show'));
   ok('modal has title field', !!doc.getElementById('c-title'));
+  ok('new course modal can pick a cover image',
+    !!doc.getElementById('c-image-btn') && !!doc.getElementById('c-image-preview'));
+  ok('new course modal has no lesson upload',
+    !doc.getElementById('lesson-drop') && doc.getElementById('modal-body').textContent.indexOf('Manage Lessons') === -1);
   window.closeModal();
   ok('modal closes', !doc.getElementById('modal').classList.contains('show'));
 
