@@ -196,6 +196,22 @@
   }
 
   /**
+   * Capability check - mirrors the backend's User.hasRole(). One account can
+   * hold more than one role: an approved ambassador who also studies keeps
+   * access to both dashboards.
+   *   student    -> role student OR role ambassador (ambassadors can study)
+   *   ambassador -> role ambassador OR ambassadorStatus 'active'
+   *   admin      -> role admin
+   */
+  function hasRole(user, role) {
+    if (!user || !role) return false;
+    if (role === 'admin') return user.role === 'admin';
+    if (role === 'ambassador') return user.role === 'ambassador' || user.ambassadorStatus === 'active';
+    if (role === 'student') return user.role === 'student' || user.role === 'ambassador';
+    return user.role === role;
+  }
+
+  /**
    * Guard for dashboard pages: returns the current user or redirects to the
    * right login page. Call as:  const user = await PP.requireRole('admin');
    */
@@ -209,7 +225,7 @@
       .then(function (data) {
         var user = data && data.user;
         if (!user) throw ApiError('Session invalid', 401);
-        if (role && user.role !== role) {
+        if (role && !hasRole(user, role)) {
           if (!options.allowOther) {
             clearSession();
             global.location.replace(loginPageFor(user.role));
@@ -384,6 +400,7 @@
     setSession: setSession,
     clearSession: clearSession,
     requireRole: requireRole,
+    hasRole: hasRole,
     logout: logout,
     loginPageFor: loginPageFor,
     esc: esc,

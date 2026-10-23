@@ -296,11 +296,12 @@
             background: white;
             border: 1px solid #eef1f6;
             border-radius: 1.1rem;
-            padding: 0.9rem 1rem;
+            min-height: 108px;
+            padding: 1.05rem 1.1rem;
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.95rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -310,17 +311,17 @@
         }
 
         .stat-icon {
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             flex-shrink: 0;
             border-radius: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.05rem;
+            font-size: 1.15rem;
         }
 
-        .stat-value { font-size: 1.45rem; font-weight: 800; line-height: 1.15; color: #111827; }
+        .stat-value { font-size: 1.55rem; font-weight: 800; line-height: 1.15; color: #111827; }
 
         .stat-label {
             font-size: 0.7rem;
@@ -590,6 +591,98 @@
             font-size: 0.8rem;
             background: var(--light-purple);
             color: var(--purple);
+        }
+
+        .activity-feed { padding: 0.55rem 1.05rem; }
+        .activity-feed .activity-item {
+            flex: 1;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 0.8rem 0.25rem;
+            border-bottom: 1px solid #f1f3f9;
+            transition: background 0.18s ease;
+        }
+        .activity-panel { display: flex; flex-direction: column; }
+        .activity-panel .activity-feed { display: flex; flex: 1; flex-direction: column; }
+        .activity-feed .activity-item:hover {
+            background: #faf8ff;
+            border-radius: 0.65rem;
+        }
+        .activity-feed .activity-item:last-child { border-bottom: none; }
+        .activity-feed .activity-dot {
+            width: 38px;
+            height: 38px;
+            border-radius: 0.8rem;
+            font-size: 0.88rem;
+        }
+        .activity-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-width: 0;
+            width: 100%;
+        }
+        .activity-copy {
+            flex: 1;
+            min-width: 0;
+            margin: 0;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .activity-copy strong { color: #111827; font-weight: 700; }
+        .activity-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0.32rem 0.55rem;
+            border: 1px solid #eef1f6;
+            border-radius: 0.55rem;
+            background: #f8fafc;
+            color: #737b8c;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .activity-date i { color: var(--purple); }
+
+        .guide-list { display: grid; gap: 0.65rem; }
+        .guide-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #eef1f6;
+            border-radius: 0.8rem;
+            background: #fcfdff;
+        }
+        .guide-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            border-radius: 0.65rem;
+            background: var(--light-purple);
+            color: var(--purple);
+            font-size: 0.82rem;
+        }
+        .guide-copy { min-width: 0; }
+        .guide-title {
+            margin: 0 0 0.15rem;
+            color: #252b38;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+        .guide-description {
+            margin: 0;
+            color: #737b8c;
+            font-size: 0.73rem;
+            line-height: 1.5;
         }
 
         .progress-track {
@@ -1030,6 +1123,10 @@
             .adm-topbar { padding: 0.65rem 0.85rem; }
             #sec-title { font-size: 1rem; }
             .media-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .activity-feed { padding: 0.4rem 0.85rem; }
+            .activity-feed .activity-item { align-items: flex-start; gap: 0.65rem; padding: 0.75rem 0.1rem; }
+            .activity-content { display: block; }
+            .activity-date { margin-top: 0.45rem; }
         }
     </style>
 </head>
@@ -1202,13 +1299,13 @@
                     </div>
                 </div>
 
-                <div class="grid lg:grid-cols-3 gap-5 items-start">
-                    <div class="lg:col-span-2 panel">
+                <div class="grid lg:grid-cols-3 gap-5 items-stretch">
+                    <div class="lg:col-span-2 panel activity-panel">
                         <div class="panel-head">
                             <h2 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h2>
                             <span class="badge badge-purple">Live</span>
                         </div>
-                        <div class="panel-body" id="activity-list">
+                        <div class="panel-body activity-feed" id="activity-list">
                             <div class="loading-row"><span class="spinner dark"></span> Loading activity...</div>
                         </div>
                     </div>
@@ -1232,11 +1329,28 @@
                             <div class="panel-head">
                                 <h2 class="panel-title"><i class="fa-solid fa-circle-info"></i> Panel Guide</h2>
                             </div>
-                            <div class="panel-body space-y-2.5 text-[0.85rem] text-gray-600">
-                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Ambassador applications appear under <strong>Requests</strong>.</p>
-                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Only applicants you <strong>Approve</strong> become ambassadors.</p>
-                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Courses, blogs and gallery are managed from the <strong>Content</strong> section.</p>
-                                <p class="flex gap-2"><i class="fa-solid fa-check text-[var(--purple)] mt-1"></i> Unpublishing content hides it from the public site immediately.</p>
+                            <div class="panel-body guide-list">
+                                <div class="guide-item">
+                                    <span class="guide-icon"><i class="fa-solid fa-user-clock"></i></span>
+                                    <div class="guide-copy">
+                                        <h3 class="guide-title">Ambassador requests</h3>
+                                        <p class="guide-description">Review applications in Requests. Approving an applicant makes them an ambassador.</p>
+                                    </div>
+                                </div>
+                                <div class="guide-item">
+                                    <span class="guide-icon"><i class="fa-solid fa-layer-group"></i></span>
+                                    <div class="guide-copy">
+                                        <h3 class="guide-title">Manage your content</h3>
+                                        <p class="guide-description">Create and update courses, blogs, and gallery items from Content.</p>
+                                    </div>
+                                </div>
+                                <div class="guide-item">
+                                    <span class="guide-icon"><i class="fa-solid fa-eye-slash"></i></span>
+                                    <div class="guide-copy">
+                                        <h3 class="guide-title">Publishing changes</h3>
+                                        <p class="guide-description">Unpublishing an item hides it from the public site right away.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1380,7 +1494,7 @@
                             No courses yet. Create your first course.
                         </div>
                     </div>
-                    <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Add the cover image while creating the course or later with <strong>Edit</strong>.</div>
+                    <div class="panel-note"><i class="fa-solid fa-circle-info mr-1"></i> Add the cover image while creating the course or later with <strong>Edit</strong>. After a WhatsApp payment, use <strong>Add</strong> on a course card to unlock it for that student.</div>
                 </div>
             </section>
 
@@ -1838,9 +1952,9 @@
                 box.innerHTML = d.items.map(function (i) {
                     return '<div class="activity-item">' +
                         '<div class="activity-dot"><i class="fa-solid ' + esc(i.icon) + '"></i></div>' +
-                        '<div class="flex-1 min-w-0">' +
-                        '<p class="text-gray-700 leading-snug">' + i.text + '</p>' +
-                        '<p class="text-[11px] text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i>' + esc(fmtDate(i.time)) + '</p>' +
+                        '<div class="activity-content">' +
+                        '<p class="activity-copy">' + i.text + '</p>' +
+                        '<p class="activity-date"><i class="fa-regular fa-calendar"></i>' + esc(fmtDate(i.time)) + '</p>' +
                         '</div></div>';
                 }).join('');
             }).catch(function (err) {
@@ -2051,8 +2165,17 @@
             loadTrack(rollNo);
         }
 
+        /* Track context for the open record - used by Add/Remove course. */
+        let trackCtx = {};
+
         function loadTrack(rollNo) {
             PP.get('/admin/students/track/' + encodeURIComponent(rollNo)).then(function (data) {
+                trackCtx = {
+                    id: (data.student && data.student.id) || '',
+                    rollNo: (data.student && data.student.rollNo) || rollNo,
+                    name: (data.student && data.student.name) || 'this student',
+                    email: (data.student && data.student.email) || '',
+                };
                 $('modal-title').textContent = 'Track Record - ' + ((data.student && data.student.rollNo) || rollNo);
                 $('modal-body').innerHTML = trackHTML(data);
                 $('modal-foot').innerHTML =
@@ -2100,7 +2223,7 @@
             }).join('');
 
             const courseRows = courses.length === 0
-                ? '<div class="empty-state"><i class="fa-solid fa-book-open"></i> No courses yet.</div>'
+                ? '<div class="empty-state"><i class="fa-solid fa-book-open"></i> No courses yet - use <strong>Add Course</strong> to unlock one.</div>'
                 : courses.map(function (c) {
                     return '<div class="lesson-row">' +
                         '<div class="flex-1 min-w-0">' +
@@ -2119,7 +2242,11 @@
                         '<div class="flex items-center gap-2 mt-1.5">' +
                         '<div class="progress-track" style="flex:1"><div class="progress-fill" style="width:' + (c.progress || 0) + '%"></div></div>' +
                         '<span class="text-[11px] font-bold text-[var(--purple)] whitespace-nowrap">' + (c.progress || 0) + '%</span>' +
-                        '</div></div></div>';
+                        '</div></div>' +
+                        (c.slug
+                            ? '<button class="btn-mini danger" data-revoke-course="' + esc(c.slug) + '" data-title="' + esc(c.title) + '" title="Remove this course from the portal"><i class="fa-solid fa-minus"></i> Remove</button>'
+                            : '') +
+                        '</div>';
                 }).join('');
 
             const messageRows = messages.length === 0
@@ -2163,7 +2290,9 @@
                 '</div>' +
 
                 '<div class="panel" style="margin-top:1rem">' +
-                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-book-open"></i> Courses</h3></div>' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-book-open"></i> Courses</h3>' +
+                '<button class="btn-mini" data-grant-course' + (s.id ? '' : ' disabled title="Open this record through a roll number"') + '>' +
+                '<i class="fa-solid fa-plus"></i> Add Course</button></div>' +
                 '<div class="panel-body space-y-3">' + courseRows + '</div>' +
                 '</div>' +
 
@@ -2181,6 +2310,109 @@
         document.addEventListener('click', function (e) {
             const t = e.target.closest('[data-track]');
             if (t) return openTrackModal(t.dataset.track);
+        });
+
+        /* ------------------------------------------------- add / remove course */
+        // Give a student a course directly (WhatsApp payment received, free
+        // grant, etc.) - it shows up in their portal right away.
+        function openGrantCourseModal() {
+            if (!trackCtx.id) return toast('Open a student record first', 'error');
+            openModal(
+                'Add Course - ' + trackCtx.name,
+                '<div class="loading-row"><span class="spinner dark"></span> Loading courses...</div>',
+                '<button class="btn-outline" onclick="loadTrack(\'' + esc(trackCtx.rollNo) + '\')">' +
+                '<i class="fa-solid fa-arrow-left"></i> Back</button>' +
+                '<button class="btn-grad" id="grant-save" disabled><i class="fa-solid fa-plus"></i> Grant Course</button>'
+            );
+            Promise.all([
+                PP.get('/admin/courses'),
+                PP.get('/admin/students/' + trackCtx.id + '/courses'),
+            ]).then(function (res) {
+                const all = (res[0].courses || []).filter(function (c) { return c.published !== false; });
+                const owned = {};
+                (res[1].courses || []).forEach(function (c) { owned[c.slug] = true; });
+                const body = $('modal-body');
+                if (!body) return;
+                if (!all.length) {
+                    body.innerHTML = '<div class="empty-state"><i class="fa-solid fa-book-open"></i> No published courses yet.<br>Add one from the Content &gt; Courses section first.</div>';
+                    return;
+                }
+                body.innerHTML =
+                    '<div class="req-card" style="gap:.55rem">' +
+                    '<div class="flex items-center gap-2 flex-wrap">' +
+                    '<span class="avatar sm">' + esc(initialsOf(trackCtx.name)) + '</span>' +
+                    '<p class="font-bold text-gray-800">' + esc(trackCtx.name) + '</p>' +
+                    '<span class="badge badge-purple"><i class="fa-solid fa-fingerprint"></i> ' + esc(trackCtx.rollNo) + '</span>' +
+                    (trackCtx.email
+                        ? '<span class="text-[12px] text-gray-500"><i class="fa-solid fa-envelope mr-1"></i>' + esc(trackCtx.email) + '</span>'
+                        : '') +
+                    '</div></div>' +
+                    '<div class="field" style="margin-top:.9rem"><label><i class="fa-solid fa-book-open"></i> Course</label>' +
+                    '<select class="select" id="grant-course">' +
+                    '<option value="">Choose a course to unlock...</option>' +
+                    all.map(function (c) {
+                        const has = !!owned[c.slug];
+                        return '<option value="' + esc(c.id) + '"' + (has ? ' disabled' : '') + '>' +
+                            esc(c.title) +
+                            (has ? ' - already added' : (Number(c.price) > 0 ? ' - PKR ' + Number(c.price) : ' - free')) +
+                            '</option>';
+                    }).join('') +
+                    '</select></div>' +
+                    '<p class="panel-note" style="margin-top:.85rem;border:1px solid #ede9fe;border-radius:.8rem">' +
+                    '<i class="fa-brands fa-whatsapp mr-1"></i> After a WhatsApp payment pick the course here - ' +
+                    'it unlocks in <strong>' + esc(trackCtx.name) + '</strong>\'s portal immediately.</p>';
+                const sel = $('grant-course');
+                const save = $('grant-save');
+                if (sel && save) {
+                    sel.addEventListener('change', function () { save.disabled = !sel.value; });
+                    save.addEventListener('click', grantCourse);
+                }
+            }).catch(function (err) {
+                showError(err, 'Could not load the course list');
+            });
+        }
+
+        function grantCourse() {
+            const sel = $('grant-course');
+            const save = $('grant-save');
+            if (!sel || !sel.value) return toast('Please choose a course first', 'error');
+            save.disabled = true;
+            PP.post('/admin/students/' + trackCtx.id + '/courses', { courseId: sel.value })
+                .then(function (res) {
+                    toast((res && res.message) || 'Course added to the student portal.');
+                    loadTrack(trackCtx.rollNo);
+                })
+                .catch(function (err) {
+                    showError(err, 'Could not add the course');
+                    save.disabled = false;
+                });
+        }
+
+        document.addEventListener('click', function (e) {
+            const g = e.target.closest('[data-grant-course]');
+            if (g && !g.disabled) return openGrantCourseModal();
+
+            const r = e.target.closest('[data-revoke-course]');
+            if (!r) return;
+            const slug = r.dataset.revokeCourse;
+            const title = r.dataset.title || 'this course';
+            confirmDialog({
+                title: 'Remove course access?',
+                message: 'Remove "' + title + '" from ' + (trackCtx.name || 'this student') + '?',
+                detail: 'They lose access in the student portal right away. Progress is kept if you add the course again later.',
+                confirmLabel: 'Remove',
+                confirmIcon: 'fa-user-minus',
+                tone: 'warn',
+            }).then(function (ok) {
+                if (!ok) return;
+                return PP.del('/admin/students/' + trackCtx.id + '/courses/' + encodeURIComponent(slug))
+                    .then(function () {
+                        toast('Course removed from ' + (trackCtx.name || 'the student') + '.');
+                        loadTrack(trackCtx.rollNo);
+                    });
+            }).catch(function (err) {
+                showError(err, 'Could not remove the course');
+            });
         });
 
         document.addEventListener('click', function (e) {
@@ -2439,11 +2671,150 @@
                     '</div>' +
                     '<div class="content-actions">' +
                     '<button class="btn-mini" data-course-edit="' + esc(c.id) + '"><i class="fa-solid fa-pen"></i> Edit</button>' +
+                    '<button class="btn-mini" data-course-content="' + esc(c.id) + '"><i class="fa-solid fa-layer-group"></i> Content</button>' +
+                    '<button class="btn-mini" data-course-assign="' + esc(c.id) + '" title="Give this course to a student after payment"><i class="fa-solid fa-user-plus"></i> Add</button>' +
                     '<button class="btn-mini" data-course-pub="' + esc(c.id) + '">' +
                     (c.published ? '<i class="fa-solid fa-eye-slash"></i> Unpublish' : '<i class="fa-solid fa-eye"></i> Publish') + '</button>' +
                     '<button class="btn-mini danger" data-course-del="' + esc(c.id) + '"><i class="fa-solid fa-trash"></i></button>' +
                     '</div></div>';
             }).join('');
+        }
+
+        /* ------------------------------------------------- add course to student */
+        // Course card -> Add: pick the student who paid (WhatsApp) and unlock
+        // the course in their portal right away.
+        let assignState = { course: null, students: [], studentId: '', owned: false };
+
+        function openAssignModal(courseId) {
+            const c = courses.find(x => x.id === courseId);
+            if (!c) return toast('Course not found', 'error');
+            assignState = { course: c, students: [], studentId: '', owned: false };
+            openModal(
+                'Add Course to a Student',
+                assignBodyHTML(),
+                '<button class="btn-outline" onclick="closeModal()">Cancel</button>' +
+                '<button class="btn-grad" id="assign-save" disabled><i class="fa-solid fa-user-plus"></i> Grant Course</button>'
+            );
+            const search = $('assign-search');
+            if (search) {
+                search.addEventListener('input', renderAssignStudentOptions);
+                setTimeout(function () { search.focus(); }, 40);
+            }
+            const sel = $('assign-student');
+            if (sel) sel.addEventListener('change', onAssignStudentChange);
+            const save = $('assign-save');
+            if (save) save.addEventListener('click', saveAssign);
+            loadAssignStudents();
+        }
+
+        function assignBodyHTML() {
+            const c = assignState.course;
+            return '<div class="req-card" style="gap:.55rem">' +
+                '<div class="flex items-center gap-2 flex-wrap">' +
+                '<i class="fa-solid ' + esc(c.icon || 'fa-book-open') + '" style="color:var(--purple)"></i>' +
+                '<p class="font-bold text-gray-800 text-[0.95rem]">' + esc(c.title) + '</p>' +
+                '<span class="badge ' + (c.published ? 'badge-green' : 'badge-gray') + '">' +
+                (c.published ? '<i class="fa-solid fa-eye"></i> Live' : '<i class="fa-solid fa-eye-slash"></i> Draft') + '</span>' +
+                '<span class="badge badge-purple"><i class="fa-solid fa-tag"></i> ' +
+                (Number(c.price) > 0 ? 'PKR ' + Number(c.price) : 'Free') + '</span>' +
+                (Number(c.creditHours) > 0
+                    ? '<span class="badge badge-blue"><i class="fa-solid fa-clock"></i> ' + Number(c.creditHours) + ' credit hours</span>'
+                    : '') +
+                '</div></div>' +
+                '<div class="field" style="margin-top:.9rem"><label><i class="fa-solid fa-magnifying-glass"></i> Search student</label>' +
+                '<input class="input" id="assign-search" placeholder="Name, email or roll number..." autocomplete="off"></div>' +
+                '<div class="field" style="margin-top:.65rem"><label><i class="fa-solid fa-user-graduate"></i> Student</label>' +
+                '<select class="select" id="assign-student"><option value="">Loading students...</option></select></div>' +
+                '<div id="assign-status" style="margin-top:.65rem"></div>' +
+                '<p class="panel-note" style="margin-top:.85rem;border:1px solid #ede9fe;border-radius:.8rem">' +
+                '<i class="fa-brands fa-whatsapp mr-1"></i> Payment received? Grant the course here - it unlocks in that student\'s portal instantly.</p>';
+        }
+
+        function loadAssignStudents() {
+            PP.get('/admin/students').then(function (d) {
+                assignState.students = d.students || [];
+                renderAssignStudentOptions();
+            }).catch(function (err) {
+                showError(err, 'Could not load students');
+                const sel = $('assign-student');
+                if (sel) sel.innerHTML = '<option value="">Could not load students</option>';
+            });
+        }
+
+        function renderAssignStudentOptions() {
+            const sel = $('assign-student');
+            if (!sel) return;
+            const search = $('assign-search');
+            const q = ((search && search.value) || '').toLowerCase().trim();
+            const list = assignState.students.filter(function (s) {
+                return !q ||
+                    (s.name || '').toLowerCase().indexOf(q) > -1 ||
+                    (s.email || '').toLowerCase().indexOf(q) > -1 ||
+                    (s.rollNo || '').toLowerCase().indexOf(q) > -1;
+            }).slice(0, 200);
+            sel.innerHTML = '<option value="">Choose a student...</option>' +
+                list.map(function (s) {
+                    return '<option value="' + esc(s.id) + '">' + esc(s.name) +
+                        (s.rollNo ? ' - ' + esc(s.rollNo) : '') + ' (' + esc(s.email || '') + ')</option>';
+                }).join('') +
+                (list.length === 0 ? '<option value="" disabled>No matching students</option>' : '');
+            sel.value = '';
+            assignState.studentId = '';
+            assignState.owned = false;
+            const status = $('assign-status');
+            if (status) status.innerHTML = '';
+            const save = $('assign-save');
+            if (save) save.disabled = true;
+        }
+
+        function onAssignStudentChange() {
+            const sel = $('assign-student');
+            const status = $('assign-status');
+            const save = $('assign-save');
+            const id = sel ? sel.value : '';
+            assignState.studentId = id;
+            assignState.owned = false;
+            if (save) save.disabled = true;
+            if (!status) return;
+            if (!id) { status.innerHTML = ''; return; }
+            const s = assignState.students.find(x => x.id === id);
+            const who = (s && s.name) || 'This student';
+            status.innerHTML = '<div class="loading-row"><span class="spinner dark"></span> Checking current access...</div>';
+            PP.get('/admin/students/' + id + '/courses').then(function (d) {
+                if (!$('assign-student') || $('assign-student').value !== id) return;
+                const owned = (d.courses || []).some(function (x) {
+                    return x.id === assignState.course.id || x.slug === assignState.course.slug;
+                });
+                assignState.owned = owned;
+                status.innerHTML = owned
+                    ? '<div class="panel-note" style="border-radius:.8rem"><i class="fa-solid fa-circle-exclamation mr-1"></i> ' +
+                      esc(who) + ' already has this course - nothing to grant.</div>'
+                    : '<div class="panel-note" style="border-radius:.8rem"><i class="fa-solid fa-circle-check mr-1"></i> Ready - ' +
+                      esc(who) + ' does not have it yet.</div>';
+                if (save) save.disabled = owned;
+            }).catch(function () {
+                if (!$('assign-student') || $('assign-student').value !== id) return;
+                status.innerHTML = '<div class="panel-note" style="border-radius:.8rem"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ' +
+                    'Could not check current access - you can still try to grant.</div>';
+                if (save) save.disabled = false;
+            });
+        }
+
+        function saveAssign() {
+            if (!assignState.studentId) return toast('Please choose a student first', 'error');
+            const save = $('assign-save');
+            save.disabled = true;
+            PP.post('/admin/students/' + assignState.studentId + '/courses', { courseId: assignState.course.id })
+                .then(function (res) {
+                    toast((res && res.message) || 'Course added to the student portal.');
+                    closeModal();
+                    loadStudents();
+                    loadStats();
+                })
+                .catch(function (err) {
+                    showError(err, 'Could not add the course');
+                    save.disabled = false;
+                });
         }
 
         function courseFormHTML(c) {
@@ -2460,6 +2831,10 @@
                 '<div class="field"><label>Icon (Font Awesome)</label><input class="input" id="c-icon" value="' + esc(c && c.icon ? c.icon : '') + '" placeholder="fa-solid fa-syringe"></div>' +
                 '<div class="field span-2"><label>Card details (one per line: Duration / Format / Who it is for / Certification)</label>' +
                 '<textarea class="textarea" id="c-details" style="min-height:90px">' + esc(details) + '</textarea></div>' +
+                '<div class="field"><label>Price (PKR)</label><input class="input" id="c-price" type="number" min="0" step="1" value="' + esc(c && c.price ? c.price : 0) + '" placeholder="0 = Free">' +
+                '<span class="text-[11px] text-gray-400">0 = free (self-enroll); above 0 = purchase on WhatsApp</span></div>' +
+                '<div class="field"><label>Credit Hours</label><input class="input" id="c-creditHours" type="number" min="0" step="1" value="' + esc(c && c.creditHours ? c.creditHours : 0) + '" placeholder="0">' +
+                '<span class="text-[11px] text-gray-400">1 credit hour = 3600s of study time (certificate)</span></div>' +
                 '<div class="field"><label>Status</label><select class="select" id="c-published">' +
                 '<option value="1"' + (!c || c.published ? ' selected' : '') + '>Published</option>' +
                 '<option value="0"' + (c && !c.published ? ' selected' : '') + '>Draft</option></select></div>' +
@@ -2512,6 +2887,8 @@
                 accent: $('c-accent').value,
                 icon: $('c-icon').value.trim(),
                 details: $('c-details').value.split('\n').map(s => s.trim()).filter(Boolean),
+                price: Math.max(0, Number($('c-price').value) || 0),
+                creditHours: Math.max(0, Number($('c-creditHours').value) || 0),
                 published: $('c-published').value === '1',
             };
 
@@ -2544,6 +2921,12 @@
         document.addEventListener('click', function (e) {
             const edit = e.target.closest('[data-course-edit]');
             if (edit) return openCourseModal(edit.dataset.courseEdit);
+
+            const contentBtn = e.target.closest('[data-course-content]');
+            if (contentBtn) return openContentModal(contentBtn.dataset.courseContent);
+
+            const assign = e.target.closest('[data-course-assign]');
+            if (assign) return openAssignModal(assign.dataset.courseAssign);
 
             const pub = e.target.closest('[data-course-pub]');
             if (pub) {
@@ -2583,6 +2966,527 @@
                 loadCourses();
             }).catch(function (err) { showError(err, 'Image upload failed'); });
         }
+
+        /* ================================================================== */
+        /* Course Content - files, modules (lessons) and quizzes               */
+        /* ================================================================== */
+        function fmtFileSize(n) {
+            n = Number(n) || 0;
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            return (n / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // content state: course document, quizzes, which module/lesson/quiz
+        // editor is open. Everything re-renders from here.
+        let cc = null;
+
+        function openContentModal(courseId) {
+            cc = { id: courseId, course: null, quizzes: [], openModule: null, lessonForm: null, quizForm: null };
+            openModal(
+                'Course Content',
+                '<div class="loading-row"><span class="spinner dark"></span> Loading content...</div>',
+                '<button class="btn-outline" onclick="closeModal()">Close</button>',
+                'wide'
+            );
+            loadContentModal();
+        }
+
+        function loadContentModal() {
+            PP.get('/admin/courses/' + cc.id + '/full').then(function (d) {
+                cc.course = d.course;
+                cc.quizzes = d.quizzes || [];
+                renderContentModal();
+            }).catch(function (err) {
+                $('modal-body').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i> ' +
+                    esc(showError(err, 'Could not load the course content')) + '</div>';
+            });
+        }
+
+        function renderContentModal() {
+            if (!cc || !cc.course) return;
+            $('modal-body').innerHTML = ccFilesHTML() + ccModulesHTML() + ccQuizzesHTML();
+        }
+
+        /* ------------------------------ files ------------------------------ */
+        function ccFilesHTML() {
+            const files = cc.course.files || [];
+            return '<div style="border:1px solid #eef1f6;border-radius:1rem;overflow:hidden">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-paperclip"></i> Course Files (' + files.length + ')</h3>' +
+                '<button type="button" class="btn-mini" data-cc-file-add><i class="fa-solid fa-upload"></i> Add file</button></div>' +
+                '<div style="padding:.75rem 1.05rem">' +
+                (files.length
+                    ? files.map(function (f) {
+                        return '<div class="lesson-row" style="padding:.5rem .2rem;align-items:center">' +
+                            '<i class="fa-solid fa-file-lines text-[var(--purple)]" style="flex-shrink:0"></i>' +
+                            '<div class="flex-1 min-w-0"><p class="font-semibold text-gray-800 text-[0.85rem] truncate">' + esc(f.name) + '</p>' +
+                            '<p class="text-[10px] text-gray-400">' + (f.ext ? esc(String(f.ext).toUpperCase()) + ' - ' : '') + esc(fmtFileSize(f.size)) + '</p></div>' +
+                            '<a class="btn-mini" href="' + esc(f.downloadUrl || f.url || '#') + '" target="_blank" rel="noopener" title="Open file"><i class="fa-solid fa-eye"></i></a>' +
+                            '<button type="button" class="btn-mini danger" data-cc-file-del="' + esc(f.id) + '" title="Delete file"><i class="fa-solid fa-trash"></i></button>' +
+                            '</div>';
+                    }).join('')
+                    : '<p class="text-[11px] text-gray-400">No downloadable files yet (PDFs, sheets, slides...).</p>') +
+                '</div></div>';
+        }
+
+        function ccUploadFile() {
+            pickFile('doc', function (file) {
+                toast('Uploading ' + file.name + '...');
+                PP.upload('/admin/courses/' + cc.id + '/files', 'file', file, {
+                    resourceType: 'raw',
+                    folder: 'physioprisma/courses/files',
+                    extra: { name: file.name, mime: file.type || '', size: file.size }
+                }).then(function () {
+                    toast('File added.');
+                    loadContentModal();
+                }).catch(function (err) { showError(err, 'File upload failed'); });
+            });
+        }
+
+        function ccDeleteFile(fileId) {
+            confirmDialog({
+                title: 'Delete this file?',
+                message: 'The file is removed from the course and deleted from storage.',
+                confirmLabel: 'Delete file'
+            }).then(function (ok) {
+                if (!ok) return;
+                PP.del('/admin/courses/' + cc.id + '/files/' + fileId)
+                    .then(function () { toast('File deleted.'); loadContentModal(); })
+                    .catch(function (err) { showError(err, 'Could not delete the file'); });
+            });
+        }
+
+        /* ----------------------------- modules ----------------------------- */
+        function ccModulesHTML() {
+            const mods = (cc.course.modules || []).slice().sort(function (a, b) {
+                return (a.order || 0) - (b.order || 0);
+            });
+            const totalLessons = mods.reduce(function (s, m) { return s + (m.lessons || []).length; }, 0);
+
+            let html = '<div style="border:1px solid #eef1f6;border-radius:1rem;overflow:hidden">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-layer-group"></i> Modules (' +
+                mods.length + ' modules, ' + totalLessons + ' lessons)</h3>' +
+                '<div class="flex gap-2 items-center">' +
+                '<input class="input" id="cc-new-module" placeholder="New module title" style="width:200px;padding:.4rem .6rem;font-size:.8rem" ' +
+                'onkeydown="if(event.key===\'Enter\'){event.preventDefault();ccAddModule();}">' +
+                '<button type="button" class="btn-mini" data-cc-mod-add><i class="fa-solid fa-plus"></i> Add Module</button>' +
+                '</div></div><div style="padding:.75rem 1.05rem">';
+
+            if (!mods.length && !(cc.lessonForm && cc.lessonForm.moduleId === 'new')) {
+                html += '<p class="text-[11px] text-gray-400">No modules yet. A module groups reading lessons - add one above.</p>';
+            }
+
+            html += mods.map(function (m) {
+                const open = cc.openModule === m._id;
+                const lessons = m.lessons || [];
+                const minutes = lessons.reduce(function (s, l) { return s + (Number(l.minutes) || 0); }, 0);
+                let row = '<div class="lesson-row" style="padding:.55rem .2rem;align-items:center">' +
+                    '<button type="button" class="btn-mini" data-cc-mod-open="' + esc(m._id) + '" title="' + (open ? 'Collapse' : 'Expand') + '">' +
+                    '<i class="fa-solid fa-chevron-' + (open ? 'down' : 'right') + '"></i></button>' +
+                    '<div class="flex-1 min-w-0">' +
+                    '<input class="input" value="' + esc(m.title) + '" style="padding:.3rem .55rem;font-size:.85rem;font-weight:700;border:1px solid transparent;background:transparent" ' +
+                    'onchange="ccRenameModule(\'' + esc(m._id) + '\', this.value)" title="Click to rename">' +
+                    '<p class="text-[10px] text-gray-400" style="padding-left:.55rem">' + lessons.length + ' lesson' +
+                    (lessons.length === 1 ? '' : 's') + (minutes ? ' - ' + minutes + ' min total' : '') + '</p></div>' +
+                    '<button type="button" class="btn-mini" data-cc-lesson-add="' + esc(m._id) + '" title="Add lesson"><i class="fa-solid fa-plus"></i> Lesson</button>' +
+                    '<button type="button" class="btn-mini danger" data-cc-mod-del="' + esc(m._id) + '" title="Delete module"><i class="fa-solid fa-trash"></i></button>' +
+                    '</div>';
+
+                if (open) {
+                    row += '<div style="padding:.15rem .2rem .5rem 2.2rem">';
+                    if (cc.lessonForm && cc.lessonForm.moduleId === m._id) row += ccLessonFormHTML(m);
+
+                    if (!lessons.length && !(cc.lessonForm && cc.lessonForm.moduleId === m._id)) {
+                        row += '<p class="text-[11px] text-gray-400">No lessons in this module yet.</p>';
+                    }
+                    row += lessons.map(function (l) {
+                        const editing = cc.lessonForm && cc.lessonForm.moduleId === m._id && cc.lessonForm.lessonId === l._id;
+                        if (editing) return '';
+                        return '<div class="lesson-row" style="padding:.45rem .2rem;align-items:center;background:#faf9ff;border-radius:.6rem;margin-bottom:.3rem">' +
+                            '<i class="fa-solid fa-book-open text-[var(--purple)] text-[11px]"></i>' +
+                            '<div class="flex-1 min-w-0"><p class="text-[0.82rem] font-semibold text-gray-800 truncate">' + esc(l.title) + '</p>' +
+                            '<p class="text-[10px] text-gray-400">' + (Number(l.minutes) || 10) + ' min reading' +
+                            (l.content ? '' : ' - no content yet') + '</p></div>' +
+                            '<button type="button" class="btn-mini" data-cc-lesson-edit="' + esc(m._id) + '/' + esc(l._id) + '" title="Edit"><i class="fa-solid fa-pen"></i></button>' +
+                            '<button type="button" class="btn-mini danger" data-cc-lesson-del="' + esc(m._id) + '/' + esc(l._id) + '" title="Delete"><i class="fa-solid fa-trash"></i></button>' +
+                            '</div>';
+                    }).join('');
+                    row += '</div>';
+                }
+                return row;
+            }).join('');
+
+            return html + '</div></div>';
+        }
+
+        function ccLessonFormHTML(m) {
+            const f = cc.lessonForm;
+            return '<div style="background:#f8f6ff;border:1px solid #e9e3ff;border-radius:.7rem;padding:.7rem;margin:.2rem 0 .5rem">' +
+                '<p class="text-[11px] font-bold uppercase tracking-wide text-[var(--purple)] mb-2">' +
+                (f.lessonId ? 'Edit lesson' : 'New lesson') + ' in ' + esc(m.title) + '</p>' +
+                '<div class="form-grid">' +
+                '<div class="field span-2"><label>Title *</label><input class="input" id="cc-l-title" value="' + esc(f.title || '') + '" placeholder="e.g. Cupping fundamentals"></div>' +
+                '<div class="field"><label>Reading time (minutes)</label><input class="input" id="cc-l-minutes" type="number" min="1" max="600" value="' + esc(String(f.minutes || 10)) + '"></div>' +
+                '<div class="field span-2"><label>Lesson content (text the student reads)</label>' +
+                '<textarea class="textarea" id="cc-l-content" style="min-height:140px" placeholder="Write the reading material here...">' + esc(f.content || '') + '</textarea></div>' +
+                '</div>' +
+                '<div class="flex gap-2 mt-2">' +
+                '<button type="button" class="btn-grad" data-cc-lesson-save><i class="fa-solid fa-check"></i> Save Lesson</button>' +
+                '<button type="button" class="btn-outline" data-cc-lesson-cancel>Cancel</button>' +
+                '</div></div>';
+        }
+
+        function ccReadLessonForm() {
+            const f = cc && cc.lessonForm;
+            if (!f) return null;
+            const t = $('cc-l-title');
+            if (t) f.title = t.value;
+            const mi = $('cc-l-minutes');
+            if (mi) f.minutes = Math.max(1, Number(mi.value) || 10);
+            const c = $('cc-l-content');
+            if (c) f.content = c.value;
+            return f;
+        }
+
+        function ccAddModule() {
+            const input = $('cc-new-module');
+            const title = input ? input.value.trim() : '';
+            if (!title) return toast('Enter a module title first', 'error');
+            PP.post('/admin/courses/' + cc.id + '/modules', { title: title })
+                .then(function () {
+                    toast('Module added.');
+                    loadContentModal();
+                })
+                .catch(function (err) { showError(err, 'Could not add the module'); });
+        }
+
+        function ccRenameModule(moduleId, title) {
+            title = (title || '').trim();
+            if (!title) return toast('Module title cannot be empty', 'error');
+            PP.patch('/admin/courses/' + cc.id + '/modules/' + moduleId, { title: title })
+                .then(function () { toast('Module renamed.'); loadCourses(); })
+                .catch(function (err) { showError(err, 'Could not rename the module'); });
+        }
+
+        function ccDeleteModule(moduleId) {
+            confirmDialog({
+                title: 'Delete this module?',
+                message: 'Its lessons and any quizzes attached to it are removed too.',
+                confirmLabel: 'Delete module'
+            }).then(function (ok) {
+                if (!ok) return;
+                PP.del('/admin/courses/' + cc.id + '/modules/' + moduleId)
+                    .then(function () { toast('Module deleted.'); loadContentModal(); })
+                    .catch(function (err) { showError(err, 'Could not delete the module'); });
+            });
+        }
+
+        function ccSaveLesson() {
+            const f = ccReadLessonForm();
+            if (!f) return;
+            const title = (f.title || '').trim();
+            if (!title) return toast('Lesson needs a title', 'error');
+            const payload = { title: title, minutes: f.minutes, content: f.content || '' };
+            const req = f.lessonId
+                ? PP.patch('/admin/courses/' + cc.id + '/modules/' + f.moduleId + '/lessons/' + f.lessonId, payload)
+                : PP.post('/admin/courses/' + cc.id + '/modules/' + f.moduleId + '/lessons', payload);
+            req.then(function () {
+                toast('Lesson saved.');
+                cc.lessonForm = null;
+                loadContentModal();
+            }).catch(function (err) { showError(err, 'Could not save the lesson'); });
+        }
+
+        function ccDeleteLesson(moduleId, lessonId) {
+            confirmDialog({
+                title: 'Delete this lesson?',
+                message: 'The lesson text is removed from the course.',
+                confirmLabel: 'Delete lesson'
+            }).then(function (ok) {
+                if (!ok) return;
+                PP.del('/admin/courses/' + cc.id + '/modules/' + moduleId + '/lessons/' + lessonId)
+                    .then(function () { toast('Lesson deleted.'); loadContentModal(); })
+                    .catch(function (err) { showError(err, 'Could not delete the lesson'); });
+            });
+        }
+
+        /* ----------------------------- quizzes ----------------------------- */
+        function ccQuizzesHTML() {
+            const quizzes = cc.quizzes || [];
+            const mods = (cc.course.modules || []).slice().sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+            let html = '<div style="border:1px solid #eef1f6;border-radius:1rem;overflow:hidden">' +
+                '<div class="panel-head"><h3 class="panel-title"><i class="fa-solid fa-circle-question"></i> Quizzes (' + quizzes.length + ')</h3>' +
+                (cc.quizForm ? '' : '<button type="button" class="btn-mini" data-cc-quiz-add><i class="fa-solid fa-plus"></i> Add Quiz</button>') +
+                '</div><div style="padding:.75rem 1.05rem">';
+
+            if (cc.quizForm) {
+                html += ccQuizFormHTML(mods);
+                return html + '</div></div>';
+            }
+
+            if (!quizzes.length) {
+                html += '<p class="text-[11px] text-gray-400">No quizzes yet. Add one - students get unlimited attempts and only the best score counts.</p>';
+            } else {
+                html += quizzes.map(function (q) {
+                    const mod = q.module ? mods.find(function (m) { return m._id === q.module; }) : null;
+                    const where = q.module ? (mod ? 'Module: ' + mod.title : 'Module quiz') : 'Whole course';
+                    return '<div class="lesson-row" style="padding:.55rem .2rem;align-items:center">' +
+                        '<i class="fa-solid fa-circle-question text-[var(--purple)]"></i>' +
+                        '<div class="flex-1 min-w-0"><p class="font-semibold text-gray-800 text-[0.85rem] truncate">' + esc(q.title) + '</p>' +
+                        '<p class="text-[10px] text-gray-400">' + esc(where) + ' - ' + (q.questions || []).length +
+                        ' question' + ((q.questions || []).length === 1 ? '' : 's') + ' - pass at ' + (Number(q.passPercent) || 70) + '%' +
+                        (q.published === false ? ' - hidden' : '') + '</p></div>' +
+                        '<button type="button" class="btn-mini" data-cc-quiz-edit="' + esc(q.id) + '" title="Edit"><i class="fa-solid fa-pen"></i></button>' +
+                        '<button type="button" class="btn-mini danger" data-cc-quiz-del="' + esc(q.id) + '" title="Delete"><i class="fa-solid fa-trash"></i></button>' +
+                        '</div>';
+                }).join('');
+            }
+            return html + '</div></div>';
+        }
+
+        function ccNewQuizForm() {
+            return { id: null, title: '', passPercent: 70, moduleId: '', published: true, questions: [
+                { question: '', options: ['', ''], correct: 0 }
+            ] };
+        }
+
+        function ccQuizFormHTML(mods) {
+            const f = cc.quizForm;
+            const moduleOptions = '<option value="">Whole course (final quiz)</option>' + mods.map(function (m) {
+                return '<option value="' + esc(m._id) + '"' + (f.moduleId === m._id ? ' selected' : '') + '>' + esc(m.title) + '</option>';
+            }).join('');
+
+            return '<div style="background:#f8f6ff;border:1px solid #e9e3ff;border-radius:.7rem;padding:.75rem">' +
+                '<p class="text-[11px] font-bold uppercase tracking-wide text-[var(--purple)] mb-2">' +
+                (f.id ? 'Edit quiz' : 'New quiz') + '</p>' +
+                '<div class="form-grid">' +
+                '<div class="field span-2"><label>Quiz title *</label><input class="input" id="cc-qz-title" value="' + esc(f.title) + '" placeholder="e.g. Module 1 knowledge check"></div>' +
+                '<div class="field"><label>Pass marks (%)</label><input class="input" id="cc-qz-pass" type="number" min="0" max="100" value="' + esc(String(f.passPercent)) + '"></div>' +
+                '<div class="field"><label>Attached to</label><select class="select" id="cc-qz-module">' + moduleOptions + '</select></div>' +
+                '</div>' +
+                '<div class="mt-3">' + f.questions.map(function (q, i) {
+                    return '<div style="background:#fff;border:1px solid #e9e3ff;border-radius:.7rem;padding:.6rem;margin-bottom:.5rem">' +
+                        '<div class="flex items-center justify-between gap-2 mb-2">' +
+                        '<span class="text-[11px] font-bold text-gray-500">QUESTION ' + (i + 1) + '</span>' +
+                        (f.questions.length > 1
+                            ? '<button type="button" class="btn-mini danger" data-cc-q-del="' + i + '" title="Remove question"><i class="fa-solid fa-trash"></i></button>'
+                            : '') +
+                        '</div>' +
+                        '<textarea class="textarea" id="cc-q-' + i + '" style="min-height:56px" placeholder="Question text...">' + esc(q.question) + '</textarea>' +
+                        '<div class="mt-2 space-y-1.5">' + q.options.map(function (opt, j) {
+                            return '<div class="flex items-center gap-2">' +
+                                '<input type="radio" name="cc-correct-' + i + '" value="' + j + '"' + (q.correct === j ? ' checked' : '') +
+                                ' title="Mark as the correct answer" style="accent-color:var(--purple)">' +
+                                '<input class="input" id="cc-o-' + i + '-' + j + '" value="' + esc(opt) + '" placeholder="Option ' + (j + 1) + '" style="padding:.4rem .6rem;font-size:.82rem">' +
+                                (q.options.length > 2
+                                    ? '<button type="button" class="btn-mini danger" data-cc-o-del="' + i + '/' + j + '" title="Remove option"><i class="fa-solid fa-xmark"></i></button>'
+                                    : '') +
+                                '</div>';
+                        }).join('') + '</div>' +
+                        '<div class="flex gap-2 mt-2">' +
+                        (q.options.length < 6
+                            ? '<button type="button" class="btn-mini" data-cc-o-add="' + i + '"><i class="fa-solid fa-plus"></i> Option</button>'
+                            : '') +
+                        '</div></div>';
+                }).join('') + '</div>' +
+                '<button type="button" class="btn-mini" data-cc-q-add><i class="fa-solid fa-plus"></i> Add Question</button>' +
+                '<p class="text-[10px] text-gray-500 mt-2"><i class="fa-solid fa-circle-info"></i> Tick the radio next to the correct option. Students get unlimited attempts - best score counts.</p>' +
+                '<div class="flex gap-2 mt-3">' +
+                '<button type="button" class="btn-grad" data-cc-quiz-save><i class="fa-solid fa-check"></i> Save Quiz</button>' +
+                '<button type="button" class="btn-outline" data-cc-quiz-cancel>Cancel</button>' +
+                '</div></div>';
+        }
+
+        // Pull every quiz-editor input back into cc.quizForm (keeps typed
+        // values across structural re-renders like add/remove question).
+        function ccReadQuizForm() {
+            const f = cc && cc.quizForm;
+            if (!f) return null;
+            const t = $('cc-qz-title');
+            if (t) f.title = t.value;
+            const p = $('cc-qz-pass');
+            if (p) f.passPercent = Math.min(100, Math.max(0, Number(p.value) || 0));
+            const m = $('cc-qz-module');
+            if (m) f.moduleId = m.value || '';
+            f.questions.forEach(function (q, i) {
+                const qt = $('cc-q-' + i);
+                if (qt) q.question = qt.value;
+                q.options.forEach(function (opt, j) {
+                    const el = $('cc-o-' + i + '-' + j);
+                    if (el) q.options[j] = el.value;
+                });
+                const checked = document.querySelector('input[name="cc-correct-' + i + '"]:checked');
+                if (checked) q.correct = Number(checked.value);
+            });
+            return f;
+        }
+
+        function ccSaveQuiz() {
+            const f = ccReadQuizForm();
+            if (!f) return;
+            const title = (f.title || '').trim();
+            if (!title) return toast('Quiz needs a title', 'error');
+            const cleaned = [];
+            for (let i = 0; i < f.questions.length; i++) {
+                const q = f.questions[i];
+                const text = (q.question || '').trim();
+                if (!text) return toast('Question ' + (i + 1) + ' needs text', 'error');
+                const options = q.options.map(function (o) { return String(o).trim(); });
+                if (options.some(function (o) { return !o; })) return toast('Question ' + (i + 1) + ' has an empty option', 'error');
+                if (options.length < 2) return toast('Question ' + (i + 1) + ' needs at least 2 options', 'error');
+                cleaned.push({ question: text, options: options, correct: Math.min(Math.max(0, q.correct), options.length - 1) });
+            }
+            if (!cleaned.length) return toast('Add at least one question', 'error');
+
+            const payload = {
+                title: title,
+                passPercent: f.passPercent,
+                moduleId: f.moduleId || null,
+                questions: cleaned,
+                published: f.published !== false
+            };
+            const req = f.id
+                ? PP.patch('/admin/quizzes/' + f.id, payload)
+                : PP.post('/admin/quizzes/course/' + cc.id, payload);
+            req.then(function () {
+                toast('Quiz saved.');
+                cc.quizForm = null;
+                loadContentModal();
+            }).catch(function (err) { showError(err, 'Could not save the quiz'); });
+        }
+
+        function ccDeleteQuiz(quizId) {
+            confirmDialog({
+                title: 'Delete this quiz?',
+                message: 'The questions are removed. Student scores for it are ignored after the progress recalculation.',
+                confirmLabel: 'Delete quiz'
+            }).then(function (ok) {
+                if (!ok) return;
+                PP.del('/admin/quizzes/' + quizId)
+                    .then(function () { toast('Quiz deleted.'); loadContentModal(); })
+                    .catch(function (err) { showError(err, 'Could not delete the quiz'); });
+            });
+        }
+
+        /* ---------------------- content modal events ----------------------- */
+        document.addEventListener('click', function (e) {
+            if (!cc || !$('modal').classList.contains('show')) return;
+
+            if (e.target.closest('[data-cc-file-add]')) return ccUploadFile();
+
+            const fdel = e.target.closest('[data-cc-file-del]');
+            if (fdel) return ccDeleteFile(fdel.dataset.ccFileDel);
+
+            if (e.target.closest('[data-cc-mod-add]')) return ccAddModule();
+
+            const mopen = e.target.closest('[data-cc-mod-open]');
+            if (mopen) {
+                ccReadLessonForm();
+                const id = mopen.dataset.ccModOpen;
+                cc.openModule = cc.openModule === id ? null : id;
+                return renderContentModal();
+            }
+
+            const mdel = e.target.closest('[data-cc-mod-del]');
+            if (mdel) return ccDeleteModule(mdel.dataset.ccModDel);
+
+            const ladd = e.target.closest('[data-cc-lesson-add]');
+            if (ladd) {
+                ccReadLessonForm();
+                cc.lessonForm = { moduleId: ladd.dataset.ccLessonAdd, lessonId: null, title: '', minutes: 10, content: '' };
+                cc.openModule = ladd.dataset.ccLessonAdd;
+                return renderContentModal();
+            }
+
+            const ledit = e.target.closest('[data-cc-lesson-edit]');
+            if (ledit) {
+                const parts = ledit.dataset.ccLessonEdit.split('/');
+                const mod = (cc.course.modules || []).find(function (m) { return m._id === parts[0]; });
+                const lesson = mod && (mod.lessons || []).find(function (l) { return l._id === parts[1]; });
+                if (!lesson) return;
+                cc.lessonForm = { moduleId: parts[0], lessonId: parts[1], title: lesson.title, minutes: lesson.minutes || 10, content: lesson.content || '' };
+                return renderContentModal();
+            }
+
+            const ldel = e.target.closest('[data-cc-lesson-del]');
+            if (ldel) {
+                const p = ldel.dataset.ccLessonDel.split('/');
+                return ccDeleteLesson(p[0], p[1]);
+            }
+
+            if (e.target.closest('[data-cc-lesson-save]')) return ccSaveLesson();
+
+            if (e.target.closest('[data-cc-lesson-cancel]')) {
+                cc.lessonForm = null;
+                return renderContentModal();
+            }
+
+            if (e.target.closest('[data-cc-quiz-add]')) {
+                cc.quizForm = ccNewQuizForm();
+                return renderContentModal();
+            }
+
+            const qedit = e.target.closest('[data-cc-quiz-edit]');
+            if (qedit) {
+                const quiz = (cc.quizzes || []).find(function (q) { return q.id === qedit.dataset.ccQuizEdit; });
+                if (!quiz) return;
+                cc.quizForm = {
+                    id: quiz.id,
+                    title: quiz.title,
+                    passPercent: Number(quiz.passPercent) || 70,
+                    moduleId: quiz.module || '',
+                    published: quiz.published !== false,
+                    questions: (quiz.questions || []).map(function (q) {
+                        return { question: q.question, options: (q.options || []).slice(), correct: q.correct };
+                    })
+                };
+                if (!cc.quizForm.questions.length) cc.quizForm.questions = [{ question: '', options: ['', ''], correct: 0 }];
+                return renderContentModal();
+            }
+
+            const qdel = e.target.closest('[data-cc-quiz-del]');
+            if (qdel) return ccDeleteQuiz(qdel.dataset.ccQuizDel);
+
+            if (e.target.closest('[data-cc-quiz-save]')) return ccSaveQuiz();
+
+            if (e.target.closest('[data-cc-quiz-cancel]')) {
+                cc.quizForm = null;
+                return renderContentModal();
+            }
+
+            if (e.target.closest('[data-cc-q-add]')) {
+                ccReadQuizForm();
+                cc.quizForm.questions.push({ question: '', options: ['', ''], correct: 0 });
+                return renderContentModal();
+            }
+
+            const qdel2 = e.target.closest('[data-cc-q-del]');
+            if (qdel2) {
+                ccReadQuizForm();
+                cc.quizForm.questions.splice(Number(qdel2.dataset.ccQDel), 1);
+                return renderContentModal();
+            }
+
+            const oadd = e.target.closest('[data-cc-o-add]');
+            if (oadd) {
+                ccReadQuizForm();
+                cc.quizForm.questions[Number(oadd.dataset.ccOAdd)].options.push('');
+                return renderContentModal();
+            }
+
+            const odel = e.target.closest('[data-cc-o-del]');
+            if (odel) {
+                const parts = odel.dataset.ccODel.split('/');
+                ccReadQuizForm();
+                const q = cc.quizForm.questions[Number(parts[0])];
+                const idx = Number(parts[1]);
+                q.options.splice(idx, 1);
+                if (q.correct >= q.options.length) q.correct = q.options.length - 1;
+                if (q.correct === idx) q.correct = 0;
+                return renderContentModal();
+            }
+        });
 
         /* ================================================================== */
         /* Blogs                                                               */
@@ -3095,7 +3999,10 @@
 
         function pickFile(accept, cb) {
             const el = $('hidden-file');
-            el.accept = accept === 'image' ? 'image/*' : 'video/*';
+            el.accept = accept === 'image' ? 'image/*'
+                : accept === 'doc'
+                    ? '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.rtf,.zip'
+                    : 'video/*';
             el.onchange = function () {
                 if (el.files && el.files[0]) cb(el.files[0]);
                 el.value = '';

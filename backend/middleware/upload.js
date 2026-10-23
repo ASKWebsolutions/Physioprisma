@@ -6,9 +6,13 @@ const { env } = require('../config/env');
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8 MB (Cloudinary Free allows 10 MB)
 const MAX_VIDEO_BYTES = env.cloudinary.maxVideoMB * 1024 * 1024; // MAX_VIDEO_MB, default 100 (Free plan cap)
+const MAX_DOC_BYTES = 25 * 1024 * 1024; // course resource files (pdf / docx / pptx / zip ...)
 
 const IMAGE_RE = /^image\/(jpe?g|png|webp|gif|avif)$/i;
 const VIDEO_RE = /^video\/(mp4|webm|quicktime|x-m4v)$/i;
+// Course files: documents, spreadsheets, slides, plain text and archives.
+const DOC_RE =
+  /^(application\/(pdf|zip|x-zip-compressed|rtf|msword|vnd\.ms-excel|vnd\.ms-powerpoint|vnd\.openxmlformats-officedocument\.(wordprocessingml\.document|spreadsheetml\.sheet|presentationml\.presentation))|text\/(plain|csv))$/i;
 
 /** In-memory storage: files are streamed straight to Cloudinary, never touched on disk. */
 const storage = multer.memoryStorage();
@@ -16,6 +20,15 @@ const storage = multer.memoryStorage();
 function fileFilter(req, file, cb) {
   if (IMAGE_RE.test(file.mimetype) || VIDEO_RE.test(file.mimetype)) return cb(null, true);
   return cb(ApiError.badRequest(`Unsupported file type "${file.mimetype}". Use an image (jpg, png, webp) or video (mp4, webm).`));
+}
+
+function docFileFilter(req, file, cb) {
+  if (DOC_RE.test(file.mimetype)) return cb(null, true);
+  return cb(
+    ApiError.badRequest(
+      `Unsupported file type "${file.mimetype}". Use a PDF, Word, Excel, PowerPoint, text or ZIP file.`
+    )
+  );
 }
 
 const upload = multer({
@@ -28,10 +41,28 @@ const upload = multer({
   },
 });
 
+/** Same in-memory storage for course resource files (documents only). */
+const docUpload = multer({
+  storage,
+  fileFilter: docFileFilter,
+  limits: {
+    fileSize: MAX_DOC_BYTES,
+    files: 5,
+    fields: 30,
+  },
+});
+
 /** Reject oversized images early (multer's single limit covers videos). */
 function assertImageSize(file) {
   if (file && file.size > MAX_IMAGE_BYTES) {
     throw ApiError.badRequest(`Image "${file.originalname}" is larger than 8 MB`);
+  }
+}
+
+/** Reject oversized course files early (multipart path only). */
+function assertDocSize(file) {
+  if (file && file.size > MAX_DOC_BYTES) {
+    throw ApiError.badRequest(`File "${file.originalname}" is larger than 25 MB`);
   }
 }
 
@@ -59,4 +90,13 @@ function directAsset(req) {
   return { url, publicId };
 }
 
-module.exports = { upload, assertImageSize, directAsset, MAX_IMAGE_BYTES, MAX_VIDEO_BYTES };
+module.exports = {
+  upload,
+  docUpload,
+  assertImageSize,
+  assertDocSize,
+  directAsset,
+  MAX_IMAGE_BYTES,
+  MAX_VIDEO_BYTES,
+  MAX_DOC_BYTES,
+};

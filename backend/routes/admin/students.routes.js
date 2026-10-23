@@ -3,6 +3,7 @@
 const express = require('express');
 
 const User = require('../../models/User.model');
+const Course = require('../../models/Course.model');
 const Enrollment = require('../../models/Enrollment.model');
 const ContactMessage = require('../../models/ContactMessage.model');
 const { asyncHandler, ApiError } = require('../../middleware/error');
@@ -179,6 +180,101 @@ router.get(
         lastActivityAt: lastActivity,
       },
     });
+  })
+);
+
+/* ------------------------------------------------------------------ */
+/* Course access: after a WhatsApp payment the admin grants a student   */
+/* the course they bought (GET / list, POST add, DELETE remove).        */
+/* ------------------------------------------------------------------ */
+async function loadStudent(id) {
+  const user = await User.findById(id);
+  if (!user || user.role !== 'student') throw ApiError.notFound('Student not found');
+  return user;
+}
+
+/* GET /api/admin/students/:id/courses - this student's course access */
+router.get(
+  '/:id/courses',
+  asyncHandler(async (req, res) => {
+    const student = await loadStudent(req.params.id);
+    const enrollments = await Enrollment.find({ user: student._id })
+      .populate('course', 'title slug price creditHours')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      ok: true,
+      courses: enrollments
+        .filter((e) => e.course)
+        .map((e) => ({
+          id: e.course._id.toString(),
+          enrollmentId: e._id.toString(),
+          title: e.course.title,
+          slug: e.course.slug,
+          price: e.course.price || 0,
+          creditHours: e.course.creditHours || 0,
+          progress: e.progress || 0,
+          status: e.status,
+          enrolledAt: e.createdAt,
+        })),
+    });
+  })
+);
+
+/* POST /api/admin/students/:id/courses - grant a course (payment received) */
+router.post(
+  '/:id/courses',
+  validate({ courseId: { type: 'string', min: 1, max: 200 } }),
+  asyncHandler(async (req, res) => {
+    const student = await loadStudent(req.params.id);
+
+    const key = String(req.body.courseId).trim();
+    const course = await Course.findOne({
+      $or: [
+        { slug: key.toLowerCase() },
+        { _id: /^[0-9a-fA-F]{24}$/.test(key) ? key : '000000000000000000000000' },
+      ],
+    });
+    if (!course) throw ApiError.notFound('Course not found');
+
+    const existing = await Enrollment.findOne({ user: student._id, course: course._id });
+    if (existing) {
+      return res.json({
+        ok: true,
+        alreadyEnrolled: true,
+        message: `${student.name} already has access to ${course.title}.`,
+      });
+    }
+
+    await Enrollment.create({
+      user: student._id,
+      course: course._id,
+      referredBy: student.referredBy || null,
+    });
+
+    res.status(201).json({ ok: true, message: `${course.title} added to ${student.name}.` });
+  })
+);
+
+/* DELETE /api/admin/students/:id/courses/:courseId - revoke access */
+router.delete(
+  '/:id/courses/:courseId',
+  asyncHandler(async (req, res) => {
+    const student = await loadStudent(req.params.id);
+
+    const key = String(req.params.courseId || '').trim();
+    const course = await Course.findOne({
+      $or: [
+        { slug: key.toLowerCase() },
+        { _id: /^[0-9a-fA-F]{24}$/.test(key) ? key : '000000000000000000000000' },
+      ],
+    });
+    if (!course) throw ApiError.notFound('Course not found');
+
+    const removed = await Enrollment.findOneAndDelete({ user: student._id, course: course._id });
+    if (!removed) throw ApiError.notFound('This student is not enrolled in that course');
+
+    res.json({ ok: true, message: `${course.title} removed from ${student.name}.` });
   })
 );
 

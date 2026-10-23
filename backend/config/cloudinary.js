@@ -37,6 +37,10 @@ function uploadBuffer(buffer, { folder = 'physioprisma', resourceType = 'image',
     // uploading a new one and then destroying the old publicId, so the two
     // must never collide - otherwise a fixed id would either be rejected
     // (overwrite: false) or the destroy below would remove the new asset.
+    // NOTE: keep public_id extension-less. On this account a dotted raw
+    // public_id fails delivery ("deny or ACL failure"); the original file
+    // name (with its extension) is carried in the DB and restored at
+    // download time via the fl_attachment flag (see attachmentUrl).
     const base = String(filename || 'asset').replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9._-]/g, '-').slice(0, 60) || 'asset';
     const publicId = `${base}-${Date.now().toString(36)}-${crypto.randomBytes(4).toString('hex')}`;
 

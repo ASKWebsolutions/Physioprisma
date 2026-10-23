@@ -11,6 +11,7 @@ const router = express.Router();
  *   /api/admin   protected admin panel API (stats, requests, users, content)
  *   /api/student protected student portal (own profile + enrolled courses)
  *   /api/gallery public published gallery categories
+ *   /api/team   public leadership team (dr.sultan.html)
  *   /api/courses public published course catalogue (+ detail with lessons)
  *   /api/blogs   public published posts (+ detail with full content)
  *   /api/contact public "Send Us a Message" form submissions
@@ -21,6 +22,7 @@ router.use('/admin', require('./admin'));
 router.use('/student', require('./student.routes'));
 router.use('/ambassador', require('./ambassador.routes'));
 router.use('/gallery', require('./gallery.routes'));
+router.use('/team', require('./team.routes'));
 router.use('/courses', require('./courses.routes'));
 router.use('/blogs', require('./blogs.routes'));
 router.use('/contact', require('./contact.routes'));

@@ -17,19 +17,28 @@ const publicUser = (u) => ({
   city: u.city,
   role: u.role,
   status: u.status,
+  ambassadorStatus: u.ambassadorStatus || 'none',
   referralCode: u.referralCode || null,
   joined: u.joinedAt,
   lastLoginAt: u.lastLoginAt,
 });
 
 /* GET /api/admin/requests?status=pending|approved                          */
+/* Every ambassador application, whether it belongs to a standalone          */
+/* ambassador account (role) or to a student who applied on the same        */
+/* account (ambassadorStatus).                                              */
 router.get(
   '/',
   validate({ status: { type: 'string', required: false, max: 20 } }),
   asyncHandler(async (req, res) => {
-    const filter = { role: 'ambassador' };
-    if (req.query.status === 'pending') filter.status = 'pending';
-    else if (req.query.status === 'approved') filter.status = 'active';
+    const filter = {};
+    if (req.query.status === 'pending') {
+      filter.$or = [{ ambassadorStatus: 'pending' }, { role: 'ambassador', status: 'pending' }];
+    } else if (req.query.status === 'approved') {
+      filter.$or = [{ ambassadorStatus: 'active' }, { role: 'ambassador', status: 'active' }];
+    } else {
+      filter.$or = [{ role: 'ambassador' }, { ambassadorStatus: { $ne: 'none' } }];
+    }
 
     const users = await User.find(filter).sort({ createdAt: -1 });
     res.json({ ok: true, requests: users.map(publicUser) });
@@ -42,10 +51,27 @@ router.patch(
   validate({ status: { type: 'enum', values: ['active', 'rejected', 'pending', 'suspended'] } }),
   asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
-    if (!user || user.role !== 'ambassador') throw ApiError.notFound('Application not found');
+    const standalone = user && user.role === 'ambassador';
+    // Standalone ambassador accounts, or students who also applied.
+    if (!user || (!standalone && user.ambassadorStatus === 'none')) {
+      throw ApiError.notFound('Application not found');
+    }
 
-    user.status = req.body.status;
-    if (req.body.status === 'active') {
+    if (standalone) {
+      // The whole account follows the decision (old behaviour).
+      user.status = req.body.status;
+      user.ambassadorStatus =
+        req.body.status === 'active' ? 'active' : req.body.status === 'rejected' ? 'rejected' : 'pending';
+    } else {
+      // A "both" account: only the ambassador capability changes - the
+      // student keeps their login, roll no, courses and certificates.
+      if (req.body.status === 'suspended') {
+        throw ApiError.badRequest('To suspend this account, use the Users tab');
+      }
+      user.ambassadorStatus = req.body.status; // active | rejected | pending
+    }
+
+    if (user.ambassadorStatus === 'active') {
       user.approvedAt = new Date();
       // Ambassadors get their shareable code the moment they are approved
       if (!user.referralCode) {

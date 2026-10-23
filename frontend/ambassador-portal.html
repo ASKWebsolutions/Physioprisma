@@ -611,10 +611,14 @@
                     city: (data.get('city') || '').toString().trim(),
                     password: (data.get('password') || '').toString(),
                 })
-                    .then(function () {
+                    .then(function (res) {
                         form.reset();
+                        // The server message covers both cases: brand-new
+                        // ambassador account, or an existing student account
+                        // that is upgrading to also become an ambassador.
                         setAuthMessage(
-                            'Application submitted! You can log in with your email or phone and password once an admin approves your application.',
+                            (res && res.message) ||
+                                'Application submitted! You can log in once an admin approves your application.',
                             'success'
                         );
                     })

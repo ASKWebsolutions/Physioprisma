@@ -29,9 +29,11 @@ router.get(
       newMessages,
     ] = await Promise.all([
       User.countDocuments(),
+      // Both-role accounts (student + approved ambassador) stay students.
       User.countDocuments({ role: 'student' }),
-      User.countDocuments({ role: 'ambassador' }),
-      User.countDocuments({ role: 'ambassador', status: 'pending' }),
+      // Approved ambassadors: standalone accounts AND students upgraded.
+      User.countDocuments({ $or: [{ role: 'ambassador', status: 'active' }, { ambassadorStatus: 'active' }] }),
+      User.countDocuments({ $or: [{ role: 'ambassador', status: 'pending' }, { ambassadorStatus: 'pending' }] }),
       Course.countDocuments(),
       Blog.countDocuments({ published: true }),
       Enrollment.countDocuments(),

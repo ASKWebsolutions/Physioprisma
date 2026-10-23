@@ -74,7 +74,10 @@ async function main() {
     process.exit(1);
   }
 
-  const detailData = await (await fetch(BASE + '/api/courses/' + courses[0].slug)).json();
+  // Prefer a course with real copy (seeded demo entries can have a one-line
+  // blurb) so the hero/about assertions test the renderer, not the data.
+  const richCourse = courses.find((c) => (c.description || '').length > 40) || courses[0];
+  const detailData = await (await fetch(BASE + '/api/courses/' + richCourse.slug)).json();
   const detail = detailData.course || {};
   const noLessons = !detail.lessonCount;
 

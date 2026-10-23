@@ -14,8 +14,10 @@ router.use('/requests', require('./requests.routes'));
 router.use('/students', require('./students.routes'));
 router.use('/users', require('./users.routes'));
 router.use('/courses', require('./courses.routes'));
+router.use('/quizzes', require('./quizzes.routes'));
 router.use('/blogs', require('./blogs.routes'));
 router.use('/gallery', require('./gallery.routes'));
+router.use('/team', require('./team.routes'));
 router.use('/contacts', require('./contacts.routes'));
 router.use('/uploads', require('./uploads.routes'));
 

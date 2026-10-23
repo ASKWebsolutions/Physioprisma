@@ -587,7 +587,7 @@
                     recovery and wellbeing</p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5 md:gap-6">
+            <div id="team-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5 md:gap-6">
 
                 <!-- Dr. Sultan Zaidi - CEO (highlighted) -->
                 <div
@@ -973,6 +973,51 @@
         </span>
     </a>
 
+<script src="./js/api.js"></script>
+<script>
+    // Leadership team - loaded from the admin panel (GET /api/team).
+    // The static cards above stay as the fallback until data arrives.
+    (function () {
+        var grid = document.getElementById('team-grid');
+        if (!grid || !window.PP) return;
+
+        PP.get('/team').then(function (data) {
+            var members = (data && data.team) || [];
+            if (!members.length) return; // keep the static fallback
+
+            grid.innerHTML = members.map(function (m) {
+                var featured = !!m.featured;
+                var accent = m.accent === 'blue' ? 'blue' : 'purple';
+                var icon = accent === 'blue' ? 'fa-user-nurse' : 'fa-user-doctor';
+                // Icon sits under the photo; it shows through if the photo is
+                // missing or fails to load.
+                var avatar = '<i class="fa-solid ' + icon + '"></i>' +
+                    (m.image && m.image.url
+                        ? '<img src="' + PP.esc(m.image.url) + '" alt="' + PP.esc(m.name) +
+                          '" class="w-full h-full object-cover" onerror="this.remove()">'
+                        : '');
+                var circle = featured
+                    ? 'w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] flex items-center justify-center text-white text-4xl shadow-lg mb-4 overflow-hidden flex-shrink-0'
+                    : 'w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br flex items-center justify-center text-3xl mb-4 overflow-hidden flex-shrink-0 ' +
+                      (accent === 'blue'
+                          ? 'from-blue-100 to-[var(--light-blue)] text-[var(--blue)]'
+                          : 'from-purple-100 to-[var(--light-purple)] text-[var(--purple)]');
+                var card = featured
+                    ? 'leader-card ceo col-span-2 sm:col-span-3 lg:col-span-3 bg-white rounded-3xl p-6 md:p-8 shadow-lg flex flex-col items-center text-center'
+                    : 'leader-card bg-white rounded-2xl p-5 md:p-6 shadow-sm flex flex-col items-center text-center';
+                var title = featured
+                    ? '<h3 class="text-xl md:text-2xl font-bold text-gray-800">' + PP.esc(m.name) + '</h3>' +
+                      '<p class="text-[var(--purple)] font-semibold text-sm md:text-base mt-1">' + PP.esc(m.designation) + '</p>'
+                    : '<h4 class="font-bold text-gray-800 text-sm md:text-base">' + PP.esc(m.name) + '</h4>' +
+                      '<p class="text-xs md:text-sm ' + (accent === 'blue' ? 'text-[var(--blue)]' : 'text-[var(--purple)]') +
+                      ' mt-1">' + PP.esc(m.designation) + '</p>';
+                return '<div class="' + card + '"><div class="' + circle + '">' + avatar + '</div>' + title + '</div>';
+            }).join('');
+        }).catch(function () {
+            /* API unreachable - the static cards stay in place. */
+        });
+    })();
+</script>
 <script src="./js/navbar.js"></script>
 </body>
 

@@ -227,9 +227,30 @@
 
 <!-- ==================== COURSE BODY ==================== -->
 <section id="course-body" class="py-16 bg-white hidden">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-10">
 
-        <div class="lg:col-span-2">
+        <!-- LEFT: module track + quizzes (sticky on desktop) -->
+        <div class="lg:col-span-1 order-2 lg:order-1">
+            <div class="lg:sticky lg:top-24 space-y-4">
+                <div class="bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
+                    <div class="px-4 py-4 bg-white border-b border-gray-200">
+                        <h3 class="font-bold text-sm"><i class="fa-solid fa-layer-group text-[var(--purple)] mr-1"></i> Course modules</h3>
+                        <p class="text-xs text-gray-500 mt-0.5" id="track-summary"></p>
+                    </div>
+                    <div id="module-track" class="p-3 space-y-2"></div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
+                    <div class="px-4 py-4 bg-white border-b border-gray-200">
+                        <h3 class="font-bold text-sm"><i class="fa-solid fa-circle-question text-[var(--purple)] mr-1"></i> Quizzes</h3>
+                        <p class="text-xs text-gray-500 mt-0.5" id="quiz-summary">Attempt after you enroll</p>
+                    </div>
+                    <div id="quiz-list" class="p-3 space-y-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 order-1 lg:order-2">
             <div class="relative w-full rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-purple-100 to-blue-100" style="aspect-ratio:16/9;">
                 <img id="course-cover" class="w-full h-full object-cover hidden" alt="">
                 <div id="cover-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center px-6">
@@ -253,30 +274,63 @@
                 <p id="my-progress-note" class="text-xs text-gray-500 mt-2"></p>
             </div>
 
+            <!-- Lesson reader: the actual reading material of one lesson -->
+            <div id="lesson-reader" class="hidden mb-6 border border-purple-100 rounded-2xl overflow-hidden bg-white shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-purple-50 border-b border-purple-100">
+                    <div class="min-w-0">
+                        <p class="text-[10px] uppercase tracking-[2px] font-bold text-[var(--purple)]" id="reader-module"></p>
+                        <h3 class="font-bold text-gray-800 truncate" id="reader-title">Lesson</h3>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <span id="reader-clock" class="hidden text-[11px] font-bold text-gray-600 bg-white border border-gray-200 px-2.5 py-1 rounded-full"></span>
+                        <span id="reader-done" class="hidden text-[11px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full"><i class="fa-solid fa-check mr-1"></i>Completed</span>
+                        <button type="button" id="reader-close" class="text-xs font-bold text-gray-500 hover:text-[var(--purple)]"><i class="fa-solid fa-xmark mr-1"></i>Close</button>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div id="reader-content" class="text-gray-700 leading-relaxed space-y-3 text-[15px]"></div>
+                    <div id="reader-lock" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800"></div>
+                    <p id="reader-hint" class="text-xs text-gray-400 mt-4"></p>
+                </div>
+            </div>
+
+            <!-- Quiz runner: questions, submit, score -->
+            <div id="quiz-runner" class="hidden mb-6 border border-purple-100 rounded-2xl overflow-hidden bg-white shadow-sm"></div>
+
             <div class="border-t border-gray-100 pt-6">
                 <h3 class="text-lg font-bold text-[var(--purple)] mb-3">About this course</h3>
                 <div id="course-about" class="text-gray-600 leading-relaxed space-y-4 mb-6"></div>
                 <h3 class="text-lg font-bold text-[var(--purple)] mb-3">What you'll learn</h3>
                 <ul id="course-points" class="grid sm:grid-cols-2 gap-2.5 text-sm text-gray-700"></ul>
             </div>
+
+            <div class="border-t border-gray-100 pt-6 mt-6">
+                <h3 class="text-lg font-bold text-[var(--purple)] mb-1"><i class="fa-solid fa-folder-open mr-1"></i> Course files</h3>
+                <p class="text-xs text-gray-400 mb-4">View them online or download to your device.</p>
+                <div id="course-files" class="space-y-2.5"></div>
+            </div>
         </div>
 
-        <aside>
+        <aside class="order-3">
             <div class="bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
                 <div class="px-6 py-5 bg-white border-b border-gray-200">
                     <h3 class="font-bold text-lg">Course format</h3>
-                    <p class="text-sm text-gray-500">Self-paced reading course</p>
+                    <p class="text-sm text-gray-500">Self-paced learning course</p>
                 </div>
                 <ul class="divide-y divide-gray-100 text-sm text-gray-700">
                     <li class="px-6 py-4 flex items-center gap-3"><i class="fa-solid fa-image text-[var(--purple)]"></i> Illustrated text lessons</li>
-                    <li class="px-6 py-4 flex items-center gap-3"><i class="fa-solid fa-clock text-[var(--purple)]"></i> About 2 minutes of reading</li>
+                    <li class="px-6 py-4 flex items-center gap-3"><i class="fa-solid fa-clock text-[var(--purple)]"></i> <span id="format-time">Self-paced study</span></li>
+                    <li class="px-6 py-4 flex items-center gap-3 hidden" id="format-files-row"><i class="fa-solid fa-folder-open text-[var(--purple)]"></i> <span id="format-files">Downloadable course files</span></li>
                     <li class="px-6 py-4 flex items-center gap-3"><i class="fa-solid fa-award text-[var(--purple)]"></i> Certificate on completion</li>
                 </ul>
             </div>
 
             <div class="mt-6 bg-gradient-to-br from-[var(--purple)] to-[var(--blue)] rounded-2xl p-6 text-white">
-                <p class="text-xs uppercase tracking-[2px] font-bold mb-1">Ready to join?</p>
-                <p class="text-sm text-white/90 mb-4">Limited seats - early registration recommended.</p>
+                <div class="flex items-center justify-between mb-1">
+                    <p class="text-xs uppercase tracking-[2px] font-bold">Price</p>
+                    <span id="aside-price" class="font-bold text-lg">-</span>
+                </div>
+                <p class="text-sm text-white/90 mb-4" id="aside-note">Limited seats - early registration recommended.</p>
                 <button type="button" id="aside-enroll" class="w-full text-center bg-white text-[var(--purple)] px-6 py-3 rounded-full font-bold hover:shadow-lg transition cursor-pointer"><i class="fa-solid fa-circle-plus mr-1"></i> Enroll Now</button>
             </div>
         </aside>
@@ -415,6 +469,12 @@
         return '';
     }
 
+    var PURCHASE_WHATSAPP = 'https://wa.link/lcqilt';
+
+    function isPaidCourse(c) {
+        return Number(c && c.price) > 0;
+    }
+
     function renderHeader() {
         var details = course.details || [];
         document.title = course.title + ' - Physioprisma';
@@ -425,11 +485,16 @@
         var duration = firstDetail(details, /^duration/i) || details[0] || '';
         var cert = firstDetail(details, /^(certification|includes)/i);
         var meta = [];
-        if (duration) meta.push(pill(duration, 'fa-clock'));
+        if (isPaidCourse(course)) meta.push(pill('Rs ' + course.price, 'fa-tag'));
+        else meta.push(pill('Free course', 'fa-gift'));
+        if (Number(course.creditHours) > 0) {
+            meta.push(pill(course.creditHours + ' credit hour' + (Number(course.creditHours) === 1 ? '' : 's'), 'fa-clock'));
+        }
+        if (duration) meta.push(pill(duration, 'fa-calendar-days'));
         if (course.instructor) meta.push(pill(course.instructor, 'fa-chalkboard-user'));
         if (course.level) meta.push(pill(course.level, 'fa-award'));
         if (cert) meta.push(pill(cert, 'fa-certificate'));
-        meta.push(pill('Reading course', 'fa-book-open-reader'));
+        meta.push(pill('Self-paced course', 'fa-book-open-reader'));
         document.getElementById('course-meta').innerHTML = meta.join('');
 
         var about = String(course.about || '').split(/\n+/).filter(Boolean);
@@ -454,6 +519,502 @@
             cover.classList.add('hidden');
             coverEmpty.classList.remove('hidden');
         }
+
+        // Sidebar: price, study-time requirement and the file list.
+        var priceEl = document.getElementById('aside-price');
+        if (priceEl) priceEl.textContent = isPaidCourse(course) ? 'Rs ' + course.price : 'Free';
+        var noteEl = document.getElementById('aside-note');
+        if (noteEl) {
+            noteEl.textContent = isPaidCourse(course)
+                ? 'Purchase on WhatsApp - after payment the admin adds this course to your account.'
+                : 'Enroll free with your student account and start learning today.';
+        }
+
+        var ch = Number(course.creditHours) || 0;
+        var timeEl = document.getElementById('format-time');
+        if (timeEl) {
+            timeEl.textContent = ch > 0
+                ? ch + ' credit hour' + (ch === 1 ? '' : 's') + ' of study time (' + fmtHuman(course.requiredSeconds || ch * 3600) + ')'
+                : 'About 2 minutes of reading';
+        }
+        var fileCount = (course.files || []).length;
+        var filesRow = document.getElementById('format-files-row');
+        if (filesRow) {
+            if (fileCount > 0) {
+                filesRow.classList.remove('hidden');
+                var filesEl = document.getElementById('format-files');
+                if (filesEl) filesEl.textContent = fileCount + ' downloadable file' + (fileCount === 1 ? '' : 's');
+            }
+        }
+
+        renderFiles();
+        renderTrack();
+        renderQuizList();
+    }
+
+    /* -------------------- left track: modules + lessons -------------------- */
+
+    var trackOpen = {};          // moduleId -> accordion open
+    var activeLesson = null;     // { moduleId, lessonId }
+    var activeQuiz = null;       // quiz id shown in the runner
+    var quizResult = null;       // last submit result for the open quiz
+    var quizzes = [];            // student quiz list (answers never included)
+
+    function findModule(id) {
+        var mods = (course && course.modules) || [];
+        for (var i = 0; i < mods.length; i++) if (mods[i].id === id) return mods[i];
+        return null;
+    }
+
+    function findLesson(modId, lessonId) {
+        var m = findModule(modId);
+        if (!m) return null;
+        for (var i = 0; i < (m.lessons || []).length; i++) if (m.lessons[i].id === lessonId) return m.lessons[i];
+        return null;
+    }
+
+    function findQuiz(id) {
+        for (var i = 0; i < quizzes.length; i++) if (quizzes[i].id === id) return quizzes[i];
+        return null;
+    }
+
+    function isDone(lessonId) {
+        return !!(enrollment && enrollment.completedLessons && enrollment.completedLessons.indexOf(lessonId) > -1);
+    }
+
+    function lessonLocked(lesson) { return !!(lesson && lesson.locked); }
+
+    /** Study seconds actually earned (per-lesson clocks, capped at need). */
+    function studySeconds() {
+        var mods = (course && course.modules) || [];
+        var ls = (enrollment && enrollment.lessonSeconds) || {};
+        var earned = 0, required = 0, hasLessons = false;
+        mods.forEach(function (m) {
+            (m.lessons || []).forEach(function (l) {
+                hasLessons = true;
+                var need = (Number(l.minutes) || 10) * 60;
+                required += need;
+                earned += Math.min(Number(ls[l.id]) || 0, need);
+            });
+        });
+        if (!hasLessons) {
+            required = Number((enrollment && enrollment.requiredSeconds) || course.requiredSeconds) || 120;
+            earned = Math.min(Number(enrollment && enrollment.readingSeconds) || 0, required);
+        }
+        return { earned: earned, required: required };
+    }
+
+    function renderTrack() {
+        var box = document.getElementById('module-track');
+        var summary = document.getElementById('track-summary');
+        if (!box || !course) return;
+        var mods = (course.modules || []).slice().sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+        if (!mods.length) {
+            if (summary) summary.textContent = '';
+            box.innerHTML = '<p class="text-xs text-gray-400 p-1"><i class="fa-solid fa-circle-info mr-1"></i>The syllabus will be listed here once the academy publishes it.</p>';
+            return;
+        }
+
+        var total = 0, done = 0;
+        mods.forEach(function (m) {
+            (m.lessons || []).forEach(function (l) { total++; if (isDone(l.id)) done++; });
+        });
+        if (summary) {
+            summary.textContent = total
+                ? done + ' of ' + total + ' lessons completed' + (enrollment ? '' : ' - enroll to start')
+                : '';
+        }
+
+        box.innerHTML = mods.map(function (m) {
+            var lessons = m.lessons || [];
+            var open = !!trackOpen[m.id];
+            var allDone = lessons.length > 0 && lessons.every(function (l) { return isDone(l.id); });
+            var html = '<div class="border border-gray-200 bg-white rounded-xl overflow-hidden">' +
+                '<button type="button" class="w-full flex items-center gap-2 px-3 py-2.5 text-left" data-track-module="' + PP.esc(m.id) + '">' +
+                '<i class="fa-solid fa-chevron-' + (open ? 'down' : 'right') + ' text-[10px] text-gray-400 w-3"></i>' +
+                '<span class="flex-1 text-xs font-bold text-gray-800">' + PP.esc(m.title) + '</span>' +
+                (allDone ? '<i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i>' : '') +
+                '</button>';
+            if (open) {
+                html += '<div class="border-t border-gray-100">' + lessons.map(function (l) {
+                    var dl = isDone(l.id);
+                    var isActive = activeLesson && activeLesson.lessonId === l.id;
+                    var locked = lessonLocked(l);
+                    var icon = dl ? 'fa-circle-check text-emerald-500'
+                        : locked ? 'fa-lock text-amber-400' : 'fa-circle text-gray-300';
+                    return '<button type="button" class="w-full flex items-center gap-2 px-3 py-2.5 text-left text-xs border-b border-gray-50 last:border-0 ' +
+                        (isActive ? 'bg-purple-50 text-[var(--purple)] font-bold' : 'text-gray-600 hover:bg-gray-50') + '" ' +
+                        'data-track-lesson="' + PP.esc(m.id) + '/' + PP.esc(l.id) + '">' +
+                        '<i class="fa-solid ' + icon + ' w-3 text-[11px]"></i>' +
+                        '<span class="flex-1 truncate">' + PP.esc(l.title) + '</span>' +
+                        '<span class="text-[10px] text-gray-400 flex-shrink-0">' + fmtStudyTime((Number(l.minutes) || 10) * 60) + '</span>' +
+                        '</button>';
+                }).join('') + '</div>';
+            }
+            return html + '</div>';
+        }).join('');
+    }
+
+    /* -------------------- lesson reader -------------------- */
+
+    function openLesson(moduleId, lessonId) {
+        var lesson = findLesson(moduleId, lessonId);
+        if (!lesson) return;
+        activeLesson = { moduleId: moduleId, lessonId: lessonId };
+        trackOpen[moduleId] = true;
+        activeQuiz = null;
+        quizResult = null;
+        renderTrack();
+        renderQuizList();
+        renderReader();
+        renderQuizRunner();
+        var el = document.getElementById('lesson-reader');
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        restartReadingTimer();
+    }
+
+    function closeLesson() {
+        activeLesson = null;
+        var el = document.getElementById('lesson-reader');
+        if (el) el.classList.add('hidden');
+        renderTrack();
+        restartReadingTimer();
+    }
+
+    function renderReader() {
+        var wrap = document.getElementById('lesson-reader');
+        if (!wrap) return;
+        if (!activeLesson) { wrap.classList.add('hidden'); return; }
+        var mod = findModule(activeLesson.moduleId);
+        var lesson = findLesson(activeLesson.moduleId, activeLesson.lessonId);
+        if (!lesson) { wrap.classList.add('hidden'); return; }
+        wrap.classList.remove('hidden');
+
+        document.getElementById('reader-module').textContent = mod ? mod.title : '';
+        document.getElementById('reader-title').textContent = lesson.title;
+
+        var content = document.getElementById('reader-content');
+        var lock = document.getElementById('reader-lock');
+        var hint = document.getElementById('reader-hint');
+
+        if (lessonLocked(lesson)) {
+            content.classList.add('hidden');
+            content.innerHTML = '';
+            lock.classList.remove('hidden');
+            lock.innerHTML = isPaidCourse(course)
+                ? '<i class="fa-solid fa-lock mr-1"></i><strong>Lesson locked.</strong> Purchase this course on WhatsApp - the admin unlocks the reading material once the payment is received.'
+                : '<i class="fa-solid fa-lock mr-1"></i><strong>Lesson locked.</strong> Enroll with the Enroll Now button to open the reading material.';
+            hint.textContent = '';
+        } else {
+            lock.classList.add('hidden');
+            var paras = String(lesson.content || '').split(/\n+/).filter(Boolean);
+            content.classList.remove('hidden');
+            content.innerHTML = paras.length
+                ? paras.map(function (p) { return '<p>' + PP.esc(p) + '</p>'; }).join('')
+                : '<p class="text-gray-400 text-sm"><i class="fa-solid fa-circle-info mr-1"></i>This lesson has no reading text yet - check back soon.</p>';
+            var lessonLen = fmtHuman((Number(lesson.minutes) || 10) * 60);
+            hint.textContent = !enrollment
+                ? 'Lesson length: ' + lessonLen + '. Enroll to track your reading time and complete this lesson.'
+                : 'Lesson length: ' + lessonLen + ' - keep it open, your reading time is tracked automatically while you read.';
+        }
+        renderReaderClock();
+    }
+
+    function renderReaderClock() {
+        if (!activeLesson) return;
+        var lesson = findLesson(activeLesson.moduleId, activeLesson.lessonId);
+        if (!lesson) return;
+        var clock = document.getElementById('reader-clock');
+        var doneBadge = document.getElementById('reader-done');
+        if (!clock) return;
+        if (lessonLocked(lesson)) { clock.classList.add('hidden'); if (doneBadge) doneBadge.classList.add('hidden'); return; }
+        clock.classList.remove('hidden');
+        var need = (Number(lesson.minutes) || 10) * 60;
+        var spent = enrollment && enrollment.lessonSeconds
+            ? Math.min(Number(enrollment.lessonSeconds[activeLesson.lessonId]) || 0, need) : 0;
+        var left = Math.max(0, need - spent);
+        clock.textContent = left > 0
+            ? fmtHuman(spent) + ' studied \u00b7 ' + fmtHuman(left) + ' left'
+            : fmtHuman(spent) + ' studied \u00b7 finished';
+        var done = isDone(activeLesson.lessonId);
+        if (doneBadge) doneBadge.classList.toggle('hidden', !done);
+    }
+
+    /** Human time: "37 seconds", "2 minutes", "1 hour and 23 minutes". */
+    function fmtHuman(seconds) {
+        var s = Math.max(0, Math.floor(Number(seconds) || 0));
+        var h = Math.floor(s / 3600);
+        var m = Math.floor((s % 3600) / 60);
+        var parts = [];
+        if (h) parts.push(h + (h === 1 ? ' hour' : ' hours'));
+        if (m) parts.push(m + (m === 1 ? ' minute' : ' minutes'));
+        if (!h && !m) parts.push(s + (s === 1 ? ' second' : ' seconds'));
+        if (parts.length === 1) return parts[0];
+        if (h && parts.length === 2) return parts[0] + ' and ' + parts[1];
+        return parts.join(' ');
+    }
+
+    /* -------------------- quizzes -------------------- */
+
+    function renderQuizList() {
+        var list = document.getElementById('quiz-list');
+        var summary = document.getElementById('quiz-summary');
+        if (!list) return;
+
+        if (!enrollment) {
+            if (summary) summary.textContent = 'Attempt after you enroll';
+            list.innerHTML = '<p class="text-xs text-gray-400 p-1"><i class="fa-solid fa-lock mr-1"></i> Quizzes unlock with enrollment - unlimited attempts, your best score counts.</p>';
+            return;
+        }
+        if (!quizzes.length) {
+            if (summary) summary.textContent = 'No quizzes yet';
+            list.innerHTML = '<p class="text-xs text-gray-400 p-1">No quizzes published for this course yet.</p>';
+            return;
+        }
+
+        var passed = Number(enrollment.quizzesPassed) || 0;
+        var total = Number(enrollment.quizzesTotal) || quizzes.length;
+        if (summary) summary.textContent = passed + ' of ' + total + ' passed';
+
+        list.innerHTML = quizzes.map(function (q) {
+            var best = q.best;
+            var badge = best
+                ? (best.passed
+                    ? '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full flex-shrink-0">' + Number(best.score) + '% passed</span>'
+                    : '<span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full flex-shrink-0">' + Number(best.score) + '%</span>')
+                : '<span class="text-[10px] font-bold text-gray-400 flex-shrink-0">new</span>';
+            var isActive = activeQuiz === q.id;
+            return '<button type="button" class="w-full text-left border rounded-xl px-3 py-2.5 transition ' +
+                (isActive ? 'border-purple-300 bg-purple-50' : 'border-gray-200 bg-white hover:border-purple-300') +
+                '" data-open-quiz="' + PP.esc(q.id) + '">' +
+                '<div class="flex items-center gap-2">' +
+                '<i class="fa-solid fa-circle-question text-[var(--purple)] text-xs"></i>' +
+                '<span class="flex-1 text-xs font-bold text-gray-800 truncate">' + PP.esc(q.title) + '</span>' + badge +
+                '</div>' +
+                '<p class="text-[10px] text-gray-400 mt-0.5">' + (Number(q.questionCount) || 0) + ' question' +
+                ((Number(q.questionCount) || 0) === 1 ? '' : 's') + ' - pass at ' + Number(q.passPercent || 70) + '%</p>' +
+                '</button>';
+        }).join('');
+    }
+
+    function openQuiz(quizId) {
+        if (!enrollment || !findQuiz(quizId)) return;
+        activeQuiz = quizId;
+        quizResult = null;
+        activeLesson = null;
+        var reader = document.getElementById('lesson-reader');
+        if (reader) reader.classList.add('hidden');
+        renderTrack();
+        renderQuizList();
+        renderQuizRunner();
+        var wrap = document.getElementById('quiz-runner');
+        if (wrap && wrap.scrollIntoView) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeQuiz() {
+        activeQuiz = null;
+        quizResult = null;
+        var wrap = document.getElementById('quiz-runner');
+        if (wrap) { wrap.classList.add('hidden'); wrap.innerHTML = ''; }
+        renderQuizList();
+    }
+
+    function renderQuizRunner() {
+        var wrap = document.getElementById('quiz-runner');
+        if (!wrap) return;
+        var q = activeQuiz ? findQuiz(activeQuiz) : null;
+        if (!q) { wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+        wrap.classList.remove('hidden');
+
+        var count = Number(q.questionCount) || q.questions.length;
+        var html =
+            '<div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-purple-50 border-b border-purple-100">' +
+            '<div class="min-w-0"><p class="text-[10px] uppercase tracking-[2px] font-bold text-[var(--purple)]">Quiz</p>' +
+            '<h3 class="font-bold text-gray-800 truncate">' + PP.esc(q.title) + '</h3></div>' +
+            '<button type="button" id="quiz-close" class="text-xs font-bold text-gray-500 hover:text-[var(--purple)] flex-shrink-0"><i class="fa-solid fa-xmark mr-1"></i> Close</button>' +
+            '</div><div class="p-5">' +
+            '<p class="text-xs text-gray-500 mb-4"><i class="fa-solid fa-circle-info mr-1"></i> ' + count +
+            ' question' + (count === 1 ? '' : 's') + ' - pass at ' + Number(q.passPercent || 70) +
+            '% - unlimited attempts, your best score counts.</p>';
+
+        html += (q.questions || []).map(function (item, i) {
+            return '<div class="mb-5">' +
+                '<p class="text-sm font-bold text-gray-800 mb-2">' + (i + 1) + '. ' + PP.esc(item.question) + '</p>' +
+                '<div class="space-y-1.5">' + (item.options || []).map(function (opt, j) {
+                    return '<label class="flex items-start gap-2.5 text-sm text-gray-700 bg-gray-50 border border-gray-100 rounded-lg px-3 py-2 cursor-pointer hover:border-purple-200 transition">' +
+                        '<input type="radio" name="qq-' + i + '" value="' + j + '" class="mt-0.5" style="accent-color:var(--purple)">' +
+                        '<span>' + PP.esc(opt) + '</span></label>';
+                }).join('') + '</div></div>';
+        }).join('');
+
+        if (quizResult) {
+            var best = q.best;
+            html += '<div class="rounded-xl p-4 mb-4 text-sm font-semibold border ' +
+                (quizResult.passed ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200') + '">' +
+                '<i class="fa-solid ' + (quizResult.passed ? 'fa-circle-check' : 'fa-circle-xmark') + ' mr-1"></i> ' +
+                'Score ' + quizResult.score + '% (' + quizResult.correct + ' of ' + quizResult.total + ' correct) - ' +
+                (quizResult.passed ? 'Passed!' : 'Needs ' + quizResult.passPercent + '% to pass.') +
+                (best ? ' Best so far: ' + Number(best.score) + '%.' : '') + '</div>';
+        }
+
+        html += '<div class="flex flex-wrap gap-2">' +
+            '<button type="button" id="quiz-submit" class="bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white text-sm font-bold px-5 py-2.5 rounded-full hover:shadow transition"><i class="fa-solid fa-paper-plane mr-1"></i> Submit answers</button>' +
+            (quizResult
+                ? '<button type="button" id="quiz-retry" class="text-sm font-bold px-5 py-2.5 rounded-full border border-gray-300 text-gray-600 hover:border-[var(--purple)] transition"><i class="fa-solid fa-rotate-right mr-1"></i> Try again</button>'
+                : '') +
+            '</div></div>';
+        wrap.innerHTML = html;
+    }
+
+    function submitQuiz() {
+        var q = activeQuiz ? findQuiz(activeQuiz) : null;
+        if (!q || !enrollment) return;
+        var answers = [], missing = false;
+        for (var i = 0; i < q.questions.length; i++) {
+            var el = document.querySelector('input[name="qq-' + i + '"]:checked');
+            if (!el) missing = true;
+            answers.push(el ? Number(el.value) : -1);
+        }
+        if (missing) { PP.toast('Answer every question first', 'error'); return; }
+
+        PP.post('/student/quizzes/' + encodeURIComponent(q.id) + '/submit', { answers: answers })
+            .then(function (data) {
+                quizResult = data && data.result;
+                if (q && data.best) q.best = data.best;
+                if (data.enrollment && enrollment) {
+                    enrollment.progress = data.enrollment.progress;
+                    enrollment.status = data.enrollment.status;
+                    enrollment.quizzesTotal = data.enrollment.quizzesTotal;
+                    enrollment.quizzesPassed = data.enrollment.quizzesPassed;
+                    if (data.enrollment.completedLessons) enrollment.completedLessons = data.enrollment.completedLessons;
+                }
+                renderQuizRunner();
+                renderQuizList();
+                renderTrack();
+                renderProgressPanel();
+                updateAsideButton();
+                if (quizResult) {
+                    PP.toast(
+                        quizResult.passed ? 'Quiz passed - ' + quizResult.score + '%' : 'Scored ' + quizResult.score + '% - try again',
+                        quizResult.passed ? '' : 'error'
+                    );
+                }
+                if (data.enrollment && data.enrollment.certificateReady && window.PPEnroll && PPEnroll.notify) {
+                    PPEnroll.notify('Course completed! Your certificate is ready.');
+                }
+            })
+            .catch(function (err) {
+                PP.toast((err && err.message) || 'Could not submit the quiz', 'error');
+            });
+    }
+
+    function loadQuizzes() {
+        if (!enrollment || !course) { quizzes = []; renderQuizList(); return; }
+        PP.get('/student/courses/' + encodeURIComponent(course.slug || course.id) + '/quizzes')
+            .then(function (data) {
+                quizzes = (data && data.quizzes) || [];
+                renderQuizList();
+                if (activeQuiz && !findQuiz(activeQuiz)) closeQuiz();
+            })
+            .catch(function () { quizzes = []; renderQuizList(); });
+    }
+
+    /* -------------------- track / reader / quiz events -------------------- */
+
+    document.addEventListener('click', function (e) {
+        var modBtn = e.target.closest('[data-track-module]');
+        if (modBtn) {
+            var mid = modBtn.getAttribute('data-track-module');
+            trackOpen[mid] = !trackOpen[mid];
+            renderTrack();
+            return;
+        }
+        var lesBtn = e.target.closest('[data-track-lesson]');
+        if (lesBtn) {
+            var parts = lesBtn.getAttribute('data-track-lesson').split('/');
+            openLesson(parts[0], parts[1]);
+            return;
+        }
+        var quizBtn = e.target.closest('[data-open-quiz]');
+        if (quizBtn) { openQuiz(quizBtn.getAttribute('data-open-quiz')); return; }
+        if (e.target.closest('#reader-close')) { closeLesson(); return; }
+        if (e.target.closest('#quiz-close')) { closeQuiz(); return; }
+        if (e.target.closest('#quiz-submit')) { submitQuiz(); return; }
+        if (e.target.closest('#quiz-retry')) { quizResult = null; renderQuizRunner(); return; }
+    });
+
+    /* -------------------- course files: view + download -------------------- */
+
+    function fmtStudyTime(seconds) {
+        var s = Math.max(0, Number(seconds) || 0);
+        if (s >= 3600) return Math.floor(s / 3600) + 'h ' + Math.round((s % 3600) / 60) + 'm';
+        if (s >= 60) return Math.round(s / 60) + 'm';
+        return Math.ceil(s) + 's';
+    }
+
+    function fmtFileSize(bytes) {
+        var n = Number(bytes) || 0;
+        if (n >= 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + ' MB';
+        if (n >= 1024) return Math.round(n / 1024) + ' KB';
+        return n ? n + ' B' : '';
+    }
+
+    function fileIcon(ext) {
+        switch (String(ext || '').toLowerCase()) {
+            case 'pdf': return 'fa-file-pdf';
+            case 'doc':
+            case 'docx': return 'fa-file-word';
+            case 'xls':
+            case 'xlsx':
+            case 'csv': return 'fa-file-excel';
+            case 'ppt':
+            case 'pptx': return 'fa-file-powerpoint';
+            case 'zip': return 'fa-file-zipper';
+            case 'txt': return 'fa-file-lines';
+            default: return 'fa-file';
+        }
+    }
+
+    function fileRow(f, open) {
+        var badge = f.ext ? String(f.ext).toUpperCase() : 'FILE';
+        var size = f.size ? ' - ' + fmtFileSize(f.size) : '';
+        var actions = open
+            ? '<div class="flex gap-1.5 flex-shrink-0">' +
+              // View: plain URL so the browser opens the file inline (the
+              // downloadUrl carries fl_attachment, which forces a download).
+              '<a class="text-xs font-semibold px-3 py-1.5 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition" href="' +
+              PP.esc(f.url || f.downloadUrl) + '" target="_blank" rel="noopener"><i class="fa-solid fa-eye mr-1"></i>View</a>' +
+              '<a class="text-xs font-semibold px-3 py-1.5 rounded-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white hover:shadow transition" href="' +
+              PP.esc(f.downloadUrl || f.url) + '"><i class="fa-solid fa-download mr-1"></i>Download</a>' +
+              '</div>'
+            : '<span class="text-[11px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full flex-shrink-0"><i class="fa-solid fa-lock mr-1"></i>Locked</span>';
+        return '<div class="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-xl p-3">' +
+            '<div class="w-10 h-10 rounded-xl bg-white border border-gray-200 text-[var(--purple)] flex items-center justify-center flex-shrink-0 text-lg">' +
+            '<i class="fa-solid ' + fileIcon(f.ext) + '"></i></div>' +
+            '<div class="flex-1 min-w-0">' +
+            '<p class="font-semibold text-gray-800 text-sm truncate">' + PP.esc(f.name) + '</p>' +
+            '<p class="text-[11px] text-gray-400">' + PP.esc(badge) + PP.esc(size) + '</p>' +
+            '</div>' + actions +
+            '</div>';
+    }
+
+    function renderFiles() {
+        var box = document.getElementById('course-files');
+        if (!box || !course) return;
+        var files = course.files || [];
+        if (!files.length) {
+            box.innerHTML = '<p class="text-sm text-gray-400"><i class="fa-solid fa-circle-info mr-1"></i>No downloadable files for this course yet.</p>';
+            return;
+        }
+        if (course.filesLocked) {
+            box.innerHTML =
+                '<div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 mb-3">' +
+                '<i class="fa-solid fa-lock mr-1"></i><strong>Files are locked.</strong> Purchase this course on WhatsApp - the admin unlocks everything once your payment is received.</div>' +
+                files.map(function (f) { return fileRow(f, false); }).join('');
+            return;
+        }
+        box.innerHTML = files.map(function (f) { return fileRow(f, true); }).join('');
     }
 
     function loadCourse() {
@@ -466,7 +1027,9 @@
             return;
         }
 
-        PP.get('/courses/' + encodeURIComponent(id), { auth: false })
+        // Sent with the session token when there is one, so paid courses can
+        // unlock their files for the enrolled student. Guests still work.
+        PP.get('/courses/' + encodeURIComponent(id))
             .then(function (data) {
                 if (!data || !data.course) throw new Error('missing');
                 course = data.course;
@@ -506,22 +1069,42 @@
             text.textContent = 'Not enrolled';
             cert.classList.add('hidden');
             if (live) live.classList.add('hidden');
-            note.textContent = 'You are not enrolled in this course yet - use the Enroll Now button to join.';
+            note.textContent = isPaidCourse(course)
+                ? 'Purchase this course on WhatsApp to start learning - it is added to your account after payment.'
+                : 'You are not enrolled in this course yet - use the Enroll Now button to join.';
             return;
         }
 
         var progress = enrollment.progress || 0;
-        var required = enrollment.requiredSeconds || 120;
+        var required = enrollment.requiredSeconds || course.requiredSeconds || 120;
         var read = Math.min(enrollment.readingSeconds || 0, required);
+        var credit = Number(enrollment.creditHours || course.creditHours) || 0;
+        var totalLessons = Number(course.moduleLessonCount) || 0;
 
         fill.style.width = progress + '%';
         text.textContent = progress + '%';
         if (live) live.classList.toggle('hidden', progress >= 100);
 
-        note.textContent =
-            progress >= 100
-                ? 'Completed - your certificate is ready to download.'
-                : 'Keep reading: ' + Math.ceil(Math.max(0, required - read)) + 's more to unlock your certificate.';
+        if (progress >= 100) {
+            note.textContent = 'Completed - your certificate is ready to download.';
+        } else if (totalLessons > 0) {
+            // Module course: 80% study time + 20% quizzes.
+            var study = studySeconds();
+            var doneLessons = (enrollment.completedLessons || []).length;
+            var qTotal = Number(enrollment.quizzesTotal) || 0;
+            var qPassed = Number(enrollment.quizzesPassed) || 0;
+            note.textContent =
+                'Study: ' + fmtHuman(study.earned) + ' / ' + fmtHuman(study.required) +
+                ' - lessons ' + doneLessons + '/' + totalLessons +
+                (qTotal ? ' - quizzes ' + qPassed + '/' + qTotal : '') +
+                ' - ' + fmtHuman(Math.max(0, study.required - study.earned)) + ' of study left to unlock your certificate.';
+        } else {
+            note.textContent = credit > 0
+                ? 'Credit hours: ' + fmtHuman(read) + ' / ' + fmtHuman(required) +
+                  ' of the ' + credit + ' credit hour' + (credit === 1 ? '' : 's') +
+                  ' completed - ' + fmtHuman(required - read) + ' left to unlock your certificate.'
+                : 'Keep reading: ' + fmtHuman(Math.max(0, required - read)) + ' more to unlock your certificate.';
+        }
 
         cert.classList.toggle('hidden', progress < 100);
         if (progress >= 100) {
@@ -538,6 +1121,12 @@
             btn.removeAttribute('data-enroll');
             btn.removeAttribute('data-enroll-title');
             btn.onclick = function () { window.location.href = 'student-dashboard.html'; };
+        } else if (isPaidCourse(course)) {
+            // Paid course: no self-enroll - send the student to WhatsApp instead.
+            btn.innerHTML = '<i class="fa-brands fa-whatsapp mr-1"></i> Purchase Now (Rs ' + course.price + ')';
+            btn.removeAttribute('data-enroll');
+            btn.removeAttribute('data-enroll-title');
+            btn.onclick = function () { window.open(PURCHASE_WHATSAPP, '_blank', 'noopener'); };
         } else {
             btn.innerHTML = '<i class="fa-solid fa-circle-plus mr-1"></i> Enroll Now';
             btn.onclick = null;
@@ -547,18 +1136,30 @@
     }
 
     function loadEnrollment() {
-        if (!hasSession()) { enrollment = null; renderProgressPanel(); updateAsideButton(); return; }
+        if (!hasSession()) {
+            enrollment = null;
+            renderProgressPanel();
+            updateAsideButton();
+            renderTrack();
+            renderQuizList();
+            return;
+        }
         PP.get('/student/enrollment/' + encodeURIComponent(course.slug || course.id))
             .then(function (data) {
                 enrollment = data && data.enrolled ? data.enrollment : null;
                 renderProgressPanel();
                 updateAsideButton();
+                renderTrack();
+                renderReaderClock();
+                loadQuizzes();
                 startReadingTimer();
             })
             .catch(function () {
                 enrollment = null;
                 renderProgressPanel();
                 updateAsideButton();
+                renderTrack();
+                renderQuizList();
             });
     }
 
@@ -576,15 +1177,39 @@
     function sendReadingTick() {
         if (!enrollment || !course) return;
         if (document.visibilityState && document.visibilityState !== 'visible') return;
-        PP.post('/student/reading', { courseId: course.slug || course.id })
+
+        // Credit the open lesson's own clock (module courses); without an open
+        // lesson the legacy whole-course clock is used instead.
+        var body = { courseId: course.slug || course.id };
+        var lesson = activeLesson ? findLesson(activeLesson.moduleId, activeLesson.lessonId) : null;
+        if (lesson && !lessonLocked(lesson)) body.lessonId = activeLesson.lessonId;
+
+        PP.post('/student/reading', body)
             .then(function (data) {
+                var before = enrollment.completedLessons || [];
                 enrollment.progress = data.progress;
                 enrollment.status = data.status;
                 enrollment.readingSeconds = data.readingSeconds;
                 enrollment.requiredSeconds = data.requiredSeconds;
+                enrollment.completedLessons = data.completedLessons || [];
+                enrollment.quizzesTotal = data.quizzesTotal;
+                enrollment.quizzesPassed = data.quizzesPassed;
+                if (data.lesson && activeLesson && data.lesson.lessonId === activeLesson.lessonId) {
+                    if (!enrollment.lessonSeconds) enrollment.lessonSeconds = {};
+                    enrollment.lessonSeconds[data.lesson.lessonId] = data.lesson.seconds;
+                    if (data.lesson.done && before.indexOf(data.lesson.lessonId) === -1 && window.PPEnroll && PPEnroll.notify) {
+                        var t = document.getElementById('reader-title');
+                        PPEnroll.notify('Lesson completed' + (t ? ': ' + t.textContent : '!'));
+                    }
+                }
                 renderProgressPanel();
                 updateAsideButton();
-                if (data.certificateReady) PPEnroll.notify('Course completed! Your certificate is ready.');
+                renderTrack();
+                renderReaderClock();
+                renderQuizList();
+                if (data.certificateReady && window.PPEnroll && PPEnroll.notify) {
+                    PPEnroll.notify('Course completed! Your certificate is ready.');
+                }
             })
             .catch(function () { /* keep the page usable if a tick fails */ });
     }
@@ -596,6 +1221,12 @@
         if (readingTimer) return;
         sendReadingTick();
         readingTimer = setInterval(sendReadingTick, READING_TICK_MS);
+    }
+
+    /** Opening/closing a lesson restarts the heartbeat for that context. */
+    function restartReadingTimer() {
+        stopReadingTimer();
+        startReadingTimer();
     }
 
     // Coming back to the tab counts as reading again.

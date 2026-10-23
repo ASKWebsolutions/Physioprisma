@@ -21,7 +21,7 @@ router.post(
   '/sign',
   validate({
     folder: { type: 'string', max: 200, required: false },
-    resourceType: { type: 'enum', values: ['image', 'video', 'auto'], required: false },
+    resourceType: { type: 'enum', values: ['image', 'video', 'raw', 'auto'], required: false },
     prefix: { type: 'string', max: 80, required: false },
   }),
   asyncHandler(async (req, res) => {

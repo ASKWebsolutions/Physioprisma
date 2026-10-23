@@ -19,6 +19,7 @@ const publicUser = (u) => ({
   city: u.city,
   role: u.role,
   status: u.status,
+  ambassadorStatus: u.ambassadorStatus || 'none',
   referralCode: u.referralCode || null,
   joined: u.joinedAt,
   lastLoginAt: u.lastLoginAt,
@@ -31,7 +32,12 @@ router.get(
   asyncHandler(async (req, res) => {
     const q = (req.query.q || '').trim();
     const filter = {};
-    if (req.query.role) filter.role = req.query.role;
+    if (req.query.role === 'ambassador') {
+      // Standalone ambassadors + students who were also approved as ambassadors.
+      filter.$or = [{ role: 'ambassador' }, { ambassadorStatus: 'active' }];
+    } else if (req.query.role) {
+      filter.role = req.query.role;
+    }
     if (q) {
       filter.$or = [{ name: { $regex: q, $options: 'i' } }, { email: { $regex: q, $options: 'i' } }];
     }
@@ -57,9 +63,17 @@ router.patch(
     }
 
     if (req.body.status) user.status = req.body.status;
-    if (req.body.role) user.role = req.body.role;
+    if (req.body.role && req.body.role !== user.role) {
+      // Changing the primary role also settles the extra ambassador
+      // capability: promoted to ambassador = active, anything else = none.
+      user.role = req.body.role;
+      user.ambassadorStatus = req.body.role === 'ambassador' ? 'active' : 'none';
+    }
 
     if (user.role === 'ambassador' && user.status === 'active' && !user.referralCode) {
+      user.referralCode = await uniqueReferralCode(User, 'referralCode');
+    }
+    if (user.ambassadorStatus === 'active' && !user.referralCode) {
       user.referralCode = await uniqueReferralCode(User, 'referralCode');
     }
 

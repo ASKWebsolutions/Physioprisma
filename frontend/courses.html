@@ -540,19 +540,40 @@
 <script>
     // Courses come from the admin panel (/api/courses). The hardcoded cards are
     // only shown when the API cannot be reached or returns nothing.
+    var PURCHASE_WHATSAPP = 'https://wa.link/lcqilt';
+
     function renderCourseCard(c) {
         const accent = c.accent === 'blue' ? 'blue' : 'purple';
+        const isPaid = Number(c.price) > 0;
         const cover = c.image
             ? '<div class="relative"><img src="' + PP.esc(c.image) + '" alt="' + PP.esc(c.title) + '" loading="lazy" class="w-full h-52 object-cover">' +
               '<span class="absolute top-4 left-4 bg-white/95 text-[0.7rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full text-[var(--' + accent + ')] shadow">' +
-              PP.esc(c.level || 'Certification') + '</span></div>'
-            : '<div class="w-full h-52 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-5xl text-[var(--' + accent + ')]"><i class="' + PP.esc(c.icon || 'fa-solid fa-book-open') + '"></i></div>';
+              PP.esc(c.level || 'Certification') + '</span>' +
+              '<span class="absolute top-4 right-4 text-[0.72rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full shadow ' +
+              (isPaid ? 'bg-green-500 text-white' : 'bg-white/95 text-[var(--' + accent + ')]') + '">' +
+              (isPaid ? 'Rs ' + PP.esc(c.price) : 'Free') + '</span>' +
+              '</div>'
+            : '<div class="relative"><div class="w-full h-52 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-5xl text-[var(--' + accent + ')]"><i class="' + PP.esc(c.icon || 'fa-solid fa-book-open') + '"></i></div>' +
+              '<span class="absolute top-4 right-4 text-[0.72rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full shadow ' +
+              (isPaid ? 'bg-green-500 text-white' : 'bg-white/95 text-[var(--' + accent + ')]') + '">' +
+              (isPaid ? 'Rs ' + PP.esc(c.price) : 'Free') + '</span></div>';
         const details = (c.details || [])
             .map((d) => '<li>' + PP.esc(d) + '</li>')
             .join('');
         const lessonLine = c.lessonCount
             ? '<li>' + c.lessonCount + ' lesson' + (c.lessonCount === 1 ? '' : 's') + ' included</li>'
             : '';
+        const creditLine = Number(c.creditHours) > 0
+            ? '<li><i class="fa-solid fa-clock text-[var(--' + accent + ')] mr-1"></i>' + PP.esc(c.creditHours) +
+              ' credit hour' + (Number(c.creditHours) === 1 ? '' : 's') + ' - certificate on completion</li>'
+            : '';
+        const fileLine = Number(c.fileCount) > 0
+            ? '<li><i class="fa-solid fa-paperclip text-[var(--' + accent + ')] mr-1"></i>' + PP.esc(c.fileCount) +
+              ' downloadable file' + (Number(c.fileCount) === 1 ? '' : 's') + '</li>'
+            : '';
+        const priceLine = isPaid
+            ? '<p class="text-center mb-4"><span class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 font-bold px-5 py-2 rounded-full text-sm"><i class="fa-solid fa-tag"></i> Rs ' + PP.esc(c.price) + '</span></p>'
+            : '<p class="text-center mb-4"><span class="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 text-[var(--purple)] font-bold px-5 py-2 rounded-full text-sm"><i class="fa-solid fa-gift"></i> Free course</span></p>';
 
         return (
             '<div class="course-card bg-white rounded-3xl overflow-hidden shadow-xl border-t-4 border-[var(--' + accent + ')]">' +
@@ -560,12 +581,16 @@
                 '<div class="p-8">' +
                 '<h3 class="text-2xl font-bold text-center mb-4 text-[var(--' + accent + ')]">' + PP.esc(c.title) + '</h3>' +
                 '<p class="text-gray-600 text-center mb-6">' + PP.esc(c.description || '') + '</p>' +
-                (details || lessonLine
-                    ? '<ul class="space-y-3 text-sm text-gray-700 mb-6">' + details + lessonLine + '</ul>'
+                priceLine +
+                (details || lessonLine || creditLine || fileLine
+                    ? '<ul class="space-y-3 text-sm text-gray-700 mb-6">' + details + creditLine + fileLine + lessonLine + '</ul>'
                     : '') +
                 '<div class="text-center space-y-3">' +
                     '<a href="course.html?id=' + encodeURIComponent(c.slug) + '" class="inline-block w-full bg-gradient-to-r from-[var(--purple)] to-[var(--blue)] text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition">View Course</a>' +
-                    '<button type="button" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition cursor-pointer" data-enroll="' + PP.esc(c.slug || c.id) + '" data-enroll-title="' + PP.esc(c.title) + '"><i class="fa-solid fa-plus mr-1"></i> Enroll Now</button>' +
+                    (isPaid
+                        ? '<a href="' + PURCHASE_WHATSAPP + '" target="_blank" rel="noopener" class="inline-block w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition"><i class="fa-brands fa-whatsapp mr-1"></i> Purchase Now</a>' +
+                          '<p class="text-[11px] text-gray-400 leading-relaxed">Pay on WhatsApp - the course is added to your student account after payment.</p>'
+                        : '<button type="button" class="inline-block w-full border border-gray-300 text-gray-700 px-10 py-3 rounded-full font-semibold hover:bg-gray-50 transition cursor-pointer" data-enroll="' + PP.esc(c.slug || c.id) + '" data-enroll-title="' + PP.esc(c.title) + '"><i class="fa-solid fa-plus mr-1"></i> Enroll Now</button>') +
                 '</div>' +
                 '</div>' +
             '</div>'

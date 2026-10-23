@@ -135,7 +135,8 @@
       return;
     }
     var user = global.PP.getUser();
-    if (user && user.role !== 'student') {
+    // hasRole accepts students AND ambassadors - one account can be both.
+    if (user && global.PP.hasRole && !global.PP.hasRole(user, 'student')) {
       notify('Only student accounts can enroll in courses.', true);
       return;
     }

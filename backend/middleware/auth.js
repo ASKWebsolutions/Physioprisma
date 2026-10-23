@@ -52,11 +52,31 @@ const protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
-/** Role gate: requireRole('admin') or requireRole('student','ambassador'). */
+/**
+ * Best-effort identity for public endpoints: returns the signed-in user when
+ * a valid token is attached, or null otherwise - never throws. Used by the
+ * public course detail so paid materials can check the viewer's enrollment.
+ */
+async function optionalUser(req) {
+  const token = readToken(req);
+  if (!token) return null;
+  try {
+    const payload = jwt.verify(token, env.jwtSecret);
+    const user = await User.findById(payload.sub);
+    if (user && user.status !== 'suspended' && user.status !== 'rejected') return user;
+  } catch (err) {
+    /* invalid/expired token simply means "guest" */
+  }
+  return null;
+}
+
+/** Role gate: requireRole('admin') or requireRole('student','ambassador').
+ *  Uses the model's hasRole() so one account can hold several roles
+ *  (e.g. a student who was also approved as an ambassador). */
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.user) return next(ApiError.unauthorized());
-    if (!roles.includes(req.user.role)) {
+    if (!roles.some((role) => (typeof req.user.hasRole === 'function' ? req.user.hasRole(role) : req.user.role === role))) {
       return next(ApiError.forbidden('You do not have permission to do that'));
     }
     return next();
@@ -72,4 +92,4 @@ function requireActive(req, res, next) {
   return next();
 }
 
-module.exports = { signToken, protect, requireRole, requireActive };
+module.exports = { signToken, protect, requireRole, requireActive, optionalUser };

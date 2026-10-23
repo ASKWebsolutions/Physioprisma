@@ -27,8 +27,20 @@ const userSchema = new mongoose.Schema(
     city: { type: String, trim: true, maxlength: 80, default: '' },
     password: { type: String, required: [true, 'Password is required'], minlength: 6, select: false },
 
+    // Primary role (shown in the panel). One account can ALSO be an approved
+    // ambassador on top of being a student - see ambassadorStatus below.
     role: { type: String, enum: ROLES, default: 'student', index: true },
     status: { type: String, enum: STATUSES, default: 'pending', index: true },
+
+    // Ambassador capability, tracked separately from `role` so a student can
+    // become an ambassador WITHOUT losing their student account:
+    //   none      - never applied (or admin removed the capability)
+    //   pending   - application waiting for admin approval
+    //   active    - approved: may use the ambassador portal + referral code
+    //   rejected  - application was rejected (the student account stays intact)
+    // Standalone ambassador accounts (role === 'ambassador') mirror their
+    // account status here so every query has one source of truth.
+    ambassadorStatus: { type: String, enum: ['none', 'pending', 'active', 'rejected'], default: 'none', index: true },
 
     // Ambassadors only - their shareable code
     referralCode: { type: String, unique: true, sparse: true, uppercase: true, trim: true },
@@ -82,6 +94,7 @@ userSchema.methods.toPublic = function toPublic() {
     city: this.city,
     role: this.role,
     status: this.status,
+    ambassadorStatus: this.ambassadorStatus || 'none',
     referralCode: this.referralCode || null,
     joinedAt: this.joinedAt,
   };
@@ -90,6 +103,25 @@ userSchema.methods.toPublic = function toPublic() {
 /** True only for fully approved, usable accounts. */
 userSchema.methods.isActive = function isActive() {
   return this.status === 'active';
+};
+
+/**
+ * Capability check used by every role gate. One account can hold more than
+ * one role: an approved ambassador who registered as a student keeps both.
+ *   - 'student'   -> students AND ambassadors may study
+ *   - 'ambassador'-> role ambassadors PLUS students approved as ambassadors
+ *   - 'admin'     -> admins only
+ */
+userSchema.methods.hasRole = function hasRole(role) {
+  if (role === 'admin') return this.role === 'admin';
+  if (role === 'ambassador') return this.role === 'ambassador' || this.ambassadorStatus === 'active';
+  if (role === 'student') return this.role === 'student' || this.role === 'ambassador';
+  return this.role === role;
+};
+
+/** True when this account may use the ambassador portal. */
+userSchema.methods.isAmbassador = function isAmbassador() {
+  return this.role === 'ambassador' || this.ambassadorStatus === 'active';
 };
 
 /** Display helpers used by dashboards (dd Mon yyyy, matching the existing UI). */

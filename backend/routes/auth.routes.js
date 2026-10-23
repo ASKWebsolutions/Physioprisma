@@ -60,7 +60,12 @@ function issueSession(user) {
 async function resolveReferrer(code) {
   const cleaned = String(code || '').trim().toUpperCase();
   if (!cleaned || cleaned.length > 20) return null;
-  const referrer = await User.findOne({ referralCode: cleaned, role: 'ambassador' }).select('_id');
+  // Any approved ambassador credits the sign-up: standalone ambassadors
+  // (role) and students who were approved as ambassadors (ambassadorStatus).
+  const referrer = await User.findOne({
+    referralCode: cleaned,
+    $or: [{ role: 'ambassador' }, { ambassadorStatus: 'active' }],
+  }).select('_id');
   return referrer ? cleaned : null;
 }
 
@@ -118,8 +123,32 @@ router.post(
   asyncHandler(async (req, res) => {
     const { name, email, phone, city, password } = req.body;
 
-    const existing = await User.findOne({ email: email.toLowerCase() }).select('_id status');
-    if (existing) throw ApiError.conflict('An account with this email already exists');
+    const existing = await User.findOne({ email: email.toLowerCase() });
+    if (existing) {
+      // One account can hold both roles: an existing (student) account may
+      // apply to ALSO become an ambassador - the application is attached to
+      // the same account so roll no, courses and certificates stay intact.
+      const alreadyAmbassador = existing.role === 'ambassador' || existing.ambassadorStatus === 'active';
+      if (existing.role === 'admin' || existing.status === 'suspended' || existing.status === 'rejected') {
+        throw ApiError.conflict('An account with this email already exists');
+      }
+      if (alreadyAmbassador) throw ApiError.conflict('This email already has an ambassador account');
+      if (existing.ambassadorStatus === 'pending') {
+        throw ApiError.conflict('An ambassador application for this email is already waiting for admin approval');
+      }
+
+      existing.ambassadorStatus = 'pending';
+      if (city) existing.city = city;
+      if (phone) existing.phone = phone;
+      await existing.save();
+
+      return res.status(201).json({
+        ok: true,
+        message:
+          'Ambassador application submitted for your existing account - it activates after admin approval. Your student login keeps working in the meantime.',
+        requiresApproval: true,
+      });
+    }
 
     const user = new User({
       name,
@@ -129,6 +158,7 @@ router.post(
       password,
       role: 'ambassador',
       status: 'pending',
+      ambassadorStatus: 'pending',
     });
     await user.save();
 
@@ -164,7 +194,10 @@ router.post(
       throw ApiError.unauthorized('Invalid credentials');
     }
 
-    if (role && user.role !== role) {
+    // Optional role expectation (e.g. the ambassador portal logs in with
+    // role: 'ambassador'). One account can hold several roles, so this is a
+    // capability check, not a strict equality check.
+    if (role && (typeof user.hasRole === 'function' ? !user.hasRole(role) : user.role !== role)) {
       throw ApiError.forbidden(`These credentials do not belong to a ${role} account`);
     }
 
