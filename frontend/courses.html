@@ -602,11 +602,20 @@
         return PP.get('/courses', { auth: false })
             .then(function (data) {
                 const list = (data && data.courses) || [];
-                if (!list.length) return;
                 const grid = document.getElementById('courses-api');
+                // The API answered, so the hardcoded cards must never be shown -
+                // even when the admin has removed every course.
+                document.getElementById('courses-static').classList.add('hidden');
+                if (!list.length) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-16">' +
+                        '<p class="text-2xl font-bold text-[var(--purple)] mb-3">New courses are coming soon</p>' +
+                        '<p class="text-gray-500">Our next batch of courses is being prepared. Please check back shortly.</p>' +
+                        '</div>';
+                    grid.classList.remove('hidden');
+                    return;
+                }
                 grid.innerHTML = list.map(renderCourseCard).join('');
                 grid.classList.remove('hidden');
-                document.getElementById('courses-static').classList.add('hidden');
             })
             .catch(function () { /* keep the static fallback */ });
     }

@@ -879,11 +879,19 @@
             PP.get('/courses', { auth: false })
                 .then(function (data) {
                     var list = ((data && data.courses) || []).slice(0, 3);
-                    if (!list.length) return;
                     var box = document.getElementById('home-courses-api');
+                    // The API answered, so hide the hardcoded cards even when empty.
+                    document.getElementById('home-courses-static').classList.add('hidden');
+                    if (!list.length) {
+                        box.innerHTML = '<div class="col-span-full text-center py-10">' +
+                            '<p class="text-lg font-bold text-[var(--purple)] mb-2">New courses coming soon</p>' +
+                            '<p class="text-gray-500 text-sm">Please check back shortly.</p>' +
+                            '</div>';
+                        box.classList.remove('hidden');
+                        return;
+                    }
                     box.innerHTML = list.map(homeCourseCard).join('');
                     box.classList.remove('hidden');
-                    document.getElementById('home-courses-static').classList.add('hidden');
                 })
                 .catch(function () { /* keep the static cards */ });
 
